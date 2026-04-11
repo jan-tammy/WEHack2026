@@ -34,6 +34,7 @@ const chamberContent = document.getElementById("chamberContent");
 let personas = [];
 let activePersona = null;
 let currentIntroAudio = null;
+let isIntroPlaying = false;
 let isChamberCollapsed = false;
 
 function getPersonaImage(persona) {
@@ -108,12 +109,29 @@ function renderGallery() {
   });
 }
 
+function updateIntroButton() {
+  if (!playIntroBtn) return;
+
+  if (isIntroPlaying) {
+    playIntroBtn.textContent = "❚❚ Pause Intro";
+  } else {
+    playIntroBtn.textContent = "▶ Play Intro";
+  }
+}
+
+function resetIntroButton() {
+  isIntroPlaying = false;
+  updateIntroButton();
+}
+
 function stopIntroAudio() {
   if (currentIntroAudio) {
     currentIntroAudio.pause();
     currentIntroAudio.currentTime = 0;
     currentIntroAudio = null;
   }
+
+  resetIntroButton();
 }
 
 function playIntroAudio() {
@@ -125,14 +143,52 @@ function playIntroAudio() {
     return;
   }
 
-  stopIntroAudio();
+  if (currentIntroAudio) {
+    currentIntroAudio.pause();
+    currentIntroAudio = null;
+  }
 
   currentIntroAudio = new Audio(introAudioPath);
   currentIntroAudio.volume = 1.0;
 
-  currentIntroAudio.play().catch((error) => {
-    console.error("Intro audio failed to play:", error);
+  currentIntroAudio.addEventListener("ended", () => {
+    resetIntroButton();
+    currentIntroAudio = null;
   });
+
+  currentIntroAudio.play()
+    .then(() => {
+      isIntroPlaying = true;
+      updateIntroButton();
+    })
+    .catch((error) => {
+      console.error("Intro audio failed to play:", error);
+      resetIntroButton();
+    });
+}
+
+function toggleIntroAudio() {
+  if (!activePersona) return;
+
+  if (!currentIntroAudio) {
+    playIntroAudio();
+    return;
+  }
+
+  if (isIntroPlaying) {
+    currentIntroAudio.pause();
+    isIntroPlaying = false;
+    updateIntroButton();
+  } else {
+    currentIntroAudio.play()
+      .then(() => {
+        isIntroPlaying = true;
+        updateIntroButton();
+      })
+      .catch((error) => {
+        console.error("Could not resume intro audio:", error);
+      });
+  }
 }
 
 function expandChamber() {
@@ -177,14 +233,12 @@ function openExhibit(personaId) {
   renderSuggestions(persona);
   resetChat(persona);
   expandChamber();
+  stopIntroAudio();
+  resetIntroButton();
 
   chatModal.classList.remove("hidden");
   chatModal.classList.add("flex");
   document.body.classList.add("overflow-hidden");
-
-  setTimeout(() => {
-    playIntroAudio();
-  }, 250);
 }
 
 function closeExhibit() {
@@ -317,7 +371,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 playIntroBtn.addEventListener("click", () => {
-  playIntroAudio();
+  toggleIntroAudio();
 });
 
 toggleChamberBtn.addEventListener("click", toggleChamber);
