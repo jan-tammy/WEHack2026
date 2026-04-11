@@ -270,8 +270,53 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+const _audioMap = {
+  "warren-buffett": "../assets/audio/warren-greeting.mp3",
+  "madam-cj-walker": "../assets/audio/walker-greeting.mp3",
+  "benjamin-franklin": "../assets/audio/franklin-greeting.mp3",
+};
+
+function getPersonaAudioPath(persona) {
+  if (!persona || !persona.id) return null;
+  if (_audioMap[persona.id]) return _audioMap[persona.id];
+  const key = persona.id.toLowerCase();
+  if (key.includes("warren")) return _audioMap["warren-buffett"];
+  if (key.includes("walker") || key.includes("madam")) return _audioMap["madam-cj-walker"];
+  if (key.includes("franklin") || key.includes("benjamin")) return _audioMap["benjamin-franklin"];
+  return null;
+}
+
 playIntroBtn.addEventListener("click", () => {
+<<<<<<< HEAD
   playIntroAudio();
+=======
+  if (!activePersona) return;
+  const path = getPersonaAudioPath(activePersona);
+  if (!path) {
+    console.warn("No intro audio available for:", activePersona.id);
+    return;
+  }
+
+  try {
+    const audio = new Audio(path);
+    audio.play().catch((err) => {
+      console.error("Audio playback failed:", err);
+    });
+  } catch (err) {
+    console.error("Unable to play intro audio:", err);
+  }
+});
+
+scrollUpBtn.addEventListener("click", () => {
+  chatTop.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+scrollDownBtn.addEventListener("click", () => {
+  chatMessages.scrollTo({
+    top: chatMessages.scrollHeight,
+    behavior: "smooth"
+  });
+>>>>>>> bec43bd44b62350d3bd432f1154a003a062e93cd
 });
 
 function openCouncil() {
