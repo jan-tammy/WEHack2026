@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Project Name</title>
 
-  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -16,8 +14,10 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background: radial-gradient(circle at top, #2a2117 0%, #120f0c 45%, #090807 100%);
-      color: #f6f1e8;
+      background:
+        radial-gradient(circle at top, rgba(74, 47, 39, 0.28) 0%, rgba(26, 20, 16, 0) 32%),
+        linear-gradient(180deg, #140f0d 0%, #0f0b09 100%);
+      color: #f5eee6;
     }
 
     .serif {
@@ -25,35 +25,36 @@
     }
 
     .gold-text {
-      color: #d4af37;
-    }
-
-    .gold-border {
-      border-color: rgba(212, 175, 55, 0.45);
+      color: #c6a268;
     }
 
     .museum-card {
-      background: linear-gradient(180deg, rgba(34, 26, 19, 0.98), rgba(17, 13, 10, 0.98));
-      border: 1px solid rgba(212, 175, 55, 0.26);
+      background: linear-gradient(180deg, rgba(36, 27, 23, 0.97), rgba(20, 15, 13, 0.98));
+      border: 1px solid rgba(198, 162, 104, 0.22);
       box-shadow:
-        0 12px 32px rgba(0,0,0,0.45),
-        inset 0 0 0 1px rgba(255,255,255,0.03);
+        0 18px 50px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255,255,255,0.02);
+      backdrop-filter: blur(10px);
     }
 
     .portrait-frame {
-      background: linear-gradient(145deg, #8a6a23, #e2bf58, #8a6a23);
+      background: linear-gradient(145deg, #8b6b4a, #c6a268, #8b6b4a);
       padding: 10px;
-      border-radius: 18px;
+      border-radius: 22px;
       box-shadow:
-        0 8px 20px rgba(0,0,0,0.45),
-        inset 0 1px 2px rgba(255,255,255,0.4);
+        0 10px 24px rgba(0,0,0,0.45),
+        inset 0 1px 3px rgba(255,255,255,0.25);
     }
 
     .portrait-inner {
-      background: #15120f;
-      border-radius: 12px;
+      background: #17110e;
+      border-radius: 14px;
       overflow: hidden;
       aspect-ratio: 4 / 5;
+    }
+
+    .chat-scroll {
+      scroll-behavior: smooth;
     }
 
     .chat-scroll::-webkit-scrollbar {
@@ -61,36 +62,64 @@
     }
 
     .chat-scroll::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.35);
+      background: rgba(198, 162, 104, 0.35);
       border-radius: 999px;
     }
 
     .hero-glow {
-      text-shadow: 0 0 24px rgba(212, 175, 55, 0.12);
+      text-shadow: 0 0 28px rgba(198, 162, 104, 0.12);
     }
 
     .chat-scroll {
       scroll-behavior: smooth;
       scrollbar-width: thin;
       scrollbar-color: rgba(212, 175, 55, 0.35) transparent;
+    .soft-border {
+      border: 1px solid rgba(198, 162, 104, 0.2);
+    }
+
+    .soft-ring:hover {
+      box-shadow: 0 0 0 1px rgba(198, 162, 104, 0.25), 0 10px 24px rgba(0,0,0,0.35);
+    }
+
+    .gallery-card {
+      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+
+    .gallery-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(198, 162, 104, 0.34);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.45);
+    }
+
+    .modal-shell {
+      width: min(1400px, 96vw);
+      height: min(860px, 90vh);
+    }
+
+    @media (max-width: 1024px) {
+      .modal-shell {
+        width: min(96vw, 96vw);
+        height: min(92vh, 92vh);
+      }
     }
   </style>
 </head>
 <body class="min-h-screen">
 
   <!-- NAV -->
-  <header class="border-b border-[#8e7440]/20 backdrop-blur-sm">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+  <header class="border-b border-[#c6a268]/10">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4">
       <div>
         <h1 class="serif text-3xl md:text-4xl gold-text tracking-wide">Your Project Name</h1>
-        <p class="text-sm text-stone-300/80">An interactive institution of financial history</p>
+        <p class="text-sm text-[#e7d9c8]/70">An interactive institution of financial history</p>
       </div>
 
-      <div class="flex gap-3">
-        <button id="loginBtn" class="px-4 py-2 rounded-full border border-[#d4af37]/40 text-sm hover:bg-[#d4af37]/10 transition">
+      <div class="flex gap-3 shrink-0">
+        <button id="loginBtn" class="px-4 py-2 rounded-full border border-[#c6a268]/35 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
           Login
         </button>
-        <button id="signupBtn" class="px-4 py-2 rounded-full bg-[#d4af37] text-black font-semibold text-sm hover:opacity-90 transition">
+        <button id="signupBtn" class="px-4 py-2 rounded-full bg-[#c6a268] text-black font-semibold text-sm hover:opacity-90 transition">
           Create Account
         </button>
       </div>
@@ -98,21 +127,25 @@
   </header>
 
   <!-- HERO -->
-  <section class="max-w-7xl mx-auto px-6 pt-14 pb-10">
-    <div class="text-center max-w-4xl mx-auto">
-      <p class="uppercase tracking-[0.35em] text-xs text-[#d8c79b]/70 mb-4">Curated Wisdom • Living History • Financial Education</p>
-      <h2 class="serif text-5xl md:text-7xl leading-none hero-glow gold-text mb-5">
+  <section class="max-w-7xl mx-auto px-5 md:px-8 pt-16 md:pt-20 pb-12 md:pb-16">
+    <div class="text-center max-w-5xl mx-auto">
+      <p class="uppercase tracking-[0.35em] text-[11px] md:text-xs text-[#c6a268]/75 mb-5">
+        Curated Wisdom • Living History • Financial Education
+      </p>
+
+      <h2 class="serif text-5xl sm:text-6xl md:text-7xl lg:text-[5.8rem] leading-[0.95] hero-glow gold-text mb-6">
         History Comes Alive to Guide Your Future Decisions
       </h2>
-      <p class="text-lg md:text-xl text-stone-200/85 max-w-3xl mx-auto leading-8">
+
+      <p class="text-lg md:text-2xl text-[#f5eee6]/85 max-w-4xl mx-auto leading-8 md:leading-10">
         Step into a museum of timeless financial wisdom and learn directly from legendary minds whose ideas shaped wealth, discipline, and opportunity.
       </p>
 
-      <div class="mt-8 flex flex-wrap justify-center gap-4">
-        <button id="exploreBtn" class="px-6 py-3 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition">
+      <div class="mt-10 flex flex-wrap justify-center gap-4">
+        <button id="exploreBtn" class="px-7 py-3.5 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition">
           Enter the Gallery
         </button>
-        <button id="askAllBtn" class="px-6 py-3 rounded-full border border-[#d4af37]/40 hover:bg-[#d4af37]/10 transition">
+        <button id="askAllBtn" class="px-7 py-3.5 rounded-full border border-[#c6a268]/35 text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
           Ask the Council
         </button>
       </div>
@@ -120,63 +153,69 @@
   </section>
 
   <!-- GALLERY -->
-  <main class="max-w-7xl mx-auto px-6 pb-16">
-    <div class="flex items-end justify-between gap-4 mb-8">
-      <div>
-        <p class="uppercase tracking-[0.28em] text-xs text-[#d8c79b]/70 mb-2">The Collection</p>
-        <h3 class="serif text-3xl md:text-5xl text-stone-100">Talk to History’s Financial Icons</h3>
-      </div>
-      <p class="hidden md:block max-w-md text-stone-300/80 text-sm leading-6">
+  <main class="max-w-7xl mx-auto px-5 md:px-8 pb-20">
+    <div class="text-center max-w-4xl mx-auto mb-12 md:mb-14">
+      <p class="uppercase tracking-[0.32em] text-[11px] md:text-xs text-[#c6a268]/75 mb-3">
+        The Collection
+      </p>
+
+      <h3 class="serif text-4xl md:text-6xl text-[#f5eee6] leading-none mb-5">
+        Talk to History’s Financial Icons
+      </h3>
+
+      <p class="text-base md:text-lg text-[#e7d9c8]/78 leading-8 max-w-3xl mx-auto">
         Select an exhibit to enter a private conversation, hear a spoken introduction, and receive advice grounded in real historical philosophy.
       </p>
     </div>
 
-    <section id="gallery" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+    <section id="gallery" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 md:gap-8">
       <!-- Cards injected by JS -->
     </section>
   </main>
 
   <!-- CHAT MODAL -->
-<div id="chatModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50 overflow-hidden">
-    <div class="museum-card w-full max-w-7xl rounded-3xl overflow-hidden border border-[#d4af37]/20">
-      <div class="grid grid-cols-1 lg:grid-cols-[340px_1fr] h-[85vh] max-h-[90vh]">
+  <div id="chatModal" class="fixed inset-0 bg-black/72 backdrop-blur-md hidden items-center justify-center p-3 md:p-5 z-50">
+    <div class="museum-card modal-shell rounded-[2rem] overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-[360px_minmax(0,1fr)] h-full">
 
         <!-- LEFT PANEL -->
-        <aside class="border-r border-[#d4af37]/15 p-6 lg:p-8 bg-[#120f0d]/85">
+        <aside class="bg-[#16100d]/92 border-b lg:border-b-0 lg:border-r border-[#c6a268]/12 p-5 md:p-6 lg:p-8 overflow-y-auto">
           <div class="flex items-start justify-between gap-4 mb-6">
             <div>
-              <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70 mb-2">Exhibit</p>
-              <h3 id="modalName" class="serif text-4xl gold-text leading-none">Warren Buffett</h3>
-              <p id="modalYears" class="mt-2 text-sm text-stone-300/75">1930 – Present</p>
+              <p class="uppercase tracking-[0.3em] text-[11px] text-[#c6a268]/70 mb-2">Exhibit</p>
+              <h3 id="modalName" class="serif text-4xl md:text-5xl gold-text leading-[0.95]">Warren Buffett</h3>
+              <p id="modalYears" class="mt-2 text-sm text-[#e7d9c8]/72">1930 – Present</p>
             </div>
-            
-            <button id="closeModalBtn" class="text-stone-300 hover:text-white text-lg"> ← Back </button>
+
+            <button id="closeModalBtn" class="shrink-0 px-4 py-2 rounded-full border border-[#c6a268]/25 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
+              ← Back
+            </button>
           </div>
 
-          <div class="portrait-frame mb-5">
+          <div class="portrait-frame mb-6 max-w-[320px] mx-auto lg:mx-0">
             <div class="portrait-inner">
               <img id="modalImage" src="" alt="" class="w-full h-full object-cover" />
             </div>
           </div>
 
-          <div class="space-y-4">
+          <div class="space-y-5">
             <div>
-              <p class="uppercase tracking-[0.25em] text-[11px] text-[#d8c79b]/70 mb-1">Legacy</p>
-              <p id="modalTagline" class="text-stone-100 text-lg">The Oracle of Omaha</p>
+              <p class="uppercase tracking-[0.25em] text-[11px] text-[#c6a268]/70 mb-1.5">Legacy</p>
+              <p id="modalTagline" class="text-[#f5eee6] text-lg md:text-xl">The Oracle of Omaha</p>
             </div>
 
             <div>
-              <p class="uppercase tracking-[0.25em] text-[11px] text-[#d8c79b]/70 mb-1">Introduction</p>
-              <p id="modalIntro" class="text-stone-300 leading-7">
+              <p class="uppercase tracking-[0.25em] text-[11px] text-[#c6a268]/70 mb-1.5">Introduction</p>
+              <p id="modalIntro" class="text-[#e7d9c8]/80 leading-7 text-[15px] md:text-base">
                 A brief introduction will appear here.
               </p>
             </div>
 
-            <div class="flex gap-3 pt-2">
-              <button id="playIntroBtn" class="flex-1 px-4 py-3 rounded-full border border-[#d4af37]/35 hover:bg-[#d4af37]/10 transition">
+            <div class="flex flex-col sm:flex-row lg:flex-col gap-3 pt-2">
+              <button id="playIntroBtn" class="px-4 py-3 rounded-full border border-[#c6a268]/30 text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
                 ▶ Play Intro
               </button>
-              <button id="askCouncilFromModalBtn" class="flex-1 px-4 py-3 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition">
+              <button id="askCouncilFromModalBtn" class="px-4 py-3 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition">
                 Ask the Council
               </button>
             </div>
@@ -184,55 +223,58 @@
         </aside>
 
         <!-- RIGHT PANEL -->
-        <section class="flex flex-col h-full bg-[#0e0b09]/85">
-          
-          <div id="chatTop" class="border-b border-[#d4af37]/15 p-5 lg:p-6">
-  <div class="flex items-center justify-between gap-3 mb-3">
-    <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70">Conversation Chamber</p>
+        <section class="flex flex-col min-h-0 bg-[#120d0b]/88">
+          <div id="chatTop" class="border-b border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5">
+            <div class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
+              <div>
+                <p class="uppercase tracking-[0.32em] text-[11px] text-[#c6a268]/70 mb-3">
+                  Conversation Chamber
+                </p>
+              </div>
 
-    <div class="flex gap-2">
-      <button
-        id="scrollUpBtn"
-        type="button"
-        class="px-4 py-2 rounded-full border border-[#d4af37]/35 text-sm hover:bg-[#d4af37]/10 transition"
-      >
-        ↑ Up
-      </button>
+              <div class="flex gap-2 self-start">
+                <button
+                  id="scrollUpBtn"
+                  type="button"
+                  class="px-4 py-2 rounded-full border border-[#c6a268]/28 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition"
+                >
+                  ↑ Up
+                </button>
 
-      <button
-        id="scrollDownBtn"
-        type="button"
-        class="px-4 py-2 rounded-full border border-[#d4af37]/35 text-sm hover:bg-[#d4af37]/10 transition"
-      >
-        ↓ Down
-      </button>
-    </div>
-  </div>
+                <button
+                  id="scrollDownBtn"
+                  type="button"
+                  class="px-4 py-2 rounded-full border border-[#c6a268]/28 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition"
+                >
+                  ↓ Down
+                </button>
+              </div>
+            </div>
 
-  <div class="flex flex-wrap gap-3" id="suggestions">
-    <!-- suggestion chips -->
-  </div>
-</div>
+            <div class="flex flex-wrap gap-3 mt-2" id="suggestions">
+              <!-- suggestion chips -->
+            </div>
+          </div>
 
-          <div id="chatMessages" class="chat-scroll flex-1 overflow-y-auto px-5 lg:px-6 py-6 space-y-4 min-h-0">
-            <div class="max-w-2xl rounded-2xl bg-[#1c1611] border border-[#d4af37]/15 p-4">
-              <p class="text-stone-200">
+          <div id="chatMessages" class="chat-scroll flex-1 min-h-0 overflow-y-auto px-4 md:px-6 lg:px-8 py-5 md:py-6 space-y-4">
+            <div class="max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5">
+              <p class="text-[#f5eee6] text-lg leading-8">
                 Welcome. Select a question or ask your own to begin.
               </p>
             </div>
           </div>
 
-         <div id="chatBottom" class="border-t border-[#d4af37]/15 p-5 lg:p-6">
-       <form id="chatForm" class="flex items-center gap-3">
+          <div id="chatBottom" class="border-t border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5">
+            <form id="chatForm" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <input
                 id="chatInput"
                 type="text"
                 placeholder="Ask a financial question..."
-                class="flex-1 rounded-full bg-[#191411] border border-[#d4af37]/20 px-5 py-4 text-stone-100 placeholder:text-stone-400 outline-none focus:border-[#d4af37]/55"
+                class="flex-1 rounded-full bg-[#1c1411] border border-[#c6a268]/18 px-5 py-4 text-[#f5eee6] placeholder:text-[#e7d9c8]/40 outline-none focus:border-[#c6a268]/55"
               />
               <button
                 type="submit"
-                class="px-6 py-4 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition"
+                class="px-6 py-4 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition"
               >
                 Send
               </button>
@@ -244,24 +286,26 @@
   </div>
 
   <!-- ASK ALL ADVISORS MODAL -->
-  <div id="councilModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-    <div class="museum-card w-full max-w-7xl rounded-3xl overflow-hidden border border-[#d4af37]/20 p-6 lg:p-8">
-      <div class="flex items-center justify-between gap-4 mb-6">
+  <div id="councilModal" class="fixed inset-0 bg-black/72 backdrop-blur-md hidden items-center justify-center p-3 md:p-5 z-50">
+    <div class="museum-card w-full max-w-7xl rounded-[2rem] overflow-hidden p-6 md:p-8">
+      <div class="flex items-start justify-between gap-4 mb-6">
         <div>
-          <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70 mb-2">Multi-Perspective Engine</p>
-          <h3 class="serif text-4xl gold-text">Ask the Council</h3>
+          <p class="uppercase tracking-[0.3em] text-[11px] text-[#c6a268]/70 mb-2">Multi-Perspective Engine</p>
+          <h3 class="serif text-4xl md:text-5xl gold-text leading-none">Ask the Council</h3>
         </div>
-        <button id="closeCouncilBtn" class="text-stone-300 hover:text-white text-2xl leading-none">&times;</button>
+        <button id="closeCouncilBtn" class="text-[#f5eee6] hover:text-white text-2xl leading-none">
+          &times;
+        </button>
       </div>
 
-      <form id="councilForm" class="flex flex-col md:flex-row gap-3 mb-8">
+      <form id="councilForm" class="flex flex-col lg:flex-row gap-3 mb-8">
         <input
           id="councilInput"
           type="text"
           placeholder="Ask all advisors one question..."
-          class="flex-1 rounded-full bg-[#191411] border border-[#d4af37]/20 px-5 py-4 text-stone-100 placeholder:text-stone-400 outline-none focus:border-[#d4af37]/55"
+          class="flex-1 rounded-full bg-[#1c1411] border border-[#c6a268]/18 px-5 py-4 text-[#f5eee6] placeholder:text-[#e7d9c8]/40 outline-none focus:border-[#c6a268]/55"
         />
-        <button type="submit" class="px-6 py-4 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition">
+        <button type="submit" class="px-6 py-4 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition">
           Compare Advice
         </button>
       </form>
@@ -270,9 +314,9 @@
         <!-- advisor responses injected here -->
       </div>
 
-      <div id="consensusBox" class="hidden mt-6 rounded-3xl border border-[#d4af37]/20 bg-[#18120e] p-6">
-        <p class="uppercase tracking-[0.25em] text-[11px] text-[#d8c79b]/70 mb-2">Consensus</p>
-        <p id="consensusText" class="text-stone-100 text-lg leading-8"></p>
+      <div id="consensusBox" class="hidden mt-6 rounded-[1.8rem] border border-[#c6a268]/20 bg-[#18120e] p-6">
+        <p class="uppercase tracking-[0.25em] text-[11px] text-[#c6a268]/70 mb-2">Consensus</p>
+        <p id="consensusText" class="text-[#f5eee6] text-lg leading-8"></p>
       </div>
     </div>
   </div>
