@@ -15,6 +15,11 @@ const chatInput = document.getElementById("chatInput");
 const closeModalBtn = document.getElementById("closeModalBtn");
 const playIntroBtn = document.getElementById("playIntroBtn");
 
+const scrollUpBtn = document.getElementById("scrollUpBtn");
+const scrollDownBtn = document.getElementById("scrollDownBtn");
+const chatTop = document.getElementById("chatTop");
+const chatBottom = document.getElementById("chatBottom");
+
 const askAllBtn = document.getElementById("askAllBtn");
 const exploreBtn = document.getElementById("exploreBtn");
 const askCouncilFromModalBtn = document.getElementById("askCouncilFromModalBtn");
@@ -28,6 +33,18 @@ const consensusText = document.getElementById("consensusText");
 
 let personas = [];
 let activePersona = null;
+
+function getPersonaImage(persona) {
+  return persona.image || persona.portrait || "";
+}
+
+function getPersonaIntro(persona) {
+  return persona.intro || persona.opening_greeting || "";
+}
+
+function getPersonaDescription(persona) {
+  return persona.description || persona.opening_greeting || "";
+}
 
 async function loadPersonas() {
   try {
@@ -46,14 +63,14 @@ function renderGallery() {
 
       <div class="portrait-frame mb-5">
         <div class="portrait-inner">
-          <img src="${persona.image}" alt="${persona.name}" class="w-full h-full object-cover" />
+          <img src="${getPersonaImage(persona)}" alt="${persona.name}" class="w-full h-full object-cover" />
         </div>
       </div>
 
       <h4 class="serif text-3xl gold-text">${persona.name}</h4>
       <p class="text-stone-300/75 text-sm mt-1">${persona.years}</p>
       <p class="mt-3 text-stone-100 text-lg">${persona.tagline}</p>
-      <p class="mt-3 text-stone-300 leading-7">${persona.description}</p>
+      <p class="mt-3 text-stone-300 leading-7">${getPersonaDescription(persona)}</p>
 
       <button
         class="open-exhibit-btn mt-6 w-full px-5 py-3 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition"
@@ -80,10 +97,10 @@ function openExhibit(personaId) {
 
   modalName.textContent = persona.name;
   modalYears.textContent = persona.years;
-  modalImage.src = persona.image;
+  modalImage.src = getPersonaImage(persona);
   modalImage.alt = persona.name;
   modalTagline.textContent = persona.tagline;
-  modalIntro.textContent = persona.intro;
+  modalIntro.textContent = getPersonaIntro(persona);
 
   renderSuggestions(persona);
   resetChat(persona);
@@ -207,6 +224,7 @@ chatForm.addEventListener("submit", (event) => {
 
 closeModalBtn.addEventListener("click", closeExhibit);
 
+
 chatModal.addEventListener("click", (event) => {
   if (event.target === chatModal) closeExhibit();
 });
@@ -221,6 +239,17 @@ document.addEventListener("keydown", (event) => {
 playIntroBtn.addEventListener("click", () => {
   if (!activePersona) return;
   alert(`Play intro audio for ${activePersona.name} here.`);
+});
+
+scrollUpBtn.addEventListener("click", () => {
+  chatTop.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+scrollDownBtn.addEventListener("click", () => {
+  chatMessages.scrollTo({
+    top: chatMessages.scrollHeight,
+    behavior: "smooth"
+  });
 });
 
 function openCouncil() {
