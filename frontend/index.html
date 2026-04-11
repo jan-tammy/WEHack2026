@@ -82,18 +82,6 @@
       text-shadow: 0 0 28px rgba(198, 162, 104, 0.12);
     }
 
-    .chat-scroll {
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(212, 175, 55, 0.35) transparent;
-    .soft-border {
-      border: 1px solid rgba(198, 162, 104, 0.2);
-    }
-
-    .soft-ring:hover {
-      box-shadow: 0 0 0 1px rgba(198, 162, 104, 0.25), 0 10px 24px rgba(0,0,0,0.35);
-    }
-
     .gallery-card {
       transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
     }
@@ -119,7 +107,6 @@
 </head>
 <body class="min-h-screen">
 
-  <!-- NAV -->
   <header class="border-b border-[#c6a268]/10">
     <div class="max-w-7xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4">
       <div>
@@ -138,7 +125,6 @@
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="max-w-7xl mx-auto px-5 md:px-8 pt-16 md:pt-20 pb-12 md:pb-16">
     <div class="text-center max-w-5xl mx-auto">
       <p class="uppercase tracking-[0.35em] text-[11px] md:text-xs text-[#c6a268]/75 mb-5">
@@ -164,7 +150,6 @@
     </div>
   </section>
 
-  <!-- GALLERY -->
   <main class="max-w-7xl mx-auto px-5 md:px-8 pb-20">
     <div class="text-center max-w-4xl mx-auto mb-12 md:mb-14">
       <p class="uppercase tracking-[0.32em] text-[11px] md:text-xs text-[#c6a268]/75 mb-3">
@@ -185,12 +170,10 @@
     </section>
   </main>
 
-  <!-- CHAT MODAL -->
   <div id="chatModal" class="fixed inset-0 bg-black/72 backdrop-blur-md hidden items-center justify-center p-3 md:p-5 z-50">
     <div class="museum-card modal-shell rounded-[2rem] overflow-hidden">
       <div class="grid grid-cols-1 lg:grid-cols-[360px_minmax(0,1fr)] h-full min-h-0">
 
-        <!-- LEFT PANEL -->
         <aside class="bg-[#16100d]/92 border-b lg:border-b-0 lg:border-r border-[#c6a268]/12 p-5 md:p-6 lg:p-8 overflow-y-auto chat-scroll">
           <div class="flex items-start justify-between gap-4 mb-6">
             <div>
@@ -234,7 +217,6 @@
           </div>
         </aside>
 
-        <!-- RIGHT PANEL -->
         <section class="flex flex-col h-full min-h-0 overflow-hidden bg-[#0e0b09]/85">
           <div class="border-b border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5 shrink-0">
             <p class="uppercase tracking-[0.32em] text-[11px] text-[#c6a268]/70 mb-3">
@@ -275,7 +257,6 @@
     </div>
   </div>
 
-  <!-- ASK ALL ADVISORS MODAL -->
   <div id="councilModal" class="fixed inset-0 bg-black/72 backdrop-blur-md hidden items-center justify-center p-3 md:p-5 z-50">
     <div class="museum-card w-full max-w-7xl rounded-[2rem] overflow-hidden p-6 md:p-8">
       <div class="flex items-start justify-between gap-4 mb-6">

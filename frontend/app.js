@@ -49,10 +49,20 @@ function getPersonaIntroAudio(persona) {
 async function loadPersonas() {
   try {
     const response = await fetch("./personas.json");
+    if (!response.ok) {
+      throw new Error(`Could not load personas.json (${response.status})`);
+    }
+
     personas = await response.json();
     renderGallery();
   } catch (error) {
     console.error("Failed to load personas:", error);
+    gallery.innerHTML = `
+      <div class="museum-card rounded-3xl p-6 text-center col-span-full">
+        <p class="text-lg text-[#f5eee6]">Could not load personas.json</p>
+        <p class="text-sm text-[#e7d9c8]/70 mt-2">Make sure personas.json is in the same frontend folder as index.html and app.js.</p>
+      </div>
+    `;
   }
 }
 
@@ -70,8 +80,8 @@ function renderGallery() {
       </div>
 
       <h4 class="serif text-3xl gold-text">${persona.name}</h4>
-      <p class="text-stone-300/75 text-sm mt-1">${persona.years}</p>
-      <p class="mt-3 text-stone-100 text-lg">${persona.tagline}</p>
+      <p class="text-stone-300/75 text-sm mt-1">${persona.years || ""}</p>
+      <p class="mt-3 text-stone-100 text-lg">${persona.tagline || ""}</p>
       <p class="mt-3 text-stone-300 leading-7">${getPersonaDescription(persona)}</p>
 
       <button
@@ -85,8 +95,7 @@ function renderGallery() {
 
   document.querySelectorAll(".open-exhibit-btn").forEach((button) => {
     button.addEventListener("click", () => {
-      const personaId = button.dataset.id;
-      openExhibit(personaId);
+      openExhibit(button.dataset.id);
     });
   });
 }
@@ -124,11 +133,11 @@ function openExhibit(personaId) {
 
   activePersona = persona;
 
-  modalName.textContent = persona.name;
-  modalYears.textContent = persona.years;
+  modalName.textContent = persona.name || "";
+  modalYears.textContent = persona.years || "";
   modalImage.src = getPersonaImage(persona);
-  modalImage.alt = persona.name;
-  modalTagline.textContent = persona.tagline;
+  modalImage.alt = persona.name || "Persona portrait";
+  modalTagline.textContent = persona.tagline || "";
   modalIntro.textContent = getPersonaIntro(persona);
 
   renderSuggestions(persona);
@@ -151,7 +160,9 @@ function closeExhibit() {
 }
 
 function renderSuggestions(persona) {
-  suggestionsContainer.innerHTML = persona.suggestions.map((question) => `
+  const suggestions = Array.isArray(persona.suggestions) ? persona.suggestions : [];
+
+  suggestionsContainer.innerHTML = suggestions.map((question) => `
     <button class="suggestion-chip px-4 py-2 rounded-full border border-[#c6a268]/25 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
       ${question}
     </button>
@@ -159,7 +170,7 @@ function renderSuggestions(persona) {
 
   document.querySelectorAll(".suggestion-chip").forEach((chip, index) => {
     chip.addEventListener("click", () => {
-      sendMessage(persona.suggestions[index]);
+      sendMessage(suggestions[index]);
     });
   });
 }
@@ -270,53 +281,8 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-const _audioMap = {
-  "warren-buffett": "../assets/audio/warren-greeting.mp3",
-  "madam-cj-walker": "../assets/audio/walker-greeting.mp3",
-  "benjamin-franklin": "../assets/audio/franklin-greeting.mp3",
-};
-
-function getPersonaAudioPath(persona) {
-  if (!persona || !persona.id) return null;
-  if (_audioMap[persona.id]) return _audioMap[persona.id];
-  const key = persona.id.toLowerCase();
-  if (key.includes("warren")) return _audioMap["warren-buffett"];
-  if (key.includes("walker") || key.includes("madam")) return _audioMap["madam-cj-walker"];
-  if (key.includes("franklin") || key.includes("benjamin")) return _audioMap["benjamin-franklin"];
-  return null;
-}
-
 playIntroBtn.addEventListener("click", () => {
-<<<<<<< HEAD
   playIntroAudio();
-=======
-  if (!activePersona) return;
-  const path = getPersonaAudioPath(activePersona);
-  if (!path) {
-    console.warn("No intro audio available for:", activePersona.id);
-    return;
-  }
-
-  try {
-    const audio = new Audio(path);
-    audio.play().catch((err) => {
-      console.error("Audio playback failed:", err);
-    });
-  } catch (err) {
-    console.error("Unable to play intro audio:", err);
-  }
-});
-
-scrollUpBtn.addEventListener("click", () => {
-  chatTop.scrollIntoView({ behavior: "smooth", block: "start" });
-});
-
-scrollDownBtn.addEventListener("click", () => {
-  chatMessages.scrollTo({
-    top: chatMessages.scrollHeight,
-    behavior: "smooth"
-  });
->>>>>>> bec43bd44b62350d3bd432f1154a003a062e93cd
 });
 
 function openCouncil() {
@@ -346,7 +312,7 @@ exploreBtn.addEventListener("click", () => {
   document.getElementById("gallery").scrollIntoView({ behavior: "smooth" });
 });
 
-councilForm.addEventListener("submit", async (event) => {
+councilForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const question = councilInput.value.trim();
   if (!question) return;
