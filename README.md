@@ -173,7 +173,7 @@ Frontend (Render + Audio Playback)
 ---
 
 ## 👥 Team
-Built in 20 hours as part of a hackathon.
+Built in 24 hours as part of a hackathon.
 
 ---
 
