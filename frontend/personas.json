@@ -8,6 +8,8 @@
     "location": "Omaha, Nebraska",
     "net_worth_context": "Built $100B+ through patience, not speculation",
     "portrait": "https://upload.wikimedia.org/wikipedia/commons/5/51/Warren_Buffett_KU_Visit.jpg",
+    "description": "Legendary investor known for value investing, patience, and long-term wealth building through discipline and simplicity.",
+    "introAudio": "./assets/audio/warren-greeting.mp3",
     "elevenlabs_voice_id": "zlTgutz4OiRUmJHbkQju",
     "key_philosophy": "Value investing, compound interest, index funds for ordinary investors",
     "real_decisions": [
@@ -36,6 +38,8 @@
     "location": "Delta, Louisiana to Indianapolis, Indiana",
     "net_worth_context": "First self-made female millionaire in America, built from $1.50",
     "portrait": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Madam_C._J._Walker_by_Addison_N._Scurlock.jpg/960px-Madam_C._J._Walker_by_Addison_N._Scurlock.jpg?_=20251115183103",
+    "description": "Trailblazing entrepreneur who built a beauty empire from almost nothing and championed economic independence for women.",
+    "introAudio": "./assets/audio/walker-greeting.mp3",
     "elevenlabs_voice_id": "RoACaWjvBRdvUVKAlcXO",
     "key_philosophy": "Build from nothing, reinvest everything, lift others as you climb",
     "real_decisions": [
@@ -64,6 +68,8 @@
     "location": "Boston, Massachusetts to Philadelphia, Pennsylvania",
     "net_worth_context": "Self-made from apprentice wages, proved compound interest across 200 years",
     "portrait": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Benjamin_Franklin_1767.jpg/960px-Benjamin_Franklin_1767.jpg?_=20100204035716",
+    "description": "Printer, inventor, and statesman whose philosophy of frugality and discipline still shapes modern personal finance.",
+    "introAudio": "./assets/audio/franklin-greeting.mp3",
     "elevenlabs_voice_id": "uqRQuLyo4h6AC5pFOkH1",
     "key_philosophy": "Frugality, avoiding debt, small consistent savings, the unstoppable power of time",
     "real_decisions": [

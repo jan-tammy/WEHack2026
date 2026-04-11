@@ -26,9 +26,15 @@ const councilResults = document.getElementById("councilResults");
 const consensusBox = document.getElementById("consensusBox");
 const consensusText = document.getElementById("consensusText");
 
+const toggleChamberBtn = document.getElementById("toggleChamberBtn");
+const toggleChamberLabel = document.getElementById("toggleChamberLabel");
+const toggleChamberIcon = document.getElementById("toggleChamberIcon");
+const chamberContent = document.getElementById("chamberContent");
+
 let personas = [];
 let activePersona = null;
 let currentIntroAudio = null;
+let isChamberCollapsed = false;
 
 function getPersonaImage(persona) {
   return persona.image || persona.portrait || "";
@@ -60,7 +66,9 @@ async function loadPersonas() {
     gallery.innerHTML = `
       <div class="museum-card rounded-3xl p-6 text-center col-span-full">
         <p class="text-lg text-[#f5eee6]">Could not load personas.json</p>
-        <p class="text-sm text-[#e7d9c8]/70 mt-2">Make sure personas.json is in the same frontend folder as index.html and app.js.</p>
+        <p class="text-sm text-[#e7d9c8]/70 mt-2">
+          Make sure personas.json is in the same frontend folder as index.html and app.js.
+        </p>
       </div>
     `;
   }
@@ -127,6 +135,32 @@ function playIntroAudio() {
   });
 }
 
+function expandChamber() {
+  isChamberCollapsed = false;
+  chamberContent.classList.remove("max-h-0", "opacity-0");
+  chamberContent.classList.add("max-h-[260px]", "opacity-100");
+  toggleChamberLabel.textContent = "Minimize";
+  toggleChamberIcon.textContent = "▲";
+  toggleChamberBtn.setAttribute("aria-expanded", "true");
+}
+
+function collapseChamber() {
+  isChamberCollapsed = true;
+  chamberContent.classList.remove("max-h-[260px]", "opacity-100");
+  chamberContent.classList.add("max-h-0", "opacity-0");
+  toggleChamberLabel.textContent = "Expand";
+  toggleChamberIcon.textContent = "▼";
+  toggleChamberBtn.setAttribute("aria-expanded", "false");
+}
+
+function toggleChamber() {
+  if (isChamberCollapsed) {
+    expandChamber();
+  } else {
+    collapseChamber();
+  }
+}
+
 function openExhibit(personaId) {
   const persona = personas.find((p) => p.id === personaId);
   if (!persona) return;
@@ -142,6 +176,7 @@ function openExhibit(personaId) {
 
   renderSuggestions(persona);
   resetChat(persona);
+  expandChamber();
 
   chatModal.classList.remove("hidden");
   chatModal.classList.add("flex");
@@ -284,6 +319,8 @@ document.addEventListener("keydown", (event) => {
 playIntroBtn.addEventListener("click", () => {
   playIntroAudio();
 });
+
+toggleChamberBtn.addEventListener("click", toggleChamber);
 
 function openCouncil() {
   councilModal.classList.remove("hidden");

@@ -219,12 +219,26 @@
 
         <section class="flex flex-col h-full min-h-0 overflow-hidden bg-[#0e0b09]/85">
           <div class="border-b border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5 shrink-0">
-            <p class="uppercase tracking-[0.32em] text-[11px] text-[#c6a268]/70 mb-3">
-              Conversation Chamber
-            </p>
+            <div class="flex items-center justify-between gap-4 mb-3">
+              <p class="uppercase tracking-[0.32em] text-[11px] text-[#c6a268]/70">
+                Conversation Chamber
+              </p>
 
-            <div class="flex flex-wrap gap-3 mt-2" id="suggestions">
-              <!-- suggestion chips -->
+              <button
+                id="toggleChamberBtn"
+                type="button"
+                class="flex items-center gap-2 px-3 py-2 rounded-full border border-[#c6a268]/25 text-[#f5eee6] text-sm hover:bg-[#c6a268]/10 transition"
+                aria-expanded="true"
+              >
+                <span id="toggleChamberLabel">Minimize</span>
+                <span id="toggleChamberIcon" class="text-base leading-none">▲</span>
+              </button>
+            </div>
+
+            <div id="chamberContent" class="overflow-hidden transition-all duration-300 ease-in-out max-h-[260px] opacity-100">
+              <div class="flex flex-wrap gap-3 mt-2" id="suggestions">
+                <!-- suggestion chips -->
+              </div>
             </div>
           </div>
 
