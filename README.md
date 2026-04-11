@@ -1,151 +1,169 @@
-# 💰 Financial Historical Figures Chatbot
-
-An interactive, AI-powered financial advisor experience where users learn, plan, and grow their finances through the perspectives of iconic historical figures.
-
----
-
-## 🚀 Overview
-
-The **Financial Historical Figures Chatbot** allows users to ask financial questions and receive advice from legendary thinkers:
-
-- 🧠 Benjamin Franklin – Saving, discipline, long-term thinking  
-- 📈 Adam Smith – Economic principles, investing, markets  
-- 💼 [Third Figure] – (e.g., Warren Buffett, Keynes, etc.)
-
-Each figure has their own chatbot, voice narration, and financial philosophy.
+# 🏛️ <Your Project Name>
+*Where history’s greatest minds teach the art of wealth.*
 
 ---
 
-## 🎯 Core Features
+## 📌 Overview
+This project is an interactive, museum-inspired financial education platform that brings history’s most influential minds to life. Users step into a curated digital gallery and engage directly with legendary figures such as Warren Buffett, Benjamin Franklin, and Madam C.J. Walker.
 
-### 🖱️ Interactive Character Selection
-- Clickable icons/frames for each historical figure  
-- Navigate into person-specific chatbot experiences  
-
----
-
-### 🎙️ Voice-Driven Experience
-- Playable intro in each figure’s voice  
-- Voice narration for chatbot responses  
-- Creates an immersive experience  
+Through AI-powered conversations, voice narration, and multi-perspective analysis, the platform transforms timeless financial wisdom into modern, actionable guidance.
 
 ---
 
-### 🧠 Context-Aware Responses
-- Answers include:
-  - Historical context  
-  - Personal philosophy  
-  - Real-world impact  
+## ✨ Features
 
-**Example:**
-> Franklin emphasizes saving due to his belief in avoiding unnecessary debt and building independence.
+### 🖼️ Interactive Gallery
+- Museum-style homepage featuring curated historical figures  
+- Clickable portrait cards that open immersive exhibits  
 
----
+### 🧠 Persona-Based AI Chat
+- Each figure has a unique voice, personality, and philosophy  
+- Responses grounded in real historical context  
+- In-character financial advice powered by Gemini  
 
-## 🧩 Multi-Perspective Decision Engine
+### 🔊 Voice Narration
+- Persona greets the user with a voice intro  
+- All responses are narrated using ElevenLabs  
+- Creates an immersive conversational experience  
 
-Ask one question and receive multiple expert viewpoints.
+### ⚖️ Multi-Perspective Decision Engine
+- Ask one question → receive insights from multiple financial minds  
+- Compare:
+  - Risk levels (Conservative / Moderate / Bold)
+  - Time horizon (Short-term vs Long-term)  
+- AI-generated **consensus summary** for clarity  
 
-The system compares:
-- Risk levels  
-- Short-term vs long-term impact  
-- Agreement vs disagreement  
+### 📜 Explainable AI
+- Each response includes a historical reasoning footnote  
+- Connects advice to real events, writings, or philosophies  
 
-**Example Output:**
-- Franklin recommends saving first  
-- Smith suggests gradual investing  
-- **Consensus:** Start with 20% savings, then invest  
+### 📈 Actionable Financial Plan Generator
+- Converts advice into:
+  - Weekly savings plan  
+  - Spending adjustments  
+  - Timeline-based goals  
+- Turns abstract wisdom into concrete steps  
 
----
+### 🕰️ Personalized Journey Timeline
+- Tracks user interactions across advisors  
+- Visual timeline of financial learning  
+- Builds a narrative of the user’s growth  
 
-## 📊 Actionable Financial Plan Generator
-
-Turns advice into clear steps:
-
-- Weekly or monthly savings plan  
-- Beginner investment roadmap  
-- Budget breakdown  
-
-**Example Plan:**
-- Save $50 per week  
-- Reduce dining by 15%  
-- Build an emergency fund in 3 months  
-
----
-
-## 📈 Progress Dashboard
-
-Track and visualize:
-- Savings growth  
-- Spending trends  
-- Goal completion  
-
-**Future Projection Example:**
-> If you follow this plan, you will save $1,200 in 6 months.
+### 🔐 Authentication
+- User sign up and login  
+- Google Sign-In integration  
+- Personalized experience with saved history and plans  
 
 ---
 
-## 🔍 Explainable AI
+## 🧠 Inspiration
+Financial literacy is often inaccessible, impersonal, or overwhelming. At the same time, history is filled with individuals who built wealth, overcame adversity, and developed timeless financial philosophies.
 
-Every recommendation includes:
-- Why the advice was given  
-- Historical reasoning  
-
-**Example:**
-> Franklin suggests saving because he believed in financial independence and avoiding debt.
+This project bridges that gap by transforming financial education into an immersive, narrative-driven experience — where users don’t just learn concepts, but engage with the minds that shaped them.
 
 ---
 
-## 🛤️ Personalized Financial Journey
+## 🛠️ Tech Stack
 
-Track:
-- Decisions made  
-- Advisors consulted  
-- Lessons learned  
+### Frontend
+- HTML  
+- Tailwind CSS  
+- JavaScript  
 
-Framed as:
-> Your journey through financial history
+### Authentication & Database
+- Firebase Authentication  
+  - Email/Password login  
+  - Google Sign-In  
+  - Future support for multi-factor authentication  
+- Firestore  
+  - Stores user journey history  
+  - Saves generated financial plans  
+
+### AI & Intelligence
+- Gemini API  
+  - Persona-based responses  
+  - Multi-advisor comparison  
+  - Consensus generation  
+  - Financial plan generation  
+  - Explainable reasoning  
+
+### Voice Integration
+- ElevenLabs  
+  - Realistic voice narration  
+  - Persona-specific voices  
+  - Intro greetings + spoken responses  
+
+### Backend
+- Vercel Serverless Functions  
+  - Secure API handling  
+  - Gemini API calls  
+  - ElevenLabs API calls  
+
+### Deployment
+- Vercel  
+  - Fast, reliable hosting  
+  - Easy environment variable management  
 
 ---
 
-## 🧱 Tech Stack
+## 🏗️ Architecture
 
-- Frontend: React / HTML / CSS / JavaScript  
-- Backend: FastAPI / Node.js  
-- Database: MongoDB / Firebase  
-- AI: OpenAI API  
-- Voice: Text-to-Speech APIs  
-- Visualization: Chart libraries  
+Frontend (HTML + Tailwind + JS)
+↓
+Firebase Auth (Login / Signup / Sessions)
+↓
+Firestore (User Data: Plans + Timeline)
+↓
+Vercel API Routes
+↓
+Gemini API (AI Responses + Plans + Consensus)
+↓
+ElevenLabs (Voice Narration)
+↓
+Frontend (Render + Audio Playback)
+
+---
+## 🚀 How It Works
+
+1. User logs in or creates an account  
+2. Enters a museum-style gallery of financial figures  
+3. Selects a historical advisor  
+4. Asks a financial question  
+5. Gemini generates an in-character response  
+6. ElevenLabs narrates the answer  
+7. User can:
+   - Compare multiple advisors  
+   - Generate an actionable plan  
+   - View historical reasoning  
+8. Progress is saved to their personal journey timeline  
 
 ---
 
-## ⚙️ How It Works
+## 🔮 Future Improvements
 
-1. Select a historical figure  
-2. Ask a financial question  
-3. Receive multiple perspectives  
-4. Get a consensus recommendation  
-5. Generate an actionable plan  
-6. Track progress over time  
+- 📱 Mobile application (iOS / Android)  
+- 🔐 Multi-factor authentication (2FA)  
+- 📊 Personal financial dashboard  
+- 📚 Expanded library of historical figures  
+- 🎯 Goal tracking and progress analytics  
+- 🧩 Gamified learning experience  
 
 ---
 
-## 🧪 Future Improvements
+## 🏆 Why This Project Stands Out
 
-- Add more historical figures  
-- Integrate real financial data  
-- Improve personalization  
-- Add mobile support  
-- Introduce gamification  
+- Combines **education, storytelling, and AI**  
+- Turns financial advice into **actionable plans**  
+- Uses **voice + personality** to create immersion  
+- Provides **multiple perspectives**, not just one answer  
+- Bridges **history and modern finance**  
 
 ---
 
 ## 👥 Team
-
-Add your team members here
+Built in 20 hours as part of a hackathon.
 
 ---
 
-## 📌 Demo
-
-Add demo link here
+## 💡 Tagline
+*An interactive institution where history’s greatest minds guide your financial future.*
