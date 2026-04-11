@@ -109,17 +109,29 @@ This project bridges that gap by transforming financial education into an immers
 ## 🏗️ Architecture
 
 Frontend (HTML + Tailwind + JS)
+
 ↓
+
 Firebase Auth (Login / Signup / Sessions)
+
 ↓
+
 Firestore (User Data: Plans + Timeline)
+
 ↓
+
 Vercel API Routes
+
 ↓
+
 Gemini API (AI Responses + Plans + Consensus)
+
 ↓
+
 ElevenLabs (Voice Narration)
+
 ↓
+
 Frontend (Render + Audio Playback)
 
 ---
