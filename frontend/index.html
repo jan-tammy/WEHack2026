@@ -61,9 +61,21 @@
       width: 8px;
     }
 
+    .chat-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
     .chat-scroll::-webkit-scrollbar-thumb {
-      background: rgba(198, 162, 104, 0.35);
+      background: linear-gradient(
+        to bottom,
+        rgba(198, 162, 104, 0.6),
+        rgba(198, 162, 104, 0.3)
+      );
       border-radius: 999px;
+    }
+
+    .chat-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(198, 162, 104, 0.8);
     }
 
     .hero-glow {
@@ -172,10 +184,10 @@
   <!-- CHAT MODAL -->
   <div id="chatModal" class="fixed inset-0 bg-black/72 backdrop-blur-md hidden items-center justify-center p-3 md:p-5 z-50">
     <div class="museum-card modal-shell rounded-[2rem] overflow-hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-[360px_minmax(0,1fr)] h-full">
+      <div class="grid grid-cols-1 lg:grid-cols-[360px_minmax(0,1fr)] h-full min-h-0">
 
         <!-- LEFT PANEL -->
-        <aside class="bg-[#16100d]/92 border-b lg:border-b-0 lg:border-r border-[#c6a268]/12 p-5 md:p-6 lg:p-8 overflow-y-auto">
+        <aside class="bg-[#16100d]/92 border-b lg:border-b-0 lg:border-r border-[#c6a268]/12 p-5 md:p-6 lg:p-8 overflow-y-auto chat-scroll">
           <div class="flex items-start justify-between gap-4 mb-6">
             <div>
               <p class="uppercase tracking-[0.3em] text-[11px] text-[#c6a268]/70 mb-2">Exhibit</p>
@@ -219,40 +231,18 @@
         </aside>
 
         <!-- RIGHT PANEL -->
-        <section class="flex flex-col min-h-0 bg-[#120d0b]/88">
-          <div id="chatTop" class="border-b border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5">
-            <div class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4">
-              <div>
-                <p class="uppercase tracking-[0.32em] text-[11px] text-[#c6a268]/70 mb-3">
-                  Conversation Chamber
-                </p>
-              </div>
-
-              <div class="flex gap-2 self-start">
-                <button
-                  id="scrollUpBtn"
-                  type="button"
-                  class="px-4 py-2 rounded-full border border-[#c6a268]/28 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition"
-                >
-                  ↑ Up
-                </button>
-
-                <button
-                  id="scrollDownBtn"
-                  type="button"
-                  class="px-4 py-2 rounded-full border border-[#c6a268]/28 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition"
-                >
-                  ↓ Down
-                </button>
-              </div>
-            </div>
+        <section class="flex flex-col h-full min-h-0 overflow-hidden bg-[#0e0b09]/85">
+          <div class="border-b border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5 shrink-0">
+            <p class="uppercase tracking-[0.32em] text-[11px] text-[#c6a268]/70 mb-3">
+              Conversation Chamber
+            </p>
 
             <div class="flex flex-wrap gap-3 mt-2" id="suggestions">
               <!-- suggestion chips -->
             </div>
           </div>
 
-          <div id="chatMessages" class="chat-scroll flex-1 min-h-0 overflow-y-auto px-4 md:px-6 lg:px-8 py-5 md:py-6 space-y-4">
+          <div id="chatMessages" class="chat-scroll flex-1 min-h-0 overflow-y-auto px-5 lg:px-6 py-6 space-y-4">
             <div class="max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5">
               <p class="text-[#f5eee6] text-lg leading-8">
                 Welcome. Select a question or ask your own to begin.
@@ -260,7 +250,7 @@
             </div>
           </div>
 
-          <div id="chatBottom" class="border-t border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5">
+          <div id="chatBottom" class="border-t border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5 shrink-0">
             <form id="chatForm" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
               <input
                 id="chatInput"

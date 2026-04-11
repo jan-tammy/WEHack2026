@@ -15,11 +15,6 @@ const chatInput = document.getElementById("chatInput");
 const closeModalBtn = document.getElementById("closeModalBtn");
 const playIntroBtn = document.getElementById("playIntroBtn");
 
-const scrollUpBtn = document.getElementById("scrollUpBtn");
-const scrollDownBtn = document.getElementById("scrollDownBtn");
-const chatTop = document.getElementById("chatTop");
-const chatBottom = document.getElementById("chatBottom");
-
 const askAllBtn = document.getElementById("askAllBtn");
 const exploreBtn = document.getElementById("exploreBtn");
 const askCouncilFromModalBtn = document.getElementById("askCouncilFromModalBtn");
@@ -33,6 +28,7 @@ const consensusText = document.getElementById("consensusText");
 
 let personas = [];
 let activePersona = null;
+let currentIntroAudio = null;
 
 function getPersonaImage(persona) {
   return persona.image || persona.portrait || "";
@@ -44,6 +40,10 @@ function getPersonaIntro(persona) {
 
 function getPersonaDescription(persona) {
   return persona.description || persona.opening_greeting || "";
+}
+
+function getPersonaIntroAudio(persona) {
+  return persona.introAudio || "";
 }
 
 async function loadPersonas() {
@@ -58,8 +58,10 @@ async function loadPersonas() {
 
 function renderGallery() {
   gallery.innerHTML = personas.map((persona, index) => `
-    <article class="museum-card rounded-3xl p-5 md:p-6 hover:-translate-y-1 hover:shadow-2xl transition duration-300">
-      <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70 mb-3">Exhibit ${String(index + 1).padStart(2, "0")}</p>
+    <article class="museum-card gallery-card rounded-3xl p-5 md:p-6">
+      <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70 mb-3">
+        Exhibit ${String(index + 1).padStart(2, "0")}
+      </p>
 
       <div class="portrait-frame mb-5">
         <div class="portrait-inner">
@@ -73,7 +75,7 @@ function renderGallery() {
       <p class="mt-3 text-stone-300 leading-7">${getPersonaDescription(persona)}</p>
 
       <button
-        class="open-exhibit-btn mt-6 w-full px-5 py-3 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition"
+        class="open-exhibit-btn mt-6 w-full px-5 py-3 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition"
         data-id="${persona.id}"
       >
         Enter Exhibit
@@ -81,7 +83,7 @@ function renderGallery() {
     </article>
   `).join("");
 
-  document.querySelectorAll(".open-exhibit-btn").forEach(button => {
+  document.querySelectorAll(".open-exhibit-btn").forEach((button) => {
     button.addEventListener("click", () => {
       const personaId = button.dataset.id;
       openExhibit(personaId);
@@ -89,8 +91,35 @@ function renderGallery() {
   });
 }
 
+function stopIntroAudio() {
+  if (currentIntroAudio) {
+    currentIntroAudio.pause();
+    currentIntroAudio.currentTime = 0;
+    currentIntroAudio = null;
+  }
+}
+
+function playIntroAudio() {
+  if (!activePersona) return;
+
+  const introAudioPath = getPersonaIntroAudio(activePersona);
+  if (!introAudioPath) {
+    console.log(`No intro audio found for ${activePersona.name}`);
+    return;
+  }
+
+  stopIntroAudio();
+
+  currentIntroAudio = new Audio(introAudioPath);
+  currentIntroAudio.volume = 1.0;
+
+  currentIntroAudio.play().catch((error) => {
+    console.error("Intro audio failed to play:", error);
+  });
+}
+
 function openExhibit(personaId) {
-  const persona = personas.find(p => p.id === personaId);
+  const persona = personas.find((p) => p.id === personaId);
   if (!persona) return;
 
   activePersona = persona;
@@ -108,17 +137,22 @@ function openExhibit(personaId) {
   chatModal.classList.remove("hidden");
   chatModal.classList.add("flex");
   document.body.classList.add("overflow-hidden");
+
+  setTimeout(() => {
+    playIntroAudio();
+  }, 250);
 }
 
 function closeExhibit() {
+  stopIntroAudio();
   chatModal.classList.add("hidden");
   chatModal.classList.remove("flex");
   document.body.classList.remove("overflow-hidden");
 }
 
 function renderSuggestions(persona) {
-  suggestionsContainer.innerHTML = persona.suggestions.map(question => `
-    <button class="suggestion-chip px-4 py-2 rounded-full border border-[#d4af37]/30 text-sm hover:bg-[#d4af37]/10 transition">
+  suggestionsContainer.innerHTML = persona.suggestions.map((question) => `
+    <button class="suggestion-chip px-4 py-2 rounded-full border border-[#c6a268]/25 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
       ${question}
     </button>
   `).join("");
@@ -132,12 +166,14 @@ function renderSuggestions(persona) {
 
 function resetChat(persona) {
   chatMessages.innerHTML = `
-    <div class="max-w-2xl rounded-2xl bg-[#1c1611] border border-[#d4af37]/15 p-4">
-      <p class="text-stone-200">
+    <div class="max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5">
+      <p class="text-[#f5eee6] text-lg leading-8">
         Welcome. I am ${persona.name}. Ask your question, and I will guide you through it.
       </p>
     </div>
   `;
+
+  chatMessages.scrollTop = 0;
 }
 
 function appendMessage(role, text, footer = "") {
@@ -147,14 +183,14 @@ function appendMessage(role, text, footer = "") {
   const bubble = document.createElement("div");
   bubble.className =
     role === "user"
-      ? "max-w-2xl rounded-2xl bg-[#d4af37] text-black p-4"
-      : "max-w-2xl rounded-2xl bg-[#1c1611] border border-[#d4af37]/15 p-4";
+      ? "max-w-2xl rounded-[1.6rem] bg-[#c6a268] text-black p-5"
+      : "max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5";
 
   bubble.innerHTML = `
-    <p class="${role === "user" ? "text-black" : "text-stone-100"} leading-7">${text}</p>
+    <p class="${role === "user" ? "text-black" : "text-[#f5eee6]"} leading-7">${text}</p>
     ${
       footer
-        ? `<p class="mt-3 text-xs uppercase tracking-[0.15em] text-stone-400">${footer}</p>`
+        ? `<p class="mt-3 text-xs uppercase tracking-[0.15em] text-[#e7d9c8]/45">${footer}</p>`
         : ""
     }
   `;
@@ -170,7 +206,7 @@ function showTyping() {
   typing.className = "flex justify-start";
 
   typing.innerHTML = `
-    <div class="max-w-2xl rounded-2xl bg-[#1c1611] border border-[#d4af37]/15 p-4 text-stone-300">
+    <div class="max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5 text-[#e7d9c8]/80">
       Thinking...
     </div>
   `;
@@ -191,7 +227,6 @@ async function sendMessage(text) {
   showTyping();
 
   try {
-    // Placeholder until Gemini backend is connected
     const fakeReply = getMockReply(activePersona.name, text);
 
     setTimeout(() => {
@@ -224,7 +259,6 @@ chatForm.addEventListener("submit", (event) => {
 
 closeModalBtn.addEventListener("click", closeExhibit);
 
-
 chatModal.addEventListener("click", (event) => {
   if (event.target === chatModal) closeExhibit();
 });
@@ -237,19 +271,7 @@ document.addEventListener("keydown", (event) => {
 });
 
 playIntroBtn.addEventListener("click", () => {
-  if (!activePersona) return;
-  alert(`Play intro audio for ${activePersona.name} here.`);
-});
-
-scrollUpBtn.addEventListener("click", () => {
-  chatTop.scrollIntoView({ behavior: "smooth", block: "start" });
-});
-
-scrollDownBtn.addEventListener("click", () => {
-  chatMessages.scrollTo({
-    top: chatMessages.scrollHeight,
-    behavior: "smooth"
-  });
+  playIntroAudio();
 });
 
 function openCouncil() {
@@ -288,12 +310,12 @@ councilForm.addEventListener("submit", async (event) => {
 });
 
 function renderCouncilResults(question) {
-  councilResults.innerHTML = personas.map(persona => `
-    <div class="rounded-3xl border border-[#d4af37]/20 bg-[#16110d] p-5">
+  councilResults.innerHTML = personas.map((persona) => `
+    <div class="rounded-[1.6rem] border border-[#c6a268]/20 bg-[#16110d] p-5">
       <p class="uppercase tracking-[0.25em] text-[11px] text-[#d8c79b]/70 mb-2">${persona.name}</p>
-      <div class="flex gap-2 mb-4">
-        <span class="px-3 py-1 rounded-full text-xs border border-[#d4af37]/25 text-stone-200">Moderate</span>
-        <span class="px-3 py-1 rounded-full text-xs border border-[#d4af37]/25 text-stone-200">Long-term</span>
+      <div class="flex gap-2 mb-4 flex-wrap">
+        <span class="px-3 py-1 rounded-full text-xs border border-[#c6a268]/25 text-stone-200">Moderate</span>
+        <span class="px-3 py-1 rounded-full text-xs border border-[#c6a268]/25 text-stone-200">Long-term</span>
       </div>
       <p class="text-stone-100 leading-7">
         ${persona.name} would advise caution, patience, and intentional decision-making in response to: "${question}"
