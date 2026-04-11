@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Project Name</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top, #2a2117 0%, #120f0c 45%, #090807 100%);
+      color: #f6f1e8;
+    }
+
+    .serif {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .gold-text {
+      color: #d4af37;
+    }
+
+    .gold-border {
+      border-color: rgba(212, 175, 55, 0.45);
+    }
+
+    .museum-card {
+      background: linear-gradient(180deg, rgba(34, 26, 19, 0.98), rgba(17, 13, 10, 0.98));
+      border: 1px solid rgba(212, 175, 55, 0.26);
+      box-shadow:
+        0 12px 32px rgba(0,0,0,0.45),
+        inset 0 0 0 1px rgba(255,255,255,0.03);
+    }
+
+    .portrait-frame {
+      background: linear-gradient(145deg, #8a6a23, #e2bf58, #8a6a23);
+      padding: 10px;
+      border-radius: 18px;
+      box-shadow:
+        0 8px 20px rgba(0,0,0,0.45),
+        inset 0 1px 2px rgba(255,255,255,0.4);
+    }
+
+    .portrait-inner {
+      background: #15120f;
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+    }
+
+    .chat-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-scroll::-webkit-scrollbar-thumb {
+      background: rgba(212, 175, 55, 0.35);
+      border-radius: 999px;
+    }
+
+    .hero-glow {
+      text-shadow: 0 0 24px rgba(212, 175, 55, 0.12);
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- NAV -->
+  <header class="border-b border-[#8e7440]/20 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div>
+        <h1 class="serif text-3xl md:text-4xl gold-text tracking-wide">Your Project Name</h1>
+        <p class="text-sm text-stone-300/80">An interactive institution of financial history</p>
+      </div>
+
+      <div class="flex gap-3">
+        <button id="loginBtn" class="px-4 py-2 rounded-full border border-[#d4af37]/40 text-sm hover:bg-[#d4af37]/10 transition">
+          Login
+        </button>
+        <button id="signupBtn" class="px-4 py-2 rounded-full bg-[#d4af37] text-black font-semibold text-sm hover:opacity-90 transition">
+          Create Account
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="max-w-7xl mx-auto px-6 pt-14 pb-10">
+    <div class="text-center max-w-4xl mx-auto">
+      <p class="uppercase tracking-[0.35em] text-xs text-[#d8c79b]/70 mb-4">Curated Wisdom • Living History • Financial Education</p>
+      <h2 class="serif text-5xl md:text-7xl leading-none hero-glow gold-text mb-5">
+        History Comes Alive to Guide Your Future Decisions
+      </h2>
+      <p class="text-lg md:text-xl text-stone-200/85 max-w-3xl mx-auto leading-8">
+        Step into a museum of timeless financial wisdom and learn directly from legendary minds whose ideas shaped wealth, discipline, and opportunity.
+      </p>
+
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <button id="exploreBtn" class="px-6 py-3 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition">
+          Enter the Gallery
+        </button>
+        <button id="askAllBtn" class="px-6 py-3 rounded-full border border-[#d4af37]/40 hover:bg-[#d4af37]/10 transition">
+          Ask the Council
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <main class="max-w-7xl mx-auto px-6 pb-16">
+    <div class="flex items-end justify-between gap-4 mb-8">
+      <div>
+        <p class="uppercase tracking-[0.28em] text-xs text-[#d8c79b]/70 mb-2">The Collection</p>
+        <h3 class="serif text-3xl md:text-5xl text-stone-100">Talk to History’s Financial Icons</h3>
+      </div>
+      <p class="hidden md:block max-w-md text-stone-300/80 text-sm leading-6">
+        Select an exhibit to enter a private conversation, hear a spoken introduction, and receive advice grounded in real historical philosophy.
+      </p>
+    </div>
+
+    <section id="gallery" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+      <!-- Cards injected by JS -->
+    </section>
+  </main>
+
+  <!-- CHAT MODAL -->
+  <div id="chatModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="museum-card w-full max-w-7xl rounded-3xl overflow-hidden border border-[#d4af37]/20">
+      <div class="grid grid-cols-1 lg:grid-cols-[340px_1fr] min-h-[80vh]">
+
+        <!-- LEFT PANEL -->
+        <aside class="border-r border-[#d4af37]/15 p-6 lg:p-8 bg-[#120f0d]/85">
+          <div class="flex items-start justify-between gap-4 mb-6">
+            <div>
+              <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70 mb-2">Exhibit</p>
+              <h3 id="modalName" class="serif text-4xl gold-text leading-none">Warren Buffett</h3>
+              <p id="modalYears" class="mt-2 text-sm text-stone-300/75">1930 – Present</p>
+            </div>
+            <button id="closeModalBtn" class="text-stone-300 hover:text-white text-2xl leading-none">&times;</button>
+          </div>
+
+          <div class="portrait-frame mb-5">
+            <div class="portrait-inner">
+              <img id="modalImage" src="" alt="" class="w-full h-full object-cover" />
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <p class="uppercase tracking-[0.25em] text-[11px] text-[#d8c79b]/70 mb-1">Legacy</p>
+              <p id="modalTagline" class="text-stone-100 text-lg">The Oracle of Omaha</p>
+            </div>
+
+            <div>
+              <p class="uppercase tracking-[0.25em] text-[11px] text-[#d8c79b]/70 mb-1">Introduction</p>
+              <p id="modalIntro" class="text-stone-300 leading-7">
+                A brief introduction will appear here.
+              </p>
+            </div>
+
+            <div class="flex gap-3 pt-2">
+              <button id="playIntroBtn" class="flex-1 px-4 py-3 rounded-full border border-[#d4af37]/35 hover:bg-[#d4af37]/10 transition">
+                ▶ Play Intro
+              </button>
+              <button id="askCouncilFromModalBtn" class="flex-1 px-4 py-3 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition">
+                Ask the Council
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- RIGHT PANEL -->
+        <section class="flex flex-col bg-[#0e0b09]/85">
+          <div class="border-b border-[#d4af37]/15 p-5 lg:p-6">
+            <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70 mb-2">Conversation Chamber</p>
+            <div class="flex flex-wrap gap-3" id="suggestions">
+              <!-- suggestion chips -->
+            </div>
+          </div>
+
+          <div id="chatMessages" class="chat-scroll flex-1 overflow-y-auto px-5 lg:px-6 py-6 space-y-4">
+            <div class="max-w-2xl rounded-2xl bg-[#1c1611] border border-[#d4af37]/15 p-4">
+              <p class="text-stone-200">
+                Welcome. Select a question or ask your own to begin.
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-[#d4af37]/15 p-5 lg:p-6">
+            <form id="chatForm" class="flex items-center gap-3">
+              <input
+                id="chatInput"
+                type="text"
+                placeholder="Ask a financial question..."
+                class="flex-1 rounded-full bg-[#191411] border border-[#d4af37]/20 px-5 py-4 text-stone-100 placeholder:text-stone-400 outline-none focus:border-[#d4af37]/55"
+              />
+              <button
+                type="submit"
+                class="px-6 py-4 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition"
+              >
+                Send
+              </button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASK ALL ADVISORS MODAL -->
+  <div id="councilModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="museum-card w-full max-w-7xl rounded-3xl overflow-hidden border border-[#d4af37]/20 p-6 lg:p-8">
+      <div class="flex items-center justify-between gap-4 mb-6">
+        <div>
+          <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70 mb-2">Multi-Perspective Engine</p>
+          <h3 class="serif text-4xl gold-text">Ask the Council</h3>
+        </div>
+        <button id="closeCouncilBtn" class="text-stone-300 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+
+      <form id="councilForm" class="flex flex-col md:flex-row gap-3 mb-8">
+        <input
+          id="councilInput"
+          type="text"
+          placeholder="Ask all advisors one question..."
+          class="flex-1 rounded-full bg-[#191411] border border-[#d4af37]/20 px-5 py-4 text-stone-100 placeholder:text-stone-400 outline-none focus:border-[#d4af37]/55"
+        />
+        <button type="submit" class="px-6 py-4 rounded-full bg-[#d4af37] text-black font-semibold hover:opacity-90 transition">
+          Compare Advice
+        </button>
+      </form>
+
+      <div id="councilResults" class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+        <!-- advisor responses injected here -->
+      </div>
+
+      <div id="consensusBox" class="hidden mt-6 rounded-3xl border border-[#d4af37]/20 bg-[#18120e] p-6">
+        <p class="uppercase tracking-[0.25em] text-[11px] text-[#d8c79b]/70 mb-2">Consensus</p>
+        <p id="consensusText" class="text-stone-100 text-lg leading-8"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>

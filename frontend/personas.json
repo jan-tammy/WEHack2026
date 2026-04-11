@@ -1,0 +1,47 @@
+[
+  {
+    "id": "buffett",
+    "name": "Warren Buffett",
+    "years": "1930 – Present",
+    "tagline": "The Oracle of Omaha",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Warren_Buffett_KU_Visit.jpg",
+    "intro": "I am Warren Buffett. I built my fortune through patience, value investing, and a lifelong belief in disciplined long-term thinking.",
+    "description": "Investor, business leader, and one of history’s most influential voices in long-term wealth building.",
+    "suggestions": [
+      "I have $500 in savings. What should I do first?",
+      "How do I start investing if I am afraid of risk?",
+      "What spending habits destroy wealth over time?",
+      "What would you tell someone in their twenties?"
+    ]
+  },
+  {
+    "id": "walker",
+    "name": "Madam C.J. Walker",
+    "years": "1867 – 1919",
+    "tagline": "Entrepreneur and Self-Made Pioneer",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Madam_CJ_Walker.jpg",
+    "intro": "I am Madam C.J. Walker. I built opportunity from scarcity and turned resilience, salesmanship, and vision into an empire.",
+    "description": "America’s first widely recognized self-made female millionaire and a symbol of entrepreneurship, independence, and ambition.",
+    "suggestions": [
+      "How can I build wealth when I am starting from very little?",
+      "What mindset do I need to become financially independent?",
+      "How do I turn a small idea into income?",
+      "What should I focus on first: saving, earning, or investing?"
+    ]
+  },
+  {
+    "id": "bogle",
+    "name": "John Bogle",
+    "years": "1929 – 2019",
+    "tagline": "Champion of Everyday Investors",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/4/45/John_C._Bogle.jpg",
+    "intro": "I am John Bogle. I believed investing should be simple, low-cost, and accessible to ordinary people, not just the wealthy few.",
+    "description": "Founder of Vanguard and the father of index fund investing, known for making long-term investing simple and affordable.",
+    "suggestions": [
+      "What is the safest way to start investing?",
+      "Why do low fees matter so much?",
+      "Should beginners pick stocks or buy index funds?",
+      "How can I invest consistently over time?"
+    ]
+  }
+]
