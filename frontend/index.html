@@ -441,7 +441,7 @@ const FALLBACK_PERSONAS = [
     tagline: "The best investment you can make is in yourself",
     portrait: "https://upload.wikimedia.org/wikipedia/commons/5/51/Warren_Buffett_KU_Visit.jpg",
     description: "Legendary investor known for value investing, patience, and long-term wealth building through discipline and simplicity.",
-    introAudio: "assets/audio/warren-greeting.mp3",
+    introAudio: "../assets/audio/warren-greeting.mp3",
     suggestions: [
       "You bought your first stock at 11 — what would you tell someone who is 22?",
       "What is compound interest and why does it matter so much?",
@@ -469,7 +469,7 @@ const FALLBACK_PERSONAS = [
     tagline: "I had to make my own living and my own opportunity",
     portrait: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Madam_C._J._Walker_by_Addison_N._Scurlock.jpg/960px-Madam_C._J._Walker_by_Addison_N._Scurlock.jpg",
     description: "Trailblazing entrepreneur who built a beauty empire from almost nothing and championed economic independence for women.",
-    introAudio: "assets/audio/walker-greeting.mp3",
+    introAudio: "../assets/audio/walker-greeting.mp3",
     suggestions: [
       "You started with $1.50 — what is the very first thing someone with almost nothing should do?",
       "How do you build wealth when every door seems closed to you?",
@@ -497,7 +497,7 @@ const FALLBACK_PERSONAS = [
     tagline: "An investment in knowledge pays the best interest",
     portrait: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Benjamin_Franklin_1767.jpg/960px-Benjamin_Franklin_1767.jpg",
     description: "Printer, inventor, and statesman whose principles of frugality and discipline define modern financial wisdom.",
-    introAudio: "assets/audio/franklin-greeting.mp3",
+    introAudio: "../assets/audio/franklin-greeting.mp3",
     suggestions: [
       "Can you explain compound interest in simple terms?",
       "What do you mean when you say debt is a kind of slavery?",
@@ -536,12 +536,20 @@ function scrollToGallery() { $('gallery-section').scrollIntoView({ behavior: 'sm
 ═══════════════════════════════ */
 async function loadPersonas() {
   try {
-    // Try same-folder personas.json first (works when served via HTTP)
-    const res = await fetch('personas.json');
+    // Try repository personas.json (frontend is in a subfolder)
+    const res = await fetch('../personas.json');
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     // Support both array root and {personas:[...]} wrapper
     personas = Array.isArray(data) ? data : (data.personas || data);
+    // Normalize relative introAudio paths (make them point to repo assets folder)
+    personas = personas.map(p => {
+      if (p.introAudio && !/^([a-z]+:)?\/\//i.test(p.introAudio) && !p.introAudio.startsWith('/')) {
+        if (p.introAudio.startsWith('..')) return p;
+        return { ...p, introAudio: `../${p.introAudio.replace(/^\.?\/?/, '')}` };
+      }
+      return p;
+    });
     console.info('[WealthGallery] Loaded', personas.length, 'personas from personas.json');
   } catch (err) {
     console.warn('[WealthGallery] personas.json not reachable — using inline fallback.', err.message);

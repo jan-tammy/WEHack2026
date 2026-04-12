@@ -148,23 +148,67 @@ function playIntroAudio() {
     currentIntroAudio = null;
   }
 
-  currentIntroAudio = new Audio(introAudioPath);
-  currentIntroAudio.volume = 1.0;
+  const resolvedIntroPath = (() => {
+    try {
+      return new URL(introAudioPath, window.location.href).href;
+    } catch (e) {
+      return introAudioPath;
+    }
+  })();
 
-  currentIntroAudio.addEventListener("ended", () => {
-    resetIntroButton();
-    currentIntroAudio = null;
-  });
+  console.log("playIntroAudio: resolved intro path:", resolvedIntroPath);
 
-  currentIntroAudio.play()
-    .then(() => {
-      isIntroPlaying = true;
-      updateIntroButton();
-    })
-    .catch((error) => {
-      console.error("Intro audio failed to play:", error);
-      resetIntroButton();
-    });
+  // Check resource availability before creating Audio element (HEAD preferred)
+  (async () => {
+    try {
+      let ok = false;
+      try {
+        const headResp = await fetch(resolvedIntroPath, { method: "HEAD" });
+        ok = headResp && headResp.ok;
+        console.log("playIntroAudio: HEAD check status", headResp.status);
+      } catch (headErr) {
+        // Some servers or file:// may not support HEAD; try GET with range request
+        try {
+          const getResp = await fetch(resolvedIntroPath, { method: "GET", headers: { Range: "bytes=0-0" } });
+          ok = getResp && (getResp.status === 206 || getResp.ok);
+          console.log("playIntroAudio: GET range check status", getResp.status);
+        } catch (getErr) {
+          console.warn("playIntroAudio: resource check failed", getErr);
+        }
+      }
+
+      if (!ok) {
+        console.error(`Intro audio not available (HTTP check failed): ${resolvedIntroPath}`);
+        return;
+      }
+
+      currentIntroAudio = new Audio(resolvedIntroPath);
+      currentIntroAudio.preload = "auto";
+      currentIntroAudio.volume = 1.0;
+
+      currentIntroAudio.addEventListener("error", () => {
+        console.error("Audio element error:", currentIntroAudio.error, "src:", currentIntroAudio.src);
+        resetIntroButton();
+      });
+
+      currentIntroAudio.addEventListener("ended", () => {
+        resetIntroButton();
+        currentIntroAudio = null;
+      });
+
+      currentIntroAudio.play()
+        .then(() => {
+          isIntroPlaying = true;
+          updateIntroButton();
+        })
+        .catch((error) => {
+          console.error("Intro audio failed to play:", error);
+          resetIntroButton();
+        });
+    } catch (err) {
+      console.error("Unexpected error while checking intro audio:", err);
+    }
+  })();
 }
 
 function toggleIntroAudio() {
