@@ -50,14 +50,14 @@ Why this advice:
     const userPrompt = `User question: "${message}"`;
 
     const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          system_instruction: {
+          systemInstruction: {
             parts: [{ text: systemPrompt }]
           },
           contents: [
@@ -67,8 +67,8 @@ Why this advice:
             }
           ],
           generationConfig: {
-            temperature: 0.8,
-            maxOutputTokens: 700
+            temperature: 0.7,
+            maxOutputTokens: 500
           }
         })
       }
@@ -77,7 +77,8 @@ Why this advice:
     const data = await response.json();
 
     if (!response.ok) {
-  console.error("Gemini error:", data);
+  console.error("Gemini API status:", response.status);
+  console.error("Gemini full error:", JSON.stringify(data, null, 2));
 
   const isQuotaError = data?.error?.status === "RESOURCE_EXHAUSTED";
 
