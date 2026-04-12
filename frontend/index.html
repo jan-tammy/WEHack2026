@@ -306,6 +306,55 @@
     </div>
   </div>
 
-  <script src="./app.js"></script>
+  <!-- Firebase Auth Guard -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZZB1XTUU_PAPBrSNae5EScX7BVeX_vI8",
+    authDomain: "wehack2026-24e14.firebaseapp.com",
+    projectId: "wehack2026-24e14",
+    storageBucket: "wehack2026-24e14.firebasestorage.app",
+    messagingSenderId: "7196057046711",
+    appId: "1:719605704671:web:53ffff1887d70218888866a",
+    measurementId: "G-1R7KWB6LRN"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Hide page until auth check completes
+  document.body.style.visibility = "hidden";
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      // Not logged in → redirect to login
+      window.location.href = "./login.html";
+    } else {
+      // Logged in → show page
+      document.body.style.visibility = "visible";
+
+      // Update nav buttons to show user info + logout
+      const loginBtn = document.getElementById("loginBtn");
+      const signupBtn = document.getElementById("signupBtn");
+
+      if (loginBtn) {
+        loginBtn.textContent = user.displayName || user.email;
+        loginBtn.style.cursor = "default";
+        loginBtn.style.pointerEvents = "none";
+      }
+
+      if (signupBtn) {
+        signupBtn.textContent = "Sign Out";
+        signupBtn.addEventListener("click", async () => {
+          await signOut(auth);
+          window.location.href = "./login.html";
+        });
+      }
+    }
+  });
+</script>
+
 </body>
 </html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login – WEHack2026</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(74, 47, 39, 0.28) 0%, rgba(26, 20, 16, 0) 32%),
+        linear-gradient(180deg, #140f0d 0%, #0f0b09 100%);
+      color: #f5eee6;
+      min-height: 100vh;
+    }
+    .serif { font-family: 'Cormorant Garamond', serif; }
+    .gold-text { color: #c6a268; }
+    .museum-card {
+      background: linear-gradient(180deg, rgba(36, 27, 23, 0.97), rgba(20, 15, 13, 0.98));
+      border: 1px solid rgba(198, 162, 104, 0.22);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.02);
+      backdrop-filter: blur(10px);
+    }
+    .gold-input {
+      background: #1c1411;
+      border: 1px solid rgba(198, 162, 104, 0.18);
+      color: #f5eee6;
+      transition: border-color 0.2s;
+    }
+    .gold-input:focus {
+      outline: none;
+      border-color: rgba(198, 162, 104, 0.55);
+    }
+    .gold-input::placeholder { color: rgba(231, 217, 200, 0.4); }
+    .gold-btn {
+      background: #c6a268;
+      color: #000;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    .gold-btn:hover { opacity: 0.88; }
+    .gold-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .error-box {
+      background: rgba(220, 80, 60, 0.12);
+      border: 1px solid rgba(220, 80, 60, 0.3);
+      color: #f87171;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 14px;
+      display: none;
+    }
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(198, 162, 104, 0.4);
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(198, 162, 104, 0.15);
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease forwards; }
+    .fade-up-delay { animation: fadeUp 0.6s ease 0.15s forwards; opacity: 0; }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen px-4">
+
+  <!-- Logo -->
+  <div class="fade-up text-center mb-8">
+    <h1 class="serif text-4xl md:text-5xl gold-text tracking-wide">WEHack2026</h1>
+    <p class="text-sm text-[#e7d9c8]/60 mt-1 tracking-widest uppercase text-xs">Museum of Financial Wisdom</p>
+  </div>
+
+  <!-- Card -->
+  <div class="fade-up-delay museum-card w-full max-w-md rounded-[2rem] p-8 md:p-10">
+
+    <div class="text-center mb-8">
+      <p class="uppercase tracking-[0.3em] text-[11px] text-[#c6a268]/70 mb-2">Welcome Back</p>
+      <h2 class="serif text-3xl text-[#f5eee6]">Sign In</h2>
+    </div>
+
+    <div id="errorBox" class="error-box mb-5"></div>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-xs uppercase tracking-[0.2em] text-[#c6a268]/70 mb-2">Email</label>
+        <input
+          id="emailInput"
+          type="email"
+          placeholder="you@example.com"
+          class="gold-input w-full rounded-full px-5 py-3.5 text-sm"
+        />
+      </div>
+
+      <div>
+        <label class="block text-xs uppercase tracking-[0.2em] text-[#c6a268]/70 mb-2">Password</label>
+        <input
+          id="passwordInput"
+          type="password"
+          placeholder="••••••••"
+          class="gold-input w-full rounded-full px-5 py-3.5 text-sm"
+        />
+      </div>
+
+      <button id="loginBtn" class="gold-btn w-full rounded-full py-3.5 text-sm mt-2">
+        Enter the Gallery
+      </button>
+    </div>
+
+    <div class="divider my-6">or</div>
+
+    <div class="text-center text-sm text-[#e7d9c8]/60">
+      Don't have an account?
+      <a href="./register.html" class="gold-text hover:underline ml-1 font-medium">Create one</a>
+    </div>
+
+  </div>
+
+  <p class="mt-8 text-xs text-[#e7d9c8]/30 tracking-widest uppercase fade-up">
+    Curated Wisdom · Living History
+  </p>
+
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZZB1XTUU_PAPBrSNae5EScX7BVeX_vI8",
+      authDomain: "wehack2026-24e14.firebaseapp.com",
+      projectId: "wehack2026-24e14",
+      storageBucket: "wehack2026-24e14.firebasestorage.app",
+      messagingSenderId: "7196057046711",
+      appId: "1:719605704671:web:53ffff1887d70218888866a",
+      measurementId: "G-1R7KWB6LRN"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // If already logged in, redirect to gallery
+    onAuthStateChanged(auth, (user) => {
+      if (user) window.location.href = "./index.html";
+    });
+
+    const loginBtn = document.getElementById("loginBtn");
+    const emailInput = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const errorBox = document.getElementById("errorBox");
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = "block";
+    }
+
+    function hideError() {
+      errorBox.style.display = "none";
+    }
+
+    // Allow Enter key to submit
+    passwordInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") loginBtn.click();
+    });
+
+    loginBtn.addEventListener("click", async () => {
+      hideError();
+      const email = emailInput.value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        showError("Please enter your email and password.");
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Signing in...";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "./index.html";
+      } catch (err) {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Enter the Gallery";
+
+        switch (err.code) {
+          case "auth/user-not-found":
+          case "auth/wrong-password":
+          case "auth/invalid-credential":
+            showError("Invalid email or password. Please try again.");
+            break;
+          case "auth/invalid-email":
+            showError("Please enter a valid email address.");
+            break;
+          case "auth/too-many-requests":
+            showError("Too many attempts. Please wait a moment and try again.");
+            break;
+          default:
+            showError("Something went wrong. Please try again.");
+        }
+      }
+    });
+  </script>
+</body>
+</html>
