@@ -3,165 +3,319 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Register – WEHack2026</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Register – The Wealth Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg:         #f5f0e8;
+      --surface:    #f8f4ec;
+      --surface-2:  #faf7f2;
+      --surface-off:#ede6d8;
+      --border:     #d6ccba;
+      --divider:    #e0d8c8;
+      --text:       #1c1611;
+      --text-muted: #6b5f50;
+      --text-faint: #a89880;
+      --text-inv:   #f8f4ec;
+      --primary:    #7a1e2e;
+      --primary-h:  #5e1522;
+      --primary-hl: #e8d5d9;
+      --gold:       #a07830;
+      --gold-l:     #c49444;
+      --gold-hl:    #f0e6cc;
+      --success:    #2d6a4f;
+      --success-bg: #d8f3dc;
+      --success-border: #95d5b2;
+      --fd: 'Cormorant Garamond', Georgia, serif;
+      --fb: 'Jost', 'Helvetica Neue', sans-serif;
+      --radius-full: 9999px;
+      --radius-lg:   .75rem;
+      --radius-2xl:  1.5rem;
+      --ease: cubic-bezier(0.16,1,0.3,1);
+      --t: 180ms;
+      --sh-modal: 0 24px 80px rgb(10 8 6/.14);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-font-smoothing: antialiased; }
     body {
-      font-family: 'Inter', sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(74, 47, 39, 0.28) 0%, rgba(26, 20, 16, 0) 32%),
-        linear-gradient(180deg, #140f0d 0%, #0f0b09 100%);
-      color: #f5eee6;
-      min-height: 100vh;
-    }
-    .serif { font-family: 'Cormorant Garamond', serif; }
-    .gold-text { color: #c6a268; }
-    .museum-card {
-      background: linear-gradient(180deg, rgba(36, 27, 23, 0.97), rgba(20, 15, 13, 0.98));
-      border: 1px solid rgba(198, 162, 104, 0.22);
-      box-shadow: 0 18px 50px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.02);
-      backdrop-filter: blur(10px);
-    }
-    .gold-input {
-      background: #1c1411;
-      border: 1px solid rgba(198, 162, 104, 0.18);
-      color: #f5eee6;
-      transition: border-color 0.2s;
-    }
-    .gold-input:focus {
-      outline: none;
-      border-color: rgba(198, 162, 104, 0.55);
-    }
-    .gold-input::placeholder { color: rgba(231, 217, 200, 0.4); }
-    .gold-btn {
-      background: #c6a268;
-      color: #000;
-      font-weight: 600;
-      transition: opacity 0.2s;
-    }
-    .gold-btn:hover { opacity: 0.88; }
-    .gold-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .error-box {
-      background: rgba(220, 80, 60, 0.12);
-      border: 1px solid rgba(220, 80, 60, 0.3);
-      color: #f87171;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 14px;
-      display: none;
-    }
-    .success-box {
-      background: rgba(60, 180, 100, 0.12);
-      border: 1px solid rgba(60, 180, 100, 0.3);
-      color: #4ade80;
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 14px;
-      display: none;
-    }
-    .divider {
-      display: flex;
+      min-height: 100vh; font-family: var(--fb);
+      background: var(--bg); color: var(--text);
+      display: flex; flex-direction: column;
       align-items: center;
-      gap: 12px;
-      color: rgba(198, 162, 104, 0.4);
-      font-size: 12px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      padding: 6rem 1rem 3rem;
+      position: relative; overflow-y: auto;
     }
-    .divider::before, .divider::after {
+    body::before {
       content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(198, 162, 104, 0.15);
+      position: fixed; inset: 0; pointer-events: none;
+      background-image:
+        repeating-linear-gradient(90deg,
+          rgb(160 120 48 / .04) 0px, rgb(160 120 48 / .04) 1px,
+          transparent 1px, transparent 100px),
+        radial-gradient(ellipse 80% 60% at 50% 100%,
+          rgb(122 30 46 / .06) 0%, transparent 70%);
+    }
+
+    /* NAV */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+      background: color-mix(in oklch, var(--bg) 92%, transparent);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--divider);
+      padding: 1rem 0;
+    }
+    .nav-inner {
+      max-width: 1200px; margin-inline: auto;
+      padding-inline: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: .75rem;
+      cursor: pointer; text-decoration: none; color: var(--text);
+    }
+    .nav-logo-text {
+      font-family: var(--fd); font-size: clamp(1.25rem,1rem + .75vw,1.75rem);
+      font-weight: 400; letter-spacing: .05em; text-transform: uppercase;
+      line-height: 1; white-space: nowrap;
+    }
+    .nav-link {
+      font-size: .8125rem; color: var(--text-muted); font-weight: 500;
+      letter-spacing: .05em; text-decoration: none;
+      transition: color var(--t) var(--ease);
+    }
+    .nav-link:hover { color: var(--primary); }
+
+    /* WRAP */
+    .register-wrap {
+      position: relative; z-index: 1;
+      width: min(460px, 100%);
+      margin-top: 1.5rem;
+      animation: fadeUp .55s var(--ease) both;
     }
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .fade-up { animation: fadeUp 0.6s ease forwards; }
-    .fade-up-delay { animation: fadeUp 0.6s ease 0.15s forwards; opacity: 0; }
+
+    /* ORNAMENT */
+    .card-ornament { text-align: center; margin-bottom: 1.5rem; }
+    .card-ornament-line {
+      display: flex; align-items: center; justify-content: center; gap: .75rem;
+      margin-bottom: .75rem;
+    }
+    .ornament-rule {
+      flex: 1; max-width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold-l), transparent);
+    }
+    .ornament-diamond {
+      width: 6px; height: 6px; background: var(--gold);
+      transform: rotate(45deg); flex-shrink: 0;
+    }
+    .card-eyebrow {
+      font-family: var(--fb); font-size: .6875rem;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600;
+    }
+
+    /* CARD */
+    .register-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-2xl);
+      padding: 2.5rem 2.5rem 2.25rem;
+      box-shadow: var(--sh-modal);
+      position: relative;
+    }
+    .register-card::before {
+      content: '';
+      position: absolute; inset: 6px;
+      border: 1px solid color-mix(in oklch, var(--gold) 30%, transparent);
+      border-radius: calc(var(--radius-2xl) - 4px);
+      pointer-events: none;
+    }
+
+    .card-heading-wrap { text-align: center; margin-bottom: 2rem; }
+    .card-heading {
+      font-family: var(--fd); font-size: clamp(1.75rem,1.4rem + 1vw,2.25rem);
+      font-weight: 400; line-height: 1.1; color: var(--text);
+    }
+
+    /* ALERTS */
+    .error-box {
+      display: none;
+      background: color-mix(in oklch, #dc3545 10%, transparent);
+      border: 1px solid color-mix(in oklch, #dc3545 35%, transparent);
+      color: #b91c2c; border-radius: var(--radius-lg);
+      padding: .625rem .875rem; font-size: .875rem;
+      margin-bottom: 1.25rem; line-height: 1.5;
+    }
+    .success-box {
+      display: none;
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success); border-radius: var(--radius-lg);
+      padding: .625rem .875rem; font-size: .875rem;
+      margin-bottom: 1.25rem; line-height: 1.5;
+    }
+
+    /* FORM */
+    .form-group { margin-bottom: 1.125rem; }
+    .form-label {
+      display: block; font-size: .6875rem;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600; margin-bottom: .5rem;
+    }
+    .form-input {
+      width: 100%; padding: .8125rem 1.25rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      background: var(--bg); color: var(--text);
+      font-family: var(--fb); font-size: 1rem;
+      transition: border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-hl);
+    }
+    .form-input::placeholder { color: var(--text-faint); }
+
+    .btn-submit {
+      width: 100%; padding: .9375rem 1.5rem;
+      border-radius: var(--radius-full);
+      background: var(--primary); color: var(--text-inv);
+      font-family: var(--fb); font-size: .875rem;
+      font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+      border: none; cursor: pointer; margin-top: .5rem;
+      transition: background var(--t) var(--ease), transform var(--t) var(--ease),
+                  box-shadow var(--t) var(--ease);
+    }
+    .btn-submit:hover:not(:disabled) {
+      background: var(--primary-h);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgb(122 30 46 / .25);
+    }
+    .btn-submit:disabled { opacity: .55; cursor: not-allowed; }
+
+    /* DIVIDER */
+    .divider {
+      display: flex; align-items: center; gap: .75rem;
+      margin: 1.5rem 0;
+      color: var(--text-faint); font-size: .6875rem;
+      letter-spacing: .18em; text-transform: uppercase;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--divider);
+    }
+
+    .card-footer-text {
+      text-align: center; font-size: .875rem; color: var(--text-muted);
+    }
+    .card-footer-text a {
+      color: var(--primary); font-weight: 500;
+      text-decoration: none; margin-left: .25rem;
+      transition: color var(--t) var(--ease);
+    }
+    .card-footer-text a:hover { color: var(--primary-h); text-decoration: underline; }
+
+    /* FOOTER */
+    .page-footer {
+      margin-top: 2rem; text-align: center; position: relative; z-index: 1;
+      font-size: .6875rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--text-faint);
+      animation: fadeUp .55s var(--ease) .2s both;
+    }
   </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen px-4 py-10">
+<body>
 
-  <!-- Logo -->
-  <div class="fade-up text-center mb-8">
-    <h1 class="serif text-4xl md:text-5xl gold-text tracking-wide">WEHack2026</h1>
-    <p class="text-sm text-[#e7d9c8]/60 mt-1 tracking-widest uppercase text-xs">Museum of Financial Wisdom</p>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-logo" href="./index.html">
+        <svg width="28" height="42" viewBox="0 0 36 52" fill="none" aria-hidden="true" style="color:var(--text);flex-shrink:0">
+          <rect x="1" y="2" width="34" height="3.5" rx=".5" fill="currentColor" opacity=".9"/>
+          <rect x="3" y="5.5" width="30" height="2" rx=".5" fill="currentColor" opacity=".75"/>
+          <path d="M5 7.5 C2 8 1 10 2.5 11.5 C4 13 6.5 12 6.5 10.5 C6.5 9.5 5.5 9 5 9.8 C4.6 10.4 5.2 11 5.8 10.7" stroke="currentColor" stroke-width="1" fill="none" opacity=".85"/>
+          <path d="M31 7.5 C34 8 35 10 33.5 11.5 C32 13 29.5 12 29.5 10.5 C29.5 9.5 30.5 9 31 9.8 C31.4 10.4 30.8 11 30.2 10.7" stroke="currentColor" stroke-width="1" fill="none" opacity=".85"/>
+          <rect x="5" y="12.5" width="26" height="1.5" rx=".3" fill="currentColor" opacity=".6"/>
+          <rect x="7" y="14" width="22" height="28" rx=".5" fill="currentColor" opacity=".08"/>
+          <line x1="7"  y1="14" x2="7"  y2="42" stroke="currentColor" stroke-width="1.2" opacity=".75"/>
+          <line x1="10" y1="14" x2="10" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+          <line x1="13" y1="14" x2="13" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+          <line x1="16" y1="14" x2="16" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+          <line x1="18" y1="14" x2="18" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+          <line x1="20" y1="14" x2="20" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+          <line x1="23" y1="14" x2="23" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+          <line x1="26" y1="14" x2="26" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+          <line x1="29" y1="14" x2="29" y2="42" stroke="currentColor" stroke-width="1.2" opacity=".75"/>
+          <rect x="6" y="42" width="24" height="2.5" rx=".4" fill="currentColor" opacity=".7"/>
+          <rect x="4" y="44.5" width="28" height="1.5" rx=".3" fill="currentColor" opacity=".5"/>
+          <rect x="3" y="46" width="30" height="2.5" rx=".4" fill="currentColor" opacity=".8"/>
+          <rect x="1" y="48.5" width="34" height="3" rx=".5" fill="currentColor" opacity=".9"/>
+        </svg>
+        <span class="nav-logo-text">The Wealth Gallery</span>
+      </a>
+      <a class="nav-link" href="./login.html">← Sign In</a>
+    </div>
+  </nav>
+
+  <!-- CARD -->
+  <div class="register-wrap">
+
+    <div class="card-ornament">
+      <div class="card-ornament-line">
+        <div class="ornament-rule"></div>
+        <div class="ornament-diamond"></div>
+        <div class="ornament-rule"></div>
+      </div>
+      <p class="card-eyebrow">Join the Gallery</p>
+    </div>
+
+    <div class="register-card">
+
+      <div class="card-heading-wrap">
+        <h1 class="card-heading">Create Account</h1>
+      </div>
+
+      <div id="errorBox" class="error-box"></div>
+      <div id="successBox" class="success-box"></div>
+
+      <div class="form-group">
+        <label class="form-label" for="nameInput">Full Name</label>
+        <input id="nameInput" type="text" placeholder="Your name" class="form-input" autocomplete="name" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="emailInput">Email</label>
+        <input id="emailInput" type="email" placeholder="you@example.com" class="form-input" autocomplete="email" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="passwordInput">Password</label>
+        <input id="passwordInput" type="password" placeholder="Min. 6 characters" class="form-input" autocomplete="new-password" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="confirmInput">Confirm Password</label>
+        <input id="confirmInput" type="password" placeholder="Repeat password" class="form-input" autocomplete="new-password" />
+      </div>
+
+      <button id="registerBtn" class="btn-submit">Create Account</button>
+
+      <div class="divider">or</div>
+
+      <p class="card-footer-text">
+        Already have an account?
+        <a href="./login.html">Sign in</a>
+      </p>
+
+    </div>
   </div>
 
-  <!-- Card -->
-  <div class="fade-up-delay museum-card w-full max-w-md rounded-[2rem] p-8 md:p-10">
-
-    <div class="text-center mb-8">
-      <p class="uppercase tracking-[0.3em] text-[11px] text-[#c6a268]/70 mb-2">Join the Museum</p>
-      <h2 class="serif text-3xl text-[#f5eee6]">Create Account</h2>
-    </div>
-
-    <div id="errorBox" class="error-box mb-5"></div>
-    <div id="successBox" class="success-box mb-5"></div>
-
-    <div class="space-y-4">
-      <div>
-        <label class="block text-xs uppercase tracking-[0.2em] text-[#c6a268]/70 mb-2">Full Name</label>
-        <input
-          id="nameInput"
-          type="text"
-          placeholder="Your name"
-          class="gold-input w-full rounded-full px-5 py-3.5 text-sm"
-        />
-      </div>
-
-      <div>
-        <label class="block text-xs uppercase tracking-[0.2em] text-[#c6a268]/70 mb-2">Email</label>
-        <input
-          id="emailInput"
-          type="email"
-          placeholder="you@example.com"
-          class="gold-input w-full rounded-full px-5 py-3.5 text-sm"
-        />
-      </div>
-
-      <div>
-        <label class="block text-xs uppercase tracking-[0.2em] text-[#c6a268]/70 mb-2">Password</label>
-        <input
-          id="passwordInput"
-          type="password"
-          placeholder="Min. 6 characters"
-          class="gold-input w-full rounded-full px-5 py-3.5 text-sm"
-        />
-      </div>
-
-      <div>
-        <label class="block text-xs uppercase tracking-[0.2em] text-[#c6a268]/70 mb-2">Confirm Password</label>
-        <input
-          id="confirmInput"
-          type="password"
-          placeholder="Repeat password"
-          class="gold-input w-full rounded-full px-5 py-3.5 text-sm"
-        />
-      </div>
-
-      <button id="registerBtn" class="gold-btn w-full rounded-full py-3.5 text-sm mt-2">
-        Create Account
-      </button>
-    </div>
-
-    <div class="divider my-6">or</div>
-
-    <div class="text-center text-sm text-[#e7d9c8]/60">
-      Already have an account?
-      <a href="./login.html" class="gold-text hover:underline ml-1 font-medium">Sign in</a>
-    </div>
-
-  </div>
-
-  <p class="mt-8 text-xs text-[#e7d9c8]/30 tracking-widest uppercase fade-up">
-    Curated Wisdom · Living History
-  </p>
+  <p class="page-footer">Curated Wisdom · Living History · Financial Education</p>
 
   <!-- Firebase -->
   <script type="module">
@@ -169,95 +323,73 @@
     import { getAuth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
-  apiKey: "AIzaSyBZZB1XTUU_PAPBrSNae5EScX7BVeX_vI8",
-  authDomain: "wehack2026-24e14.firebaseapp.com",
-  projectId: "wehack2026-24e14",
-  storageBucket: "wehack2026-24e14.firebasestorage.app",
-  messagingSenderId: "719605704671",
-  appId: "1:719605704671:web:53ffff1887d7021888866a",
-  measurementId: "G-1R7KWB6LRN"
-};
+      apiKey: "AIzaSyBZZB1XTUU_PAPBrSNae5EScX7BVeX_vI8",
+      authDomain: "wehack2026-24e14.firebaseapp.com",
+      projectId: "wehack2026-24e14",
+      storageBucket: "wehack2026-24e14.firebasestorage.app",
+      messagingSenderId: "719605704671",
+      appId: "1:719605704671:web:53ffff1887d7021888866a",
+      measurementId: "G-1R7KWB6LRN"
+    };
 
-    const app = initializeApp(firebaseConfig);
+    const app  = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // If already logged in, redirect
     onAuthStateChanged(auth, (user) => {
       if (user) window.location.href = "./index.html";
     });
 
-    const registerBtn = document.getElementById("registerBtn");
-    const nameInput = document.getElementById("nameInput");
-    const emailInput = document.getElementById("emailInput");
+    const registerBtn   = document.getElementById("registerBtn");
+    const nameInput     = document.getElementById("nameInput");
+    const emailInput    = document.getElementById("emailInput");
     const passwordInput = document.getElementById("passwordInput");
-    const confirmInput = document.getElementById("confirmInput");
-    const errorBox = document.getElementById("errorBox");
-    const successBox = document.getElementById("successBox");
+    const confirmInput  = document.getElementById("confirmInput");
+    const errorBox      = document.getElementById("errorBox");
+    const successBox    = document.getElementById("successBox");
 
-    function showError(msg) {
-      errorBox.textContent = msg;
-      errorBox.style.display = "block";
-      successBox.style.display = "none";
-    }
+    function showError(msg)   { errorBox.textContent = msg;   errorBox.style.display = "block";  successBox.style.display = "none"; }
+    function showSuccess(msg) { successBox.textContent = msg; successBox.style.display = "block"; errorBox.style.display = "none";  }
+    function hideMessages()   { errorBox.style.display = "none"; successBox.style.display = "none"; }
 
-    function showSuccess(msg) {
-      successBox.textContent = msg;
-      successBox.style.display = "block";
-      errorBox.style.display = "none";
-    }
-
-    function hideMessages() {
-      errorBox.style.display = "none";
-      successBox.style.display = "none";
-    }
+    confirmInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") registerBtn.click();
+    });
 
     registerBtn.addEventListener("click", async () => {
       hideMessages();
-
-      const name = nameInput.value.trim();
-      const email = emailInput.value.trim();
+      const name     = nameInput.value.trim();
+      const email    = emailInput.value.trim();
       const password = passwordInput.value;
-      const confirm = confirmInput.value;
+      const confirm  = confirmInput.value;
 
       if (!name || !email || !password || !confirm) {
-        showError("Please fill in all fields.");
-        return;
+        showError("Please fill in all fields."); return;
       }
-
       if (password.length < 6) {
-        showError("Password must be at least 6 characters.");
-        return;
+        showError("Password must be at least 6 characters."); return;
       }
-
       if (password !== confirm) {
-        showError("Passwords do not match.");
-        return;
+        showError("Passwords do not match."); return;
       }
 
-      registerBtn.disabled = true;
-      registerBtn.textContent = "Creating account...";
+      registerBtn.disabled    = true;
+      registerBtn.textContent = "Creating account…";
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, { displayName: name });
-        showSuccess("Account created! Redirecting...");
-        setTimeout(() => {
-          window.location.href = "./index.html";
-        }, 1200);
+        showSuccess("Account created! Redirecting to the gallery…");
+        setTimeout(() => { window.location.href = "./index.html"; }, 1400);
       } catch (err) {
-        registerBtn.disabled = false;
+        registerBtn.disabled    = false;
         registerBtn.textContent = "Create Account";
-
         switch (err.code) {
           case "auth/email-already-in-use":
-            showError("This email is already registered. Try signing in.");
-            break;
+            showError("This email is already registered. Try signing in."); break;
           case "auth/invalid-email":
-            showError("Please enter a valid email address.");
-            break;
+            showError("Please enter a valid email address."); break;
           case "auth/weak-password":
-            showError("Password is too weak. Use at least 6 characters.");
-            break;
+            showError("Password is too weak. Use at least 6 characters."); break;
           default:
             showError("Something went wrong. Please try again.");
         }
