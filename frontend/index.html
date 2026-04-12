@@ -1,360 +1,801 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Your Project Name</title>
-
-  <script src="https://cdn.tailwindcss.com"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Wealth Gallery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(74, 47, 39, 0.28) 0%, rgba(26, 20, 16, 0) 32%),
-        linear-gradient(180deg, #140f0d 0%, #0f0b09 100%);
-      color: #f5eee6;
-    }
+    :root {
+      --text-xs:   clamp(0.875rem, 0.82rem + 0.25vw, 1rem);
+      --text-sm:   clamp(1rem,     0.95rem + 0.30vw, 1.125rem);
+      --text-base: clamp(1.125rem, 1.05rem + 0.25vw, 1.3125rem);
+      --text-lg:   clamp(1.3125rem, 1.15rem + 0.75vw, 1.6875rem);
+      --text-xl:   clamp(1.5rem,   1.20rem + 1.25vw, 2.25rem);
+      --text-2xl:  clamp(2rem,     1.20rem + 2.50vw, 3.5rem);
+      --text-hero: clamp(3rem,     0.50rem + 7.00vw, 8rem);
 
-    .serif {
-      font-family: 'Cormorant Garamond', serif;
-    }
+      --space-1:.25rem; --space-2:.5rem;  --space-3:.75rem; --space-4:1rem;
+      --space-5:1.25rem;--space-6:1.5rem; --space-8:2rem;   --space-10:2.5rem;
+      --space-12:3rem;  --space-16:4rem;  --space-20:5rem;  --space-24:6rem;
 
-    .gold-text {
-      color: #c6a268;
-    }
+      --bg:           #f5f0e8;
+      --surface:      #f8f4ec;
+      --surface-2:    #faf7f2;
+      --surface-off:  #ede6d8;
+      --border:       #d6ccba;
+      --divider:      #e0d8c8;
+      --text:         #1c1611;
+      --text-muted:   #6b5f50;
+      --text-faint:   #a89880;
+      --text-inv:     #f8f4ec;
+      --primary:      #7a1e2e;
+      --primary-h:    #5e1522;
+      --primary-hl:   #e8d5d9;
+      --gold:         #a07830;
+      --gold-l:       #c49444;
+      --gold-hl:      #f0e6cc;
 
-    .museum-card {
-      background: linear-gradient(180deg, rgba(36, 27, 23, 0.97), rgba(20, 15, 13, 0.98));
-      border: 1px solid rgba(198, 162, 104, 0.22);
-      box-shadow:
-        0 18px 50px rgba(0, 0, 0, 0.5),
-        inset 0 0 0 1px rgba(255,255,255,0.02);
-      backdrop-filter: blur(10px);
+      --radius-sm:.25rem; --radius-md:.5rem; --radius-lg:.75rem;
+      --radius-xl:1rem;   --radius-full:9999px;
+      --ease: cubic-bezier(0.16,1,0.3,1); --t:180ms;
+      --sh-sm:  0 1px 3px rgb(28 22 17/.08);
+      --sh-md:  0 4px 16px rgb(28 22 17/.12);
+      --sh-lg:  0 12px 40px rgb(28 22 17/.18);
+      --sh-frame: 0 8px 40px rgb(10 8 6/.28), 0 2px 8px rgb(10 8 6/.14);
+      --sh-modal: 0 24px 80px rgb(10 8 6/.26);
+      --fd: 'Cormorant Garamond',Georgia,serif;
+      --fb: 'Jost','Helvetica Neue',sans-serif;
     }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+    body{min-height:100dvh;line-height:1.6;font-family:var(--fb);font-size:var(--text-base);color:var(--text);background:var(--bg)}
+    img{display:block;max-width:100%;height:auto}
+    ul{list-style:none}
+    button{cursor:pointer;background:none;border:none;font:inherit;color:inherit}
+    a{color:inherit;text-decoration:none}
+    h1,h2,h3,h4{font-family:var(--fd);text-wrap:balance}
+    p,li{text-wrap:pretty}
+    ::selection{background:var(--primary-hl)}
+    :focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:var(--radius-sm)}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
-    .portrait-frame {
-      background: linear-gradient(145deg, #8b6b4a, #c6a268, #8b6b4a);
-      padding: 10px;
-      border-radius: 22px;
-      box-shadow:
-        0 10px 24px rgba(0,0,0,0.45),
-        inset 0 1px 3px rgba(255,255,255,0.25);
+    /* ── NAV ── */
+    .nav{position:sticky;top:0;z-index:200;background:color-mix(in oklch,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--divider);padding:var(--space-4) 0}
+    .nav-inner{max-width:1200px;margin-inline:auto;padding-inline:var(--space-8);display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{display:flex;align-items:center;gap:var(--space-3);cursor:pointer;color:var(--text)}.nav-logo-text{font-family:var(--fd);font-size:clamp(1.25rem,1rem + .75vw,1.75rem);font-weight:400;letter-spacing:.05em;text-transform:uppercase;line-height:1;white-space:nowrap}
+    
+    .nav-actions{display:flex;gap:var(--space-3);align-items:center}
+    .btn-ghost{padding:var(--space-2) var(--space-5);border-radius:var(--radius-full);border:1px solid var(--border);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;transition:all var(--t) var(--ease)}
+    .btn-ghost:hover{border-color:var(--primary);color:var(--primary)}
+    .btn-maroon{padding:var(--space-2) var(--space-5);border-radius:var(--radius-full);background:var(--primary);color:var(--text-inv);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;transition:background var(--t) var(--ease)}
+    .btn-maroon:hover{background:var(--primary-h)}
+
+    /* ── HERO ── */
+    .hero{position:relative;overflow:hidden;min-height:85vh;display:flex;align-items:center;justify-content:center}
+    .hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#2a1a12 0%,#1a0e0a 45%,#0d0807 100%)}
+    .hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse 55% 75% at 50% 115%,oklch(0.35 .05 40/.55) 0%,transparent 70%),radial-gradient(ellipse 28% 38% at 18% 50%,oklch(0.45 .06 50/.1) 0%,transparent 60%),radial-gradient(ellipse 28% 38% at 82% 50%,oklch(0.45 .06 50/.1) 0%,transparent 60%)}
+    .hero-arch{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,oklch(.6 .03 50/.04) 0px,oklch(.6 .03 50/.04) 1px,transparent 1px,transparent 120px)}
+    .hero-content{position:relative;text-align:center;padding:var(--space-20) var(--space-8);max-width:960px}
+    .hero-eyebrow{font-family:var(--fb);font-size:var(--text-xs);letter-spacing:.25em;text-transform:uppercase;color:var(--gold-l);margin-bottom:var(--space-6);display:flex;align-items:center;justify-content:center;gap:var(--space-4)}
+    .hero-eyebrow span{color:oklch(.6 .05 50/.5)}
+    .hero-title{font-family:var(--fd);font-size:var(--text-hero);font-weight:300;color:#f0e8d8;letter-spacing:-.01em;line-height:1.0;margin-bottom:var(--space-6)}
+
+    .hero-subtitle-main{font-family:var(--fd);font-size:clamp(1.5rem,1rem + 2.5vw,3rem);font-weight:300;color:oklch(.78 .03 50/.75);letter-spacing:.02em;line-height:1.2;margin-bottom:var(--space-6);font-style:italic}
+    .hero-sub{font-size:var(--text-lg);color:oklch(.75 .03 50/.78);font-weight:300;margin-bottom:var(--space-10);max-width:52ch;margin-inline:auto;line-height:1.7}
+    .hero-ctas{display:flex;gap:var(--space-4);justify-content:center;flex-wrap:wrap}
+    .btn-hf{padding:var(--space-3) var(--space-8);border-radius:var(--radius-full);background:var(--primary);color:#f8f4ec;font-size:var(--text-sm);font-weight:500;letter-spacing:.08em;text-transform:uppercase;border:none;transition:all var(--t) var(--ease)}
+    .btn-hf:hover{background:var(--primary-h);transform:translateY(-1px);box-shadow:var(--sh-md)}
+    .btn-ho{padding:var(--space-3) var(--space-8);border-radius:var(--radius-full);border:1px solid oklch(.7 .03 50/.4);color:#e8d8c0;font-size:var(--text-sm);font-weight:500;letter-spacing:.08em;text-transform:uppercase;background:transparent;transition:all var(--t) var(--ease)}
+    .btn-ho:hover{border-color:oklch(.7 .03 50/.8);background:oklch(.7 .03 50/.08)}
+
+    /* ── GALLERY ── */
+    .gallery-section{padding:clamp(var(--space-16),8vw,var(--space-24)) var(--space-8);max-width:1200px;margin-inline:auto}
+    .section-label{font-family:var(--fb);font-size:var(--text-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--primary);font-weight:600;margin-bottom:var(--space-3)}
+    .gallery-intro{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12);align-items:start;margin-bottom:var(--space-12)}
+    .gallery-heading{font-size:var(--text-2xl);font-weight:400;font-style:italic;line-height:1.15}
+    .gallery-desc{font-size:var(--text-base);color:var(--text-muted);padding-top:var(--space-4);line-height:1.8}
+    .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-8)}
+    /* loading skeleton */
+    .skeleton-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-4);animation:shimmer 1.4s ease-in-out infinite}
+    .skeleton-img{aspect-ratio:3/4;background:var(--surface-off);border-radius:var(--radius-sm);margin-bottom:var(--space-4)}
+    .skeleton-line{height:14px;background:var(--surface-off);border-radius:var(--radius-sm);margin-bottom:var(--space-3)}
+    .skeleton-line.short{width:60%}
+    @keyframes shimmer{0%,100%{opacity:.7}50%{opacity:.4}}
+    /* exhibit card */
+    .exhibit-card{cursor:pointer;transition:transform .3s var(--ease)}
+    .exhibit-card:hover{transform:translateY(-4px)}
+    .exhibit-card:hover .frame-shadow{box-shadow:var(--sh-lg)}
+    .frame-wrap{position:relative;padding:var(--space-4);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);margin-bottom:var(--space-6)}
+    .frame-wrap::before{content:'';position:absolute;inset:6px;border:2px solid color-mix(in oklch,var(--gold) 55%,transparent);border-radius:calc(var(--radius-md) - 2px);pointer-events:none;z-index:1;box-shadow:inset 0 0 0 1px color-mix(in oklch,var(--gold-l) 25%,transparent)}
+    .frame-shadow{aspect-ratio:3/4;overflow:hidden;border-radius:var(--radius-sm);background:var(--surface-off);box-shadow:var(--sh-frame);transition:box-shadow .3s var(--ease)}
+    .frame-shadow img{width:100%;height:100%;object-fit:cover;filter:sepia(18%) contrast(1.05)}
+    
+    
+    
+    .card-num{font-size:var(--text-xs);font-family:var(--fb);letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:var(--space-2)}
+    .card-name{font-family:var(--fd);font-size:var(--text-xl);font-weight:400;margin-bottom:var(--space-1)}
+    .card-years{font-size:var(--text-xs);color:var(--text-muted);letter-spacing:.06em;margin-bottom:var(--space-3)}
+    .card-tagline{font-family:var(--fd);font-size:var(--text-base);font-style:italic;color:var(--text-muted);margin-bottom:var(--space-3);line-height:1.5}
+    .card-desc{font-size:var(--text-sm);color:var(--text-muted);line-height:1.7;margin-bottom:var(--space-4)}
+    .card-tags{display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4)}
+    .tag{font-size:var(--text-xs);padding:2px var(--space-3);border-radius:var(--radius-full);border:1px solid var(--border);color:var(--text-muted);letter-spacing:.06em;white-space:nowrap}
+    .card-link{font-size:var(--text-sm);color:var(--primary);font-weight:500;letter-spacing:.05em;display:inline-flex;align-items:center;gap:var(--space-2);transition:gap var(--t) var(--ease)}
+    .card-link::after{content:'→'}
+    .exhibit-card:hover .card-link{gap:var(--space-3)}
+
+    /* ── BANNER ── */
+    .banner{background:var(--primary);padding:var(--space-16) var(--space-8);text-align:center;position:relative;overflow:hidden}
+    .banner::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,oklch(.9 0 0/.04) 0px,oklch(.9 0 0/.04) 1px,transparent 1px,transparent 40px)}
+    .banner-text{position:relative;font-family:var(--fd);font-size:clamp(1.5rem,1rem + 2.5vw,3.5rem);font-weight:300;font-style:italic;color:#f5e8d8;line-height:1.2}
+    .banner-attr{position:relative;margin-top:var(--space-4);font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:oklch(.85 .03 30/.65)}
+
+    /* ── FOOTER ── */
+    .footer{background:var(--surface);border-top:1px solid var(--divider);padding:var(--space-12) var(--space-8);text-align:center}
+    .footer-logo{font-family:var(--fd);font-size:var(--text-xl);font-weight:400;letter-spacing:.06em;text-transform:uppercase;margin-bottom:var(--space-2)}
+    .footer-sub{font-size:var(--text-xs);color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
+
+    /* ── MODAL ── */
+    .modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow:hidden;flex-direction:column}
+    .modal-overlay.open{display:flex;animation:page-slide-in .35s cubic-bezier(0.16,1,0.3,1) both}
+    @keyframes page-slide-in{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+    .modal-shell{width:100%;height:100%;background:var(--bg);display:flex;overflow:hidden;border-radius:0;box-shadow:none;border:none}
+
+    /* ── EXHIBIT SIDEBAR ── */
+
+    .exhibit-page-nav{background:color-mix(in oklch,var(--bg) 95%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--divider);padding:var(--space-3) 0;flex-shrink:0}
+    .exhibit-page-nav-inner{max-width:100%;padding-inline:var(--space-8);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+    .exhibit-breadcrumb{display:flex;align-items:center;gap:var(--space-3);font-size:var(--text-xs);letter-spacing:.08em}
+    .breadcrumb-home{display:flex;align-items:center;gap:var(--space-2);color:var(--text-muted);font-family:var(--fd);font-size:var(--text-sm);font-weight:400;letter-spacing:.05em;text-transform:uppercase;transition:color var(--t) var(--ease)}
+    .breadcrumb-home:hover{color:var(--primary)}
+    .bc-sep{color:var(--text-faint);font-size:var(--text-xs)}
+    .bc-current{color:var(--text);font-family:var(--fd);font-size:var(--text-sm);font-weight:500}
+    .exhibit-page-nav-actions{display:flex;align-items:center;gap:var(--space-3)}
+    .btn-council-nav{padding:var(--space-2) var(--space-4);border-radius:var(--radius-full);border:1px solid var(--border);font-size:var(--text-xs);font-weight:500;letter-spacing:.06em;transition:all var(--t) var(--ease);background:var(--surface-off)}
+    .btn-council-nav:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-close-nav{padding:var(--space-2) var(--space-5);border-radius:var(--radius-full);background:var(--primary);color:var(--text-inv);font-size:var(--text-xs);font-weight:500;letter-spacing:.06em;transition:background var(--t) var(--ease)}
+    .btn-close-nav:hover{background:var(--primary-h)}
+    .exhibit-sidebar{width:400px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--divider);padding:var(--space-10) var(--space-8);display:flex;flex-direction:column;align-items:center;overflow-y:auto;height:100vh}
+    .back-btn{width:100%;display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);font-weight:500;margin-bottom:var(--space-8);padding:var(--space-2) 0;transition:color var(--t) var(--ease)}
+    .back-btn:hover{color:var(--primary)}
+    .back-btn::before{content:'←'}
+    .sidebar-name{font-family:var(--fd);font-size:var(--text-2xl);font-weight:400;text-align:center;margin-bottom:var(--space-1)}
+    .sidebar-years{font-size:var(--text-sm);color:var(--text-muted);margin-bottom:var(--space-2);text-align:center}
+    .sidebar-field{font-size:var(--text-xs);color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:var(--space-6);text-align:center}
+    .portrait-wrap{position:relative;width:230px;margin-bottom:var(--space-8);padding:var(--space-3);background:var(--bg);border:1px solid var(--border);box-shadow:var(--sh-frame)}
+    .portrait-wrap::before{content:'';position:absolute;inset:4px;border:1px solid color-mix(in oklch,var(--gold) 50%,transparent);pointer-events:none;z-index:1}
+    .portrait-wrap img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:sepia(15%) contrast(1.05);display:block}
+    .sidebar-lbl{font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--primary);font-weight:600;margin-bottom:var(--space-2);text-align:center}
+    .sidebar-tagline{font-family:var(--fd);font-size:var(--text-lg);font-style:italic;text-align:center;line-height:1.4;margin-bottom:var(--space-5);color:var(--text)}
+    .sidebar-ilbl{font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);font-weight:600;margin-bottom:var(--space-2);text-align:center}
+    .sidebar-intro{font-size:var(--text-sm);color:var(--text-muted);text-align:center;line-height:1.8;margin-bottom:var(--space-6);max-width:34ch}
+    .sidebar-acts{display:flex;flex-direction:column;gap:var(--space-3);width:100%}
+    .btn-play{display:flex;align-items:center;justify-content:center;gap:var(--space-2);padding:var(--space-3) var(--space-5);border-radius:var(--radius-full);border:1px solid var(--border);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;transition:all var(--t) var(--ease)}
+    .btn-play:hover{border-color:var(--primary);color:var(--primary)}
+    .btn-council-sm{display:flex;align-items:center;justify-content:center;gap:var(--space-2);padding:var(--space-3) var(--space-5);border-radius:var(--radius-full);border:1px solid var(--border);background:var(--surface-off);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;transition:all var(--t) var(--ease)}
+    .btn-council-sm:hover{border-color:var(--gold);color:var(--gold)}
+
+    /* ── CHAT ── */
+    .chat-chamber{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);height:100vh}
+    .chamber-header{padding:var(--space-3) var(--space-6);border-bottom:1px solid var(--divider);display:flex;align-items:center;background:var(--surface-2);flex-shrink:0}
+    .chamber-title{font-size:var(--text-xs);letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--text-muted)}
+    .chamber-close{font-size:var(--text-xs);font-weight:500;letter-spacing:.05em;padding:var(--space-1) var(--space-3);border-radius:var(--radius-full);border:1px solid var(--border);color:var(--text-muted);transition:all var(--t) var(--ease)}
+    .chamber-close:hover{border-color:var(--primary);color:var(--primary)}
+    .suggestions-bar{padding:var(--space-3) var(--space-6);border-bottom:1px solid var(--divider);display:flex;gap:var(--space-2);flex-wrap:wrap;background:var(--bg);flex-shrink:0;overflow-x:auto}
+    .chip{font-size:var(--text-xs);padding:var(--space-2) var(--space-4);border-radius:var(--radius-full);border:1px solid var(--border);color:var(--text-muted);transition:all var(--t) var(--ease);cursor:pointer;white-space:nowrap;background:transparent}
+    .chip:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-hl)}
+    .chat-msgs{flex:1;overflow-y:auto;padding:var(--space-8) var(--space-6);display:flex;flex-direction:column;gap:var(--space-5);scroll-behavior:smooth}
+    .chat-msgs::-webkit-scrollbar{width:5px}
+    .chat-msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:var(--radius-full)}
+    .msg-row{display:flex}
+    .msg-row.user{justify-content:flex-end}
+    .msg-row.ai{justify-content:flex-start}
+    .bubble{max-width:68%;padding:var(--space-4) var(--space-5);border-radius:var(--radius-lg);line-height:1.7;font-size:var(--text-base)}
+    .bubble.ai{background:var(--surface);border:1px solid var(--border);font-family:var(--fd);font-size:var(--text-lg);font-style:italic;color:var(--text);border-radius:0 var(--radius-lg) var(--radius-lg) var(--radius-lg)}
+    .bubble.ai .footnote{margin-top:var(--space-3);padding-top:var(--space-3);border-top:1px solid var(--divider);font-family:var(--fb);font-size:var(--text-xs);font-style:normal;color:var(--text-faint);letter-spacing:.05em}
+    .bubble.user{background:var(--primary);color:var(--text-inv);font-size:var(--text-base);border-radius:var(--radius-lg) 0 var(--radius-lg) var(--radius-lg)}
+    .typing-dots{display:flex;gap:5px;align-items:center;padding:var(--space-2) 0}
+    .typing-dots span{width:8px;height:8px;border-radius:50%;background:var(--text-muted);animation:typing 1.2s ease-in-out infinite}
+    .typing-dots span:nth-child(2){animation-delay:.2s}
+    .typing-dots span:nth-child(3){animation-delay:.4s}
+    @keyframes typing{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+    .chat-input-row{padding:var(--space-4) var(--space-6);background:var(--surface-2);border-top:1px solid var(--divider);display:flex;gap:var(--space-3);align-items:flex-end;flex-shrink:0}
+    .chat-input{flex:1;padding:var(--space-3) var(--space-5);border-radius:var(--radius-lg);border:1px solid var(--border);background:var(--bg);font-size:var(--text-base);font-family:var(--fb);color:var(--text);resize:none;min-height:48px;max-height:120px;transition:border-color var(--t) var(--ease)}
+    .chat-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-hl)}
+    .chat-input::placeholder{color:var(--text-faint)}
+    .btn-send{padding:var(--space-3) var(--space-5);border-radius:var(--radius-lg);background:var(--primary);color:var(--text-inv);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;min-height:48px;flex-shrink:0;transition:background var(--t) var(--ease)}
+    .btn-send:hover{background:var(--primary-h)}
+
+    /* ── COUNCIL MODAL ── */
+
+    .council-overlay{display:none;position:fixed;inset:0;z-index:400;background:oklch(0.08 0.01 40/.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:var(--space-6)}
+    .council-overlay.open{display:flex}
+    .council-shell{width:min(780px,94vw);max-height:86vh;background:var(--bg);border-radius:var(--radius-xl);border:1px solid var(--border);box-shadow:var(--sh-modal);display:flex;flex-direction:column;overflow:hidden}
+    .council-header{padding:var(--space-6) var(--space-8);border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;background:var(--surface)}
+    .council-title{font-family:var(--fd);font-size:var(--text-xl);font-weight:400}
+    .council-close{width:32px;height:32px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--text-muted);transition:color var(--t) var(--ease)}
+    .council-close:hover{color:var(--primary)}
+    .council-body{flex:1;overflow-y:auto;padding:var(--space-8)}
+    .council-form{display:flex;gap:var(--space-3);margin-bottom:var(--space-8)}
+    .council-input{flex:1;padding:var(--space-3) var(--space-5);border-radius:var(--radius-full);border:1px solid var(--border);background:var(--surface);font-size:var(--text-base);font-family:var(--fb);color:var(--text);transition:border-color var(--t) var(--ease)}
+    .council-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-hl)}
+    .council-input::placeholder{color:var(--text-faint)}
+    .btn-compare{padding:var(--space-3) var(--space-6);border-radius:var(--radius-full);background:var(--primary);color:var(--text-inv);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;transition:background var(--t) var(--ease);flex-shrink:0}
+    .btn-compare:hover{background:var(--primary-h)}
+    .council-results{display:flex;flex-direction:column;gap:var(--space-5)}
+    .council-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--space-5) var(--space-6)}
+    .council-card-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-3)}
+    .council-card-name{font-family:var(--fd);font-size:var(--text-lg);font-weight:500}
+    .council-tags{display:flex;gap:var(--space-2)}
+    .council-card-text{font-family:var(--fd);font-size:var(--text-base);font-style:italic;color:var(--text-muted);line-height:1.7}
+    .consensus-box{display:none;margin-top:var(--space-8);background:var(--gold-hl);border:1px solid color-mix(in oklch,var(--gold) 40%,transparent);border-radius:var(--radius-lg);padding:var(--space-6)}
+    .consensus-box.visible{display:block}
+    .consensus-lbl{font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:var(--space-3)}
+    .consensus-text{font-family:var(--fd);font-size:var(--text-base);font-style:italic;line-height:1.7}
+
+    /* ── ERROR BANNER ── */
+    .error-msg{background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius-md);padding:var(--space-4) var(--space-6);font-size:var(--text-sm);color:#856404;margin-bottom:var(--space-6);grid-column:1/-1}
+
+    /* ── SCROLL REVEALS ── */
+    @supports(animation-timeline:scroll()){
+      .fade-in{opacity:0;animation:fade-reveal linear both;animation-timeline:view();animation-range:entry 0% entry 75%}
     }
+    @keyframes fade-reveal{to{opacity:1}}
 
-    .portrait-inner {
-      background: #17110e;
-      border-radius: 14px;
-      overflow: hidden;
-      aspect-ratio: 4 / 5;
+    /* ── RESPONSIVE ── */
+    @media(max-width:960px){
+      .gallery-intro{grid-template-columns:1fr}
+      .gallery-grid{grid-template-columns:1fr 1fr}
+      .modal-shell{flex-direction:column;height:min(94vh,94vh)}
+      .exhibit-sidebar{width:100%;max-height:280px;flex-direction:row;align-items:flex-start;gap:var(--space-6);overflow-x:auto}
+      .portrait-wrap{width:90px;flex-shrink:0;margin-bottom:0}
     }
-
-    .chat-scroll {
-      scroll-behavior: smooth;
-    }
-
-    .chat-scroll::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .chat-scroll::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .chat-scroll::-webkit-scrollbar-thumb {
-      background: linear-gradient(
-        to bottom,
-        rgba(198, 162, 104, 0.6),
-        rgba(198, 162, 104, 0.3)
-      );
-      border-radius: 999px;
-    }
-
-    .chat-scroll::-webkit-scrollbar-thumb:hover {
-      background: rgba(198, 162, 104, 0.8);
-    }
-
-    .hero-glow {
-      text-shadow: 0 0 28px rgba(198, 162, 104, 0.12);
-    }
-
-    .gallery-card {
-      transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
-    }
-
-    .gallery-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(198, 162, 104, 0.34);
-      box-shadow: 0 16px 34px rgba(0,0,0,0.45);
-    }
-
-    .modal-shell {
-      width: min(1400px, 96vw);
-      height: min(860px, 90vh);
-    }
-
-    @media (max-width: 1024px) {
-      .modal-shell {
-        width: min(96vw, 96vw);
-        height: min(92vh, 92vh);
-      }
+    @media(max-width:600px){
+      .gallery-grid{grid-template-columns:1fr}
+      .hero-ctas{flex-direction:column;align-items:center}
+      .council-form{flex-direction:column}
     }
   </style>
 </head>
-<body class="min-h-screen">
+<body>
 
-  <header class="border-b border-[#c6a268]/10">
-    <div class="max-w-7xl mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4">
-      <div>
-        <h1 class="serif text-3xl md:text-4xl gold-text tracking-wide">Your Project Name</h1>
-        <p class="text-sm text-[#e7d9c8]/70">An interactive institution of financial history</p>
-      </div>
-
-      <div class="flex gap-3 shrink-0">
-        <button id="loginBtn" class="px-4 py-2 rounded-full border border-[#c6a268]/35 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
-          Login
-        </button>
-        <button id="signupBtn" class="px-4 py-2 rounded-full bg-[#c6a268] text-black font-semibold text-sm hover:opacity-90 transition">
-          Create Account
-        </button>
-      </div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="scrollToGallery()">
+      <svg width="36" height="52" viewBox="0 0 36 52" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <!-- Abacus (top flat slab) -->
+        <rect x="1" y="2" width="34" height="3.5" rx=".5" fill="currentColor" opacity=".9"/>
+        <!-- Echinus (ovolo) -->
+        <rect x="3" y="5.5" width="30" height="2" rx=".5" fill="currentColor" opacity=".75"/>
+        <!-- Left volute scroll -->
+        <path d="M5 7.5 C2 8 1 10 2.5 11.5 C4 13 6.5 12 6.5 10.5 C6.5 9.5 5.5 9 5 9.8 C4.6 10.4 5.2 11 5.8 10.7" stroke="currentColor" stroke-width="1" fill="none" opacity=".85"/>
+        <!-- Right volute scroll -->
+        <path d="M31 7.5 C34 8 35 10 33.5 11.5 C32 13 29.5 12 29.5 10.5 C29.5 9.5 30.5 9 31 9.8 C31.4 10.4 30.8 11 30.2 10.7" stroke="currentColor" stroke-width="1" fill="none" opacity=".85"/>
+        <!-- Neck band -->
+        <rect x="5" y="12.5" width="26" height="1.5" rx=".3" fill="currentColor" opacity=".6"/>
+        <!-- Shaft with fluting (vertical lines) -->
+        <rect x="7" y="14" width="22" height="28" rx=".5" fill="currentColor" opacity=".08"/>
+        <line x1="7"  y1="14" x2="7"  y2="42" stroke="currentColor" stroke-width="1.2" opacity=".75"/>
+        <line x1="10" y1="14" x2="10" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+        <line x1="13" y1="14" x2="13" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+        <line x1="16" y1="14" x2="16" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+        <line x1="18" y1="14" x2="18" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+        <line x1="20" y1="14" x2="20" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+        <line x1="23" y1="14" x2="23" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+        <line x1="26" y1="14" x2="26" y2="42" stroke="currentColor" stroke-width=".7" opacity=".45"/>
+        <line x1="29" y1="14" x2="29" y2="42" stroke="currentColor" stroke-width="1.2" opacity=".75"/>
+        <!-- Base torus (top) -->
+        <rect x="6" y="42" width="24" height="2.5" rx=".4" fill="currentColor" opacity=".7"/>
+        <!-- Scotias (recessed) -->
+        <rect x="4" y="44.5" width="28" height="1.5" rx=".3" fill="currentColor" opacity=".5"/>
+        <!-- Base torus (bottom) -->
+        <rect x="3" y="46" width="30" height="2.5" rx=".4" fill="currentColor" opacity=".8"/>
+        <!-- Stylobate (ground step) -->
+        <rect x="1" y="48.5" width="34" height="3" rx=".5" fill="currentColor" opacity=".9"/>
+      </svg>
+      <div class="nav-logo-text">The Wealth Gallery</div>
     </div>
-  </header>
+    <div class="nav-actions">
+      <button class="btn-ghost" id="navLoginBtn">Login</button>
+      <button class="btn-maroon" onclick="scrollToGallery()">Enter Gallery</button>
+    </div>
+  </div>
+</nav>
 
-  <section class="max-w-7xl mx-auto px-5 md:px-8 pt-16 md:pt-20 pb-12 md:pb-16">
-    <div class="text-center max-w-5xl mx-auto">
-      <p class="uppercase tracking-[0.35em] text-[11px] md:text-xs text-[#c6a268]/75 mb-5">
-        Curated Wisdom • Living History • Financial Education
-      </p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-arch"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Curated Wisdom <span>·</span> Living History <span>·</span> Financial Education</p>
+    <h1 class="hero-title">The Wealth Gallery</h1>
+    <p class="hero-subtitle-main">History Comes Alive</p>
+    <p class="hero-sub">Step into a museum of timeless financial wisdom. Speak directly with the legends who shaped wealth, discipline, and opportunity.</p>
+    <div class="hero-ctas">
+      <button class="btn-hf" onclick="scrollToGallery()">Enter the Gallery</button>
+      <button class="btn-ho" id="heroCouncilBtn">Ask the Council</button>
+    </div>
+  </div>
+</section>
 
-      <h2 class="serif text-5xl sm:text-6xl md:text-7xl lg:text-[5.8rem] leading-[0.95] hero-glow gold-text mb-6">
-        History Comes Alive to Guide Your Future Decisions
-      </h2>
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery-section">
+  <div class="section-label">The Collection</div>
+  <div class="gallery-intro">
+    <h2 class="gallery-heading">Talk to History's Financial Icons</h2>
+    <p class="gallery-desc">Select an exhibit to enter a private conversation chamber. Receive advice grounded in the real historical philosophy of each financial legend.</p>
+  </div>
+  <div class="gallery-grid" id="gallery">
+    <!-- skeletons while loading -->
+    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div>
+    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div>
+    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div>
+  </div>
+</section>
 
-      <p class="text-lg md:text-2xl text-[#f5eee6]/85 max-w-4xl mx-auto leading-8 md:leading-10">
-        Step into a museum of timeless financial wisdom and learn directly from legendary minds whose ideas shaped wealth, discipline, and opportunity.
-      </p>
+<!-- BANNER -->
+<div class="banner" id="bannerQuote">
+  <p class="banner-text">"An investment in knowledge pays the best interest."</p>
+  <p class="banner-attr">— Benjamin Franklin</p>
+</div>
 
-      <div class="mt-10 flex flex-wrap justify-center gap-4">
-        <button id="exploreBtn" class="px-7 py-3.5 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition">
-          Enter the Gallery
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">The Wealth Gallery</div>
+  <p class="footer-sub">Curated Wisdom · Living History · Financial Education</p>
+</footer>
+
+<!-- EXHIBIT MODAL -->
+<div class="modal-overlay" id="chatModal" role="dialog" aria-modal="true">
+  <div class="modal-shell">
+    <aside class="exhibit-sidebar" id="exhibitSidebar">
+      <button class="back-btn" id="closeModalBtn"> Back to Gallery</button>
+      <h2 class="sidebar-name" id="mName"></h2>
+      <p class="sidebar-years" id="mYears"></p>
+      <p class="sidebar-field" id="mField"></p>
+      <div class="portrait-wrap"><img id="mImg" src="" alt="" loading="eager"></div>
+      <div class="sidebar-lbl">Legacy</div>
+      <p class="sidebar-tagline" id="mTagline"></p>
+      <div class="sidebar-ilbl">Introduction</div>
+      <p class="sidebar-intro" id="mIntro"></p>
+      <div class="sidebar-acts">
+        <button class="btn-play" id="playBtn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6,4 20,12 6,20"/></svg>
+          <span id="playLabel">Play Intro</span>
         </button>
-        <button id="askAllBtn" class="px-7 py-3.5 rounded-full border border-[#c6a268]/35 text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
-          Ask the Council
-        </button>
+
       </div>
-    </div>
-  </section>
-
-  <main class="max-w-7xl mx-auto px-5 md:px-8 pb-20">
-    <div class="text-center max-w-4xl mx-auto mb-12 md:mb-14">
-      <p class="uppercase tracking-[0.32em] text-[11px] md:text-xs text-[#c6a268]/75 mb-3">
-        The Collection
-      </p>
-
-      <h3 class="serif text-4xl md:text-6xl text-[#f5eee6] leading-none mb-5">
-        Talk to History’s Financial Icons
-      </h3>
-
-      <p class="text-base md:text-lg text-[#e7d9c8]/78 leading-8 max-w-3xl mx-auto">
-        Select an exhibit to enter a private conversation, hear a spoken introduction, and receive advice grounded in real historical philosophy.
-      </p>
-    </div>
-
-    <section id="gallery" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-7 md:gap-8">
-      <!-- Cards injected by JS -->
-    </section>
-  </main>
-
-  <div id="chatModal" class="fixed inset-0 bg-black/72 backdrop-blur-md hidden items-center justify-center p-3 md:p-5 z-50">
-    <div class="museum-card modal-shell rounded-[2rem] overflow-hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-[360px_minmax(0,1fr)] h-full min-h-0">
-
-        <aside class="bg-[#16100d]/92 border-b lg:border-b-0 lg:border-r border-[#c6a268]/12 p-5 md:p-6 lg:p-8 overflow-y-auto chat-scroll">
-          <div class="flex items-start justify-between gap-4 mb-6">
-            <div>
-              <p class="uppercase tracking-[0.3em] text-[11px] text-[#c6a268]/70 mb-2">Exhibit</p>
-              <h3 id="modalName" class="serif text-4xl md:text-5xl gold-text leading-[0.95]">Warren Buffett</h3>
-              <p id="modalYears" class="mt-2 text-sm text-[#e7d9c8]/72">1930 – Present</p>
-            </div>
-
-            <button id="closeModalBtn" class="shrink-0 px-4 py-2 rounded-full border border-[#c6a268]/25 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
-              ← Back
+    </aside>
+    <div class="chat-chamber">
+      <div class="exhibit-page-nav">
+        <div class="exhibit-page-nav-inner">
+          <div class="exhibit-breadcrumb">
+            <button class="breadcrumb-home" id="closeModalBtn2">
+              <svg width="16" height="16" viewBox="0 0 34 34" fill="none"><rect x="1" y="1" width="32" height="32" rx="2" stroke="currentColor" stroke-width="1.5"/><line x1="9" y1="20" x2="25" y2="20" stroke="currentColor" stroke-width="1"/><line x1="11" y1="24" x2="23" y2="24" stroke="currentColor" stroke-width="1"/><path d="M17 7 L21 15 L17 13 L13 15 Z" fill="currentColor" opacity=".65"/></svg>
+              The Wealth Gallery
             </button>
+            <span class="bc-sep">/</span>
+            <span class="bc-sep">Exhibits</span>
+            <span class="bc-sep">/</span>
+            <span id="breadcrumbName" class="bc-current"></span>
           </div>
-
-          <div class="portrait-frame mb-6 max-w-[320px] mx-auto lg:mx-0">
-            <div class="portrait-inner">
-              <img id="modalImage" src="" alt="" class="w-full h-full object-cover" />
-            </div>
+          <div class="exhibit-page-nav-actions">
+            <button class="btn-council-nav" id="councilFromModal">⚖ Ask the Council</button>
+            <button class="btn-close-nav" id="closeModalBtn3">← Back to Gallery</button>
           </div>
-
-          <div class="space-y-5">
-            <div>
-              <p class="uppercase tracking-[0.25em] text-[11px] text-[#c6a268]/70 mb-1.5">Legacy</p>
-              <p id="modalTagline" class="text-[#f5eee6] text-lg md:text-xl">The Oracle of Omaha</p>
-            </div>
-
-            <div>
-              <p class="uppercase tracking-[0.25em] text-[11px] text-[#c6a268]/70 mb-1.5">Introduction</p>
-              <p id="modalIntro" class="text-[#e7d9c8]/80 leading-7 text-[15px] md:text-base">
-                A brief introduction will appear here.
-              </p>
-            </div>
-
-            <div class="flex flex-col sm:flex-row lg:flex-col gap-3 pt-2">
-              <button id="playIntroBtn" class="px-4 py-3 rounded-full border border-[#c6a268]/30 text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
-                ▶ Play Intro
-              </button>
-              <button id="askCouncilFromModalBtn" class="px-4 py-3 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition">
-                Ask the Council
-              </button>
-            </div>
-          </div>
-        </aside>
-
-        <section class="flex flex-col h-full min-h-0 overflow-hidden bg-[#0e0b09]/85">
-          <div class="border-b border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5 shrink-0">
-            <div class="flex items-center justify-between gap-4 mb-3">
-              <p class="uppercase tracking-[0.32em] text-[11px] text-[#c6a268]/70">
-                Conversation Chamber
-              </p>
-
-              <button
-                id="toggleChamberBtn"
-                type="button"
-                class="flex items-center gap-2 px-3 py-2 rounded-full border border-[#c6a268]/25 text-[#f5eee6] text-sm hover:bg-[#c6a268]/10 transition"
-                aria-expanded="true"
-              >
-                <span id="toggleChamberLabel">Minimize</span>
-                <span id="toggleChamberIcon" class="text-base leading-none">▲</span>
-              </button>
-            </div>
-
-            <div id="chamberContent" class="overflow-hidden transition-all duration-300 ease-in-out max-h-[260px] opacity-100">
-              <div class="flex flex-wrap gap-3 mt-2" id="suggestions">
-                <!-- suggestion chips -->
-              </div>
-            </div>
-          </div>
-
-          <div id="chatMessages" class="chat-scroll flex-1 min-h-0 overflow-y-auto px-5 lg:px-6 py-6 space-y-4">
-            <div class="max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5">
-              <p class="text-[#f5eee6] text-lg leading-8">
-                Welcome. Select a question or ask your own to begin.
-              </p>
-            </div>
-          </div>
-
-          <div id="chatBottom" class="border-t border-[#c6a268]/12 px-4 md:px-6 lg:px-8 py-4 md:py-5 shrink-0">
-            <form id="chatForm" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <input
-                id="chatInput"
-                type="text"
-                placeholder="Ask a financial question..."
-                class="flex-1 rounded-full bg-[#1c1411] border border-[#c6a268]/18 px-5 py-4 text-[#f5eee6] placeholder:text-[#e7d9c8]/40 outline-none focus:border-[#c6a268]/55"
-              />
-              <button
-                type="submit"
-                class="px-6 py-4 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition"
-              >
-                Send
-              </button>
-            </form>
-          </div>
-        </section>
-      </div>
-    </div>
-  </div>
-
-  <div id="councilModal" class="fixed inset-0 bg-black/72 backdrop-blur-md hidden items-center justify-center p-3 md:p-5 z-50">
-    <div class="museum-card w-full max-w-7xl rounded-[2rem] overflow-hidden p-6 md:p-8">
-      <div class="flex items-start justify-between gap-4 mb-6">
-        <div>
-          <p class="uppercase tracking-[0.3em] text-[11px] text-[#c6a268]/70 mb-2">Multi-Perspective Engine</p>
-          <h3 class="serif text-4xl md:text-5xl gold-text leading-none">Ask the Council</h3>
         </div>
-        <button id="closeCouncilBtn" class="text-[#f5eee6] hover:text-white text-2xl leading-none">
-          &times;
-        </button>
       </div>
-
-      <form id="councilForm" class="flex flex-col lg:flex-row gap-3 mb-8">
-        <input
-          id="councilInput"
-          type="text"
-          placeholder="Ask all advisors one question..."
-          class="flex-1 rounded-full bg-[#1c1411] border border-[#c6a268]/18 px-5 py-4 text-[#f5eee6] placeholder:text-[#e7d9c8]/40 outline-none focus:border-[#c6a268]/55"
-        />
-        <button type="submit" class="px-6 py-4 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition">
-          Compare Advice
-        </button>
+      <div class="chamber-header">
+        <span class="chamber-title">Conversation Chamber</span>
+      </div>
+      <div class="suggestions-bar" id="suggestions"></div>
+      <div class="chat-msgs" id="chatMsgs"></div>
+      <form class="chat-input-row" id="chatForm">
+        <textarea class="chat-input" id="chatInput" placeholder="Ask a financial question…" rows="1"></textarea>
+        <button type="submit" class="btn-send">Send</button>
       </form>
+    </div>
+  </div>
+</div>
 
-      <div id="councilResults" class="grid grid-cols-1 xl:grid-cols-3 gap-5">
-        <!-- advisor responses injected here -->
-      </div>
-
-      <div id="consensusBox" class="hidden mt-6 rounded-[1.8rem] border border-[#c6a268]/20 bg-[#18120e] p-6">
-        <p class="uppercase tracking-[0.25em] text-[11px] text-[#c6a268]/70 mb-2">Consensus</p>
-        <p id="consensusText" class="text-[#f5eee6] text-lg leading-8"></p>
+<!-- COUNCIL MODAL -->
+<div class="council-overlay" id="councilModal" role="dialog" aria-modal="true">
+  <div class="council-shell">
+    <div class="council-header">
+      <h2 class="council-title">⚖ Ask the Council</h2>
+      <button class="council-close" id="closeCouncilBtn">✕</button>
+    </div>
+    <div class="council-body">
+      <form class="council-form" id="councilForm">
+        <input class="council-input" id="councilInput" type="text" placeholder="Ask all advisors the same question…">
+        <button type="submit" class="btn-compare">Compare Advice</button>
+      </form>
+      <div class="council-results" id="councilResults"></div>
+      <div class="consensus-box" id="consensusBox">
+        <div class="consensus-lbl">Consensus</div>
+        <p class="consensus-text" id="consensusText"></p>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Firebase Auth Guard -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+<script>
+/* ═══════════════════════════════════════════════════════
+   THE WEALTH GALLERY
+   Reads from personas.json (same folder) via fetch().
+   Falls back to inline data if fetch fails
+   (e.g. opened as file://).
+═══════════════════════════════════════════════════════ */
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBZZB1XTUU_PAPBrSNae5EScX7BVeX_vI8",
-    authDomain: "wehack2026-24e14.firebaseapp.com",
-    projectId: "wehack2026-24e14",
-    storageBucket: "wehack2026-24e14.firebasestorage.app",
-    messagingSenderId: "7196057046711",
-    appId: "1:719605704671:web:53ffff1887d70218888866a",
-    measurementId: "G-1R7KWB6LRN"
-  };
+/* ── FALLBACK DATA (mirrors personas.json from WEHack2026) ── */
+const FALLBACK_PERSONAS = [
+  {
+    id: "warren-buffett",
+    name: "Warren Buffett",
+    years: "b. 1930",
+    field: "Value Investing & Long-Term Wealth",
+    tagline: "The best investment you can make is in yourself",
+    portrait: "https://upload.wikimedia.org/wikipedia/commons/5/51/Warren_Buffett_KU_Visit.jpg",
+    description: "Legendary investor known for value investing, patience, and long-term wealth building through discipline and simplicity.",
+    introAudio: "assets/audio/warren-greeting.mp3",
+    suggestions: [
+      "You bought your first stock at 11 — what would you tell someone who is 22?",
+      "What is compound interest and why does it matter so much?",
+      "Should I pick individual stocks or just buy an index fund?",
+      "How do I stop being afraid of investing?"
+    ],
+    intro: "Most people walk right past this exhibit — too intimidated, I suppose. But you stopped. That already tells me something. I'm Warren. Ask me anything about money.",
+    riskProfile: "Conservative",
+    timeHorizon: "Long-term",
+    philosophy: ["Value investing","Patience","Long-term thinking","Frugality"],
+    mockReplies: [
+      "Price is what you pay. Value is what you get. Never confuse the two.",
+      "Rule No. 1: Never lose money. Rule No. 2: Never forget Rule No. 1.",
+      "Someone's sitting in the shade today because someone planted a tree a long time ago.",
+      "The stock market is a device for transferring money from the impatient to the patient.",
+      "It's far better to buy a wonderful company at a fair price than a fair company at a wonderful price.",
+      "Our favorite holding period is forever. Patience is the rarest edge in investing."
+    ]
+  },
+  {
+    id: "madam-cj-walker",
+    name: "Madam C.J. Walker",
+    years: "1867 – 1919",
+    field: "Entrepreneurship & Wealth Building",
+    tagline: "I had to make my own living and my own opportunity",
+    portrait: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Madam_C._J._Walker_by_Addison_N._Scurlock.jpg/960px-Madam_C._J._Walker_by_Addison_N._Scurlock.jpg",
+    description: "Trailblazing entrepreneur who built a beauty empire from almost nothing and championed economic independence for women.",
+    introAudio: "assets/audio/walker-greeting.mp3",
+    suggestions: [
+      "You started with $1.50 — what is the very first thing someone with almost nothing should do?",
+      "How do you build wealth when every door seems closed to you?",
+      "What does financial independence really mean?",
+      "How did you keep going when people didn't believe in you?"
+    ],
+    intro: "I started with almost nothing and built everything. If you are willing to work, to persist, and to believe in yourself, there is always a way forward. Ask me anything.",
+    riskProfile: "Bold",
+    timeHorizon: "Long-term",
+    philosophy: ["Entrepreneurship","Self-reliance","Reinvestment","Community wealth"],
+    mockReplies: [
+      "Don't sit down and wait for the opportunities to come. Get up and make them.",
+      "I got my start by giving myself a start.",
+      "I am not merely satisfied in making money for myself — I am endeavoring to provide employment for hundreds.",
+      "There is no royal, flower-strewn path to success. And if there is, I have not found it.",
+      "Perseverance is my motto. Every closed door is simply a different hallway.",
+      "The secret of getting ahead is getting started — with whatever you have, wherever you are."
+    ]
+  },
+  {
+    id: "benjamin-franklin",
+    name: "Benjamin Franklin",
+    years: "1706 – 1790",
+    field: "Frugality & Financial Discipline",
+    tagline: "An investment in knowledge pays the best interest",
+    portrait: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Benjamin_Franklin_1767.jpg/960px-Benjamin_Franklin_1767.jpg",
+    description: "Printer, inventor, and statesman whose principles of frugality and discipline define modern financial wisdom.",
+    introAudio: "assets/audio/franklin-greeting.mp3",
+    suggestions: [
+      "Can you explain compound interest in simple terms?",
+      "What do you mean when you say debt is a kind of slavery?",
+      "How do I stop spending money I do not have?",
+      "What one financial habit should I start today?"
+    ],
+    intro: "Good day. I have spent my life studying discipline, money, and human nature. If you wish to understand wealth, begin with your habits. Ask your question.",
+    riskProfile: "Conservative",
+    timeHorizon: "Short-term",
+    philosophy: ["Frugality","Discipline","Education","Industry"],
+    mockReplies: [
+      "An investment in knowledge pays the best interest. Never neglect your mind.",
+      "A penny saved is a penny earned. Frugality is the mother of all virtues.",
+      "Beware of little expenses; a small leak will sink a great ship.",
+      "Money never made a man happy yet, nor will it. The more a man has, the more he wants.",
+      "If you would be wealthy, think of saving as well as getting.",
+      "Rather go to bed without dinner than to rise in debt."
+    ]
+  }
+];
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
+/* ── STATE ── */
+let personas = [];
+let activePersona = null;
+let replyIdx = 0;
+let currentAudio = null;
+let isPlaying = false;
 
-  // Hide page until auth check completes
-  document.body.style.visibility = "hidden";
+/* ── UTILS ── */
+const $  = id => document.getElementById(id);
+const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };
+function scrollToGallery() { $('gallery-section').scrollIntoView({ behavior: 'smooth' }); }
 
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      // Not logged in → redirect to login
-      window.location.href = "./login.html";
-    } else {
-      // Logged in → show page
-      document.body.style.visibility = "visible";
+/* ═══════════════════════════════
+   LOAD PERSONAS (fetch → fallback)
+═══════════════════════════════ */
+async function loadPersonas() {
+  try {
+    // Try same-folder personas.json first (works when served via HTTP)
+    const res = await fetch('personas.json');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    // Support both array root and {personas:[...]} wrapper
+    personas = Array.isArray(data) ? data : (data.personas || data);
+    console.info('[WealthGallery] Loaded', personas.length, 'personas from personas.json');
+  } catch (err) {
+    console.warn('[WealthGallery] personas.json not reachable — using inline fallback.', err.message);
+    personas = FALLBACK_PERSONAS;
+  }
+  renderGallery();
+  renderBanner();
+}
 
-      // Update nav buttons to show user info + logout
-      const loginBtn = document.getElementById("loginBtn");
-      const signupBtn = document.getElementById("signupBtn");
+/* ═══════════════════════════════
+   RENDER GALLERY
+═══════════════════════════════ */
+function renderGallery() {
+  const grid = $('gallery');
+  if (!personas.length) {
+    grid.innerHTML = '<p class="error-msg">No exhibit data available.</p>';
+    return;
+  }
+  grid.innerHTML = personas.map((p, i) => {
+    const num = String(i + 1).padStart(2, '0');
+    const tags = (p.philosophy || [p.riskProfile, p.timeHorizon].filter(Boolean)).slice(0, 3)
+      .map(t => `<span class="tag">${t}</span>`).join('');
+    return `
+      <article class="exhibit-card fade-in" data-id="${p.id}" role="button" tabindex="0"
+               aria-label="Enter ${p.name} exhibit"
+               onkeydown="if(event.key==='Enter'||event.key===' ')openExhibit('${p.id}')">
+        <div class="frame-wrap">
+          <div class="frame-shadow">
+            <img src="${p.portrait || p.image || ''}" alt="Portrait of ${p.name}" loading="lazy" width="300" height="400"
+                 onerror="this.style.opacity='.3'">
+          </div>
 
-      if (loginBtn) {
-        loginBtn.textContent = user.displayName || user.email;
-        loginBtn.style.cursor = "default";
-        loginBtn.style.pointerEvents = "none";
-      }
+        </div>
+        <div class="card-num">Exhibit ${num}</div>
+        <h3 class="card-name">${p.name}</h3>
+        <p class="card-years">${p.years || p.born || ''}</p>
+        <p class="card-tagline">${p.tagline || ''}</p>
+        <p class="card-desc">${p.description || ''}</p>
+        ${tags ? `<div class="card-tags">${tags}</div>` : ''}
+        <span class="card-link">— Enter Exhibit</span>
+      </article>`;
+  }).join('');
 
-      if (signupBtn) {
-        signupBtn.textContent = "Sign Out";
-        signupBtn.addEventListener("click", async () => {
-          await signOut(auth);
-          window.location.href = "./login.html";
-        });
-      }
-    }
-  });
+  grid.querySelectorAll('.exhibit-card').forEach(c =>
+    c.addEventListener('click', () => openExhibit(c.dataset.id))
+  );
+}
+
+/* ═══════════════════════════════
+   BANNER — use first persona quote
+═══════════════════════════════ */
+function renderBanner() {
+  const fp = personas.find(p => p.id === 'benjamin-franklin') || personas[0];
+  if (!fp) return;
+  const quote = fp.mockReplies?.[0] || fp.tagline || '';
+  $('bannerQuote').innerHTML = `
+    <p class="banner-text">"${quote}"</p>
+    <p class="banner-attr">— ${fp.name}</p>`;
+}
+
+/* ═══════════════════════════════
+   OPEN EXHIBIT
+═══════════════════════════════ */
+function openExhibit(id) {
+  const p = personas.find(x => x.id === id);
+  if (!p) return;
+  activePersona = p;
+  replyIdx = 0;
+  stopAudio();
+
+  $('mName').textContent    = p.name;
+  $('mYears').textContent   = p.years || p.born || '';
+  $('mField').textContent   = p.field || '';
+  $('mImg').src             = p.portrait || p.image || '';
+  $('mImg').alt             = `Portrait of ${p.name}`;
+  $('mTagline').textContent = p.tagline || '';
+  $('mIntro').textContent   = p.intro || p.greeting || '';
+  $('playLabel').textContent = 'Play Intro';
+  isPlaying = false;
+
+  renderSuggestions(p);
+  resetChat(p);
+
+  $('breadcrumbName').textContent = p.name;
+  $('chatModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => $('chatInput').focus(), 100);
+}
+
+function closeExhibit() {
+  stopAudio();
+  $('chatModal').classList.remove('open');
+  if (!$('councilModal').classList.contains('open')) document.body.style.overflow = '';
+}
+
+/* ═══════════════════════════════
+   SUGGESTIONS
+═══════════════════════════════ */
+function renderSuggestions(p) {
+  const bar = $('suggestions');
+  bar.innerHTML = (p.suggestions || p.sampleQuestions || []).map(q =>
+    `<button class="chip" type="button">${q}</button>`
+  ).join('');
+  bar.querySelectorAll('.chip').forEach(c =>
+    c.addEventListener('click', () => sendMessage(c.textContent))
+  );
+}
+
+/* ═══════════════════════════════
+   CHAT
+═══════════════════════════════ */
+function resetChat(p) {
+  const msgs = $('chatMsgs');
+  msgs.innerHTML = '';
+  appendMsg('ai', p.welcomeMessage || `Welcome. I am ${p.name}. Ask your question, and I will guide you through it.`);
+}
+
+function appendMsg(role, text, footnote = '') {
+  const msgs = $('chatMsgs');
+  const row  = el('div', `msg-row ${role}`);
+  const bub  = el('div', `bubble ${role}`);
+  bub.innerHTML = `<div>${text}</div>${footnote ? `<div class="footnote">${footnote}</div>` : ''}`;
+  row.appendChild(bub);
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = $('chatMsgs');
+  const row  = el('div', 'msg-row ai');
+  row.id = 'typingRow';
+  row.innerHTML = '<div class="bubble ai"><div class="typing-dots"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(row);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function hideTyping() { $('typingRow')?.remove(); }
+
+function sendMessage(text) {
+  if (!activePersona || !text.trim()) return;
+  appendMsg('user', text);
+  showTyping();
+  const delay = 900 + Math.random() * 700;
+  setTimeout(() => {
+    hideTyping();
+    const replies = activePersona.mockReplies || activePersona.responses || [];
+    const reply   = replies.length ? replies[replyIdx % replies.length] : "I have much to share on that subject — let us explore it together.";
+    replyIdx++;
+    appendMsg('ai', reply, `Grounded in ${activePersona.name}'s historical philosophy`);
+  }, delay);
+}
+
+$('chatForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = $('chatInput').value.trim();
+  if (v) { sendMessage(v); $('chatInput').value = ''; }
+});
+$('chatInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const v = $('chatInput').value.trim();
+    if (v) { sendMessage(v); $('chatInput').value = ''; }
+  }
+});
+
+/* ═══════════════════════════════
+   AUDIO
+═══════════════════════════════ */
+function stopAudio() {
+  if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
+  isPlaying = false;
+  $('playLabel').textContent = 'Play Intro';
+}
+
+$('playBtn').addEventListener('click', () => {
+  if (!activePersona?.introAudio) return;
+  if (!currentAudio) {
+    currentAudio = new Audio(activePersona.introAudio);
+    currentAudio.addEventListener('ended', stopAudio);
+    currentAudio.play()
+      .then(() => { isPlaying = true; $('playLabel').textContent = '❚❚ Pause Intro'; })
+      .catch(err => { console.warn('Audio unavailable:', err); stopAudio(); });
+    return;
+  }
+  if (isPlaying) {
+    currentAudio.pause(); isPlaying = false; $('playLabel').textContent = '▶ Play Intro';
+  } else {
+    currentAudio.play().then(() => { isPlaying = true; $('playLabel').textContent = '❚❚ Pause Intro'; });
+  }
+});
+
+/* ═══════════════════════════════
+   CLOSE / ESC
+═══════════════════════════════ */
+$('closeModalBtn').addEventListener('click', closeExhibit);
+$('closeModalBtn2').addEventListener('click', closeExhibit);
+$('closeModalBtn3').addEventListener('click', closeExhibit);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeExhibit(); closeCouncil(); }
+});
+
+/* ═══════════════════════════════
+   COUNCIL MODAL
+═══════════════════════════════ */
+function openCouncil() {
+  $('councilModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => $('councilInput').focus(), 100);
+}
+function closeCouncil() {
+  $('councilModal').classList.remove('open');
+  if (!$('chatModal').classList.contains('open')) document.body.style.overflow = '';
+}
+
+$('heroCouncilBtn').addEventListener('click', openCouncil);
+$('councilFromModal').addEventListener('click', openCouncil);
+$('closeCouncilBtn').addEventListener('click', closeCouncil);
+$('councilModal').addEventListener('click', e => { if (e.target === $('councilModal')) closeCouncil(); });
+
+$('councilForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const q = $('councilInput').value.trim();
+  if (!q) return;
+  renderCouncilResults(q);
+});
+
+function renderCouncilResults(q) {
+  $('councilResults').innerHTML = personas.map(p => {
+    const reply = (p.mockReplies || p.responses || [])[0] || p.tagline || '';
+    const tags  = [p.riskProfile, p.timeHorizon].filter(Boolean)
+      .map(t => `<span class="tag">${t}</span>`).join('');
+    return `
+      <div class="council-card">
+        <div class="council-card-hdr">
+          <span class="council-card-name">${p.name}</span>
+          ${tags ? `<div class="council-tags">${tags}</div>` : ''}
+        </div>
+        <p class="council-card-text">${reply}</p>
+      </div>`;
+  }).join('');
+
+  const box = $('consensusBox');
+  box.classList.add('visible');
+  $('consensusText').textContent =
+    "Across all perspectives, one truth emerges: begin with discipline, build through consistency, and let time do the heavy lifting. Whether through frugality, bold enterprise, or patient investing — the foundation is always the same.";
+}
+
+/* ── LOGIN PLACEHOLDER ── */
+$('navLoginBtn').addEventListener('click', () =>
+  alert('Login via Firebase Auth — integrate your auth.js credentials here.')
+);
+
+/* ── INIT ── */
+loadPersonas();
 </script>
-
 </body>
 </html>
