@@ -1,4 +1,4 @@
-# 🏛️ <Your Project Name>
+# 🏛️ The Wealth Gallery
 *Where history’s greatest minds teach the art of wealth.*
 
 ---
