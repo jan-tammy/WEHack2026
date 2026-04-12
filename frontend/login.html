@@ -229,7 +229,6 @@
       animation: fadeUp .55s var(--ease) .2s both;
     }
 
-    /* Ionic pillar SVG inline color */
     .pillar-svg { color: var(--text); flex-shrink: 0; }
   </style>
 </head>
@@ -239,7 +238,6 @@
   <nav class="nav">
     <div class="nav-inner">
       <a class="nav-logo" href="./index.html">
-        <!-- Ionic Pillar -->
         <svg class="pillar-svg" width="28" height="42" viewBox="0 0 36 52" fill="none" aria-hidden="true">
           <rect x="1" y="2" width="34" height="3.5" rx=".5" fill="currentColor" opacity=".9"/>
           <rect x="3" y="5.5" width="30" height="2" rx=".5" fill="currentColor" opacity=".75"/>
@@ -315,7 +313,8 @@
   <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, signOut }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBZZB1XTUU_PAPBrSNae5EScX7BVeX_vI8",
@@ -330,14 +329,13 @@
     const app  = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    onAuthStateChanged(auth, (user) => {
-      if (user) window.location.href = "./index.html";
-    });
+    // Clear any persisted session so the login page never auto-redirects away
+    await signOut(auth).catch(() => {});
 
-    const loginBtn     = document.getElementById("loginBtn");
-    const emailInput   = document.getElementById("emailInput");
-    const passwordInput= document.getElementById("passwordInput");
-    const errorBox     = document.getElementById("errorBox");
+    const loginBtn      = document.getElementById("loginBtn");
+    const emailInput    = document.getElementById("emailInput");
+    const passwordInput = document.getElementById("passwordInput");
+    const errorBox      = document.getElementById("errorBox");
 
     function showError(msg) { errorBox.textContent = msg; errorBox.style.display = "block"; }
     function hideError()    { errorBox.style.display = "none"; }
