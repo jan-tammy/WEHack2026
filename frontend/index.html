@@ -62,7 +62,7 @@
     :focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:var(--radius-sm)}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
-    /* ── NAV ── */
+    /* G��G�� NAV G��G�� */
     .nav{position:sticky;top:0;z-index:200;background:color-mix(in oklch,var(--bg) 92%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--divider);padding:var(--space-4) 0}
     .nav-inner{max-width:1200px;margin-inline:auto;padding-inline:var(--space-8);display:flex;align-items:center;justify-content:space-between}
     .nav-logo{display:flex;align-items:center;gap:var(--space-3);cursor:pointer;color:var(--text)}.nav-logo-text{font-family:var(--fd);font-size:clamp(1.25rem,1rem + .75vw,1.75rem);font-weight:400;letter-spacing:.05em;text-transform:uppercase;line-height:1;white-space:nowrap}
@@ -73,7 +73,7 @@
     .btn-maroon{padding:var(--space-2) var(--space-5);border-radius:var(--radius-full);background:var(--primary);color:var(--text-inv);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;transition:background var(--t) var(--ease)}
     .btn-maroon:hover{background:var(--primary-h)}
 
-    /* ── HERO ── */
+    /* G��G�� HERO G��G�� */
     .hero{position:relative;overflow:hidden;min-height:85vh;display:flex;align-items:center;justify-content:center}
     .hero-bg{position:absolute;inset:0;background:linear-gradient(160deg,#2a1a12 0%,#1a0e0a 45%,#0d0807 100%)}
     .hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse 55% 75% at 50% 115%,oklch(0.35 .05 40/.55) 0%,transparent 70%),radial-gradient(ellipse 28% 38% at 18% 50%,oklch(0.45 .06 50/.1) 0%,transparent 60%),radial-gradient(ellipse 28% 38% at 82% 50%,oklch(0.45 .06 50/.1) 0%,transparent 60%)}
@@ -91,7 +91,7 @@
     .btn-ho{padding:var(--space-3) var(--space-8);border-radius:var(--radius-full);border:1px solid oklch(.7 .03 50/.4);color:#e8d8c0;font-size:var(--text-sm);font-weight:500;letter-spacing:.08em;text-transform:uppercase;background:transparent;transition:all var(--t) var(--ease)}
     .btn-ho:hover{border-color:oklch(.7 .03 50/.8);background:oklch(.7 .03 50/.08)}
 
-    /* ── GALLERY ── */
+    /* G��G�� GALLERY G��G�� */
     .gallery-section{padding:clamp(var(--space-16),8vw,var(--space-24)) var(--space-8);max-width:1200px;margin-inline:auto}
     .section-label{font-family:var(--fb);font-size:var(--text-xs);letter-spacing:.2em;text-transform:uppercase;color:var(--primary);font-weight:600;margin-bottom:var(--space-3)}
     .gallery-intro{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12);align-items:start;margin-bottom:var(--space-12)}
@@ -123,27 +123,27 @@
     .card-tags{display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4)}
     .tag{font-size:var(--text-xs);padding:2px var(--space-3);border-radius:var(--radius-full);border:1px solid var(--border);color:var(--text-muted);letter-spacing:.06em;white-space:nowrap}
     .card-link{font-size:var(--text-sm);color:var(--primary);font-weight:500;letter-spacing:.05em;display:inline-flex;align-items:center;gap:var(--space-2);transition:gap var(--t) var(--ease)}
-    .card-link::after{content:'→'}
+    .card-link::after{content:'G��'}
     .exhibit-card:hover .card-link{gap:var(--space-3)}
 
-    /* ── BANNER ── */
+    /* G��G�� BANNER G��G�� */
     .banner{background:var(--primary);padding:var(--space-16) var(--space-8);text-align:center;position:relative;overflow:hidden}
     .banner::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,oklch(.9 0 0/.04) 0px,oklch(.9 0 0/.04) 1px,transparent 1px,transparent 40px)}
     .banner-text{position:relative;font-family:var(--fd);font-size:clamp(1.5rem,1rem + 2.5vw,3.5rem);font-weight:300;font-style:italic;color:#f5e8d8;line-height:1.2}
     .banner-attr{position:relative;margin-top:var(--space-4);font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:oklch(.85 .03 30/.65)}
 
-    /* ── FOOTER ── */
+    /* G��G�� FOOTER G��G�� */
     .footer{background:var(--surface);border-top:1px solid var(--divider);padding:var(--space-12) var(--space-8);text-align:center}
     .footer-logo{font-family:var(--fd);font-size:var(--text-xl);font-weight:400;letter-spacing:.06em;text-transform:uppercase;margin-bottom:var(--space-2)}
     .footer-sub{font-size:var(--text-xs);color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
 
-    /* ── MODAL ── */
+    /* G��G�� MODAL G��G�� */
     .modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow:hidden;flex-direction:column}
     .modal-overlay.open{display:flex;animation:page-slide-in .35s cubic-bezier(0.16,1,0.3,1) both}
     @keyframes page-slide-in{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
     .modal-shell{width:100%;height:100%;background:var(--bg);display:flex;overflow:hidden;border-radius:0;box-shadow:none;border:none}
 
-    /* ── EXHIBIT SIDEBAR ── */
+    /* G��G�� EXHIBIT SIDEBAR G��G�� */
 
     .exhibit-page-nav{background:color-mix(in oklch,var(--bg) 95%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--divider);padding:var(--space-3) 0;flex-shrink:0}
     .exhibit-page-nav-inner{max-width:100%;padding-inline:var(--space-8);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
@@ -160,7 +160,7 @@
     .exhibit-sidebar{width:400px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--divider);padding:var(--space-10) var(--space-8);display:flex;flex-direction:column;align-items:center;overflow-y:auto;height:100vh}
     .back-btn{width:100%;display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);font-weight:500;margin-bottom:var(--space-8);padding:var(--space-2) 0;transition:color var(--t) var(--ease)}
     .back-btn:hover{color:var(--primary)}
-    .back-btn::before{content:'←'}
+    .back-btn::before{content:'G��'}
     .sidebar-name{font-family:var(--fd);font-size:var(--text-2xl);font-weight:400;text-align:center;margin-bottom:var(--space-1)}
     .sidebar-years{font-size:var(--text-sm);color:var(--text-muted);margin-bottom:var(--space-2);text-align:center}
     .sidebar-field{font-size:var(--text-xs);color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:var(--space-6);text-align:center}
@@ -177,7 +177,7 @@
     .btn-council-sm{display:flex;align-items:center;justify-content:center;gap:var(--space-2);padding:var(--space-3) var(--space-5);border-radius:var(--radius-full);border:1px solid var(--border);background:var(--surface-off);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;transition:all var(--t) var(--ease)}
     .btn-council-sm:hover{border-color:var(--gold);color:var(--gold)}
 
-    /* ── CHAT ── */
+    /* G��G�� CHAT G��G�� */
     .chat-chamber{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);height:100vh}
     .chamber-header{padding:var(--space-3) var(--space-6);border-bottom:1px solid var(--divider);display:flex;align-items:center;background:var(--surface-2);flex-shrink:0}
     .chamber-title{font-size:var(--text-xs);letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--text-muted)}
@@ -208,7 +208,7 @@
     .btn-send{padding:var(--space-3) var(--space-5);border-radius:var(--radius-lg);background:var(--primary);color:var(--text-inv);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;min-height:48px;flex-shrink:0;transition:background var(--t) var(--ease)}
     .btn-send:hover{background:var(--primary-h)}
 
-    /* ── COUNCIL MODAL ── */
+    /* G��G�� COUNCIL MODAL G��G�� */
 
     .council-overlay{display:none;position:fixed;inset:0;z-index:400;background:oklch(0.08 0.01 40/.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:var(--space-6)}
     .council-overlay.open{display:flex}
@@ -235,16 +235,16 @@
     .consensus-lbl{font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:var(--space-3)}
     .consensus-text{font-family:var(--fd);font-size:var(--text-base);font-style:italic;line-height:1.7}
 
-    /* ── ERROR BANNER ── */
+    /* G��G�� ERROR BANNER G��G�� */
     .error-msg{background:#fff3cd;border:1px solid #ffc107;border-radius:var(--radius-md);padding:var(--space-4) var(--space-6);font-size:var(--text-sm);color:#856404;margin-bottom:var(--space-6);grid-column:1/-1}
 
-    /* ── SCROLL REVEALS ── */
+    /* G��G�� SCROLL REVEALS G��G�� */
     @supports(animation-timeline:scroll()){
       .fade-in{opacity:0;animation:fade-reveal linear both;animation-timeline:view();animation-range:entry 0% entry 75%}
     }
     @keyframes fade-reveal{to{opacity:1}}
 
-    /* ── RESPONSIVE ── */
+    /* G��G�� RESPONSIVE G��G�� */
     @media(max-width:960px){
       .gallery-intro{grid-template-columns:1fr}
       .gallery-grid{grid-template-columns:1fr 1fr}
@@ -311,7 +311,7 @@
   <div class="hero-glow"></div>
   <div class="hero-arch"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Curated Wisdom <span>·</span> Living History <span>·</span> Financial Education</p>
+    <p class="hero-eyebrow">Curated Wisdom <span>-+</span> Living History <span>-+</span> Financial Education</p>
     <h1 class="hero-title">The Wealth Gallery</h1>
     <p class="hero-subtitle-main">History Comes Alive</p>
     <p class="hero-sub">Step into a museum of timeless financial wisdom. Speak directly with the legends who shaped wealth, discipline, and opportunity.</p>
@@ -340,13 +340,13 @@
 <!-- BANNER -->
 <div class="banner" id="bannerQuote">
   <p class="banner-text">"An investment in knowledge pays the best interest."</p>
-  <p class="banner-attr">— Benjamin Franklin</p>
+  <p class="banner-attr">G�� Benjamin Franklin</p>
 </div>
 
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-logo">The Wealth Gallery</div>
-  <p class="footer-sub">Curated Wisdom · Living History · Financial Education</p>
+  <p class="footer-sub">Curated Wisdom -+ Living History -+ Financial Education</p>
 </footer>
 
 <!-- EXHIBIT MODAL -->
@@ -384,8 +384,8 @@
             <span id="breadcrumbName" class="bc-current"></span>
           </div>
           <div class="exhibit-page-nav-actions">
-            <button class="btn-council-nav" id="councilFromModal">⚖ Ask the Council</button>
-            <button class="btn-close-nav" id="closeModalBtn3">← Back to Gallery</button>
+            <button class="btn-council-nav" id="councilFromModal">G�� Ask the Council</button>
+            <button class="btn-close-nav" id="closeModalBtn3">G�� Back to Gallery</button>
           </div>
         </div>
       </div>
@@ -395,7 +395,7 @@
       <div class="suggestions-bar" id="suggestions"></div>
       <div class="chat-msgs" id="chatMsgs"></div>
       <form class="chat-input-row" id="chatForm">
-        <textarea class="chat-input" id="chatInput" placeholder="Ask a financial question…" rows="1"></textarea>
+        <textarea class="chat-input" id="chatInput" placeholder="Ask a financial questionGǪ" rows="1"></textarea>
         <button type="submit" class="btn-send">Send</button>
       </form>
     </div>
@@ -406,12 +406,12 @@
 <div class="council-overlay" id="councilModal" role="dialog" aria-modal="true">
   <div class="council-shell">
     <div class="council-header">
-      <h2 class="council-title">⚖ Ask the Council</h2>
-      <button class="council-close" id="closeCouncilBtn">✕</button>
+      <h2 class="council-title">G�� Ask the Council</h2>
+      <button class="council-close" id="closeCouncilBtn">G��</button>
     </div>
     <div class="council-body">
       <form class="council-form" id="councilForm">
-        <input class="council-input" id="councilInput" type="text" placeholder="Ask all advisors the same question…">
+        <input class="council-input" id="councilInput" type="text" placeholder="Ask all advisors the same questionGǪ">
         <button type="submit" class="btn-compare">Compare Advice</button>
       </form>
       <div class="council-results" id="councilResults"></div>
@@ -424,14 +424,14 @@
 </div>
 
 <script>
-/* ═══════════════════════════════════════════════════════
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
    THE WEALTH GALLERY
    Reads from personas.json (same folder) via fetch().
    Falls back to inline data if fetch fails
    (e.g. opened as file://).
-═══════════════════════════════════════════════════════ */
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 
-/* ── FALLBACK DATA (mirrors personas.json from WEHack2026) ── */
+/* G��G�� FALLBACK DATA (mirrors personas.json from WEHack2026) G��G�� */
 const FALLBACK_PERSONAS = [
   {
     id: "warren-buffett",
@@ -443,12 +443,12 @@ const FALLBACK_PERSONAS = [
     description: "Legendary investor known for value investing, patience, and long-term wealth building through discipline and simplicity.",
     introAudio: "../assets/audio/warren-greeting.mp3",
     suggestions: [
-      "You bought your first stock at 11 — what would you tell someone who is 22?",
+      "You bought your first stock at 11 G�� what would you tell someone who is 22?",
       "What is compound interest and why does it matter so much?",
       "Should I pick individual stocks or just buy an index fund?",
       "How do I stop being afraid of investing?"
     ],
-    intro: "Most people walk right past this exhibit — too intimidated, I suppose. But you stopped. That already tells me something. I'm Warren. Ask me anything about money.",
+    intro: "Most people walk right past this exhibit G�� too intimidated, I suppose. But you stopped. That already tells me something. I'm Warren. Ask me anything about money.",
     riskProfile: "Conservative",
     timeHorizon: "Long-term",
     philosophy: ["Value investing","Patience","Long-term thinking","Frugality"],
@@ -464,14 +464,14 @@ const FALLBACK_PERSONAS = [
   {
     id: "madam-cj-walker",
     name: "Madam C.J. Walker",
-    years: "1867 – 1919",
+    years: "1867 G�� 1919",
     field: "Entrepreneurship & Wealth Building",
     tagline: "I had to make my own living and my own opportunity",
     portrait: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Madam_C._J._Walker_by_Addison_N._Scurlock.jpg/960px-Madam_C._J._Walker_by_Addison_N._Scurlock.jpg",
     description: "Trailblazing entrepreneur who built a beauty empire from almost nothing and championed economic independence for women.",
     introAudio: "../assets/audio/walker-greeting.mp3",
     suggestions: [
-      "You started with $1.50 — what is the very first thing someone with almost nothing should do?",
+      "You started with $1.50 G�� what is the very first thing someone with almost nothing should do?",
       "How do you build wealth when every door seems closed to you?",
       "What does financial independence really mean?",
       "How did you keep going when people didn't believe in you?"
@@ -483,16 +483,16 @@ const FALLBACK_PERSONAS = [
     mockReplies: [
       "Don't sit down and wait for the opportunities to come. Get up and make them.",
       "I got my start by giving myself a start.",
-      "I am not merely satisfied in making money for myself — I am endeavoring to provide employment for hundreds.",
+      "I am not merely satisfied in making money for myself G�� I am endeavoring to provide employment for hundreds.",
       "There is no royal, flower-strewn path to success. And if there is, I have not found it.",
       "Perseverance is my motto. Every closed door is simply a different hallway.",
-      "The secret of getting ahead is getting started — with whatever you have, wherever you are."
+      "The secret of getting ahead is getting started G�� with whatever you have, wherever you are."
     ]
   },
   {
     id: "benjamin-franklin",
     name: "Benjamin Franklin",
-    years: "1706 – 1790",
+    years: "1706 G�� 1790",
     field: "Frugality & Financial Discipline",
     tagline: "An investment in knowledge pays the best interest",
     portrait: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Benjamin_Franklin_1767.jpg/960px-Benjamin_Franklin_1767.jpg",
@@ -519,21 +519,21 @@ const FALLBACK_PERSONAS = [
   }
 ];
 
-/* ── STATE ── */
+/* G��G�� STATE G��G�� */
 let personas = [];
 let activePersona = null;
 let replyIdx = 0;
 let currentAudio = null;
 let isPlaying = false;
 
-/* ── UTILS ── */
+/* G��G�� UTILS G��G�� */
 const $  = id => document.getElementById(id);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };
 function scrollToGallery() { $('gallery-section').scrollIntoView({ behavior: 'smooth' }); }
 
-/* ═══════════════════════════════
-   LOAD PERSONAS (fetch → fallback)
-═══════════════════════════════ */
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
+   LOAD PERSONAS (fetch G�� fallback)
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 async function loadPersonas() {
   try {
     // Try repository personas.json (frontend is in a subfolder)
@@ -552,16 +552,16 @@ async function loadPersonas() {
     });
     console.info('[WealthGallery] Loaded', personas.length, 'personas from personas.json');
   } catch (err) {
-    console.warn('[WealthGallery] personas.json not reachable — using inline fallback.', err.message);
+    console.warn('[WealthGallery] personas.json not reachable G�� using inline fallback.', err.message);
     personas = FALLBACK_PERSONAS;
   }
   renderGallery();
   renderBanner();
 }
 
-/* ═══════════════════════════════
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
    RENDER GALLERY
-═══════════════════════════════ */
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 function renderGallery() {
   const grid = $('gallery');
   if (!personas.length) {
@@ -589,7 +589,7 @@ function renderGallery() {
         <p class="card-tagline">${p.tagline || ''}</p>
         <p class="card-desc">${p.description || ''}</p>
         ${tags ? `<div class="card-tags">${tags}</div>` : ''}
-        <span class="card-link">— Enter Exhibit</span>
+        <span class="card-link">G�� Enter Exhibit</span>
       </article>`;
   }).join('');
 
@@ -598,21 +598,21 @@ function renderGallery() {
   );
 }
 
-/* ═══════════════════════════════
-   BANNER — use first persona quote
-═══════════════════════════════ */
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
+   BANNER G�� use first persona quote
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 function renderBanner() {
   const fp = personas.find(p => p.id === 'benjamin-franklin') || personas[0];
   if (!fp) return;
   const quote = fp.mockReplies?.[0] || fp.tagline || '';
   $('bannerQuote').innerHTML = `
     <p class="banner-text">"${quote}"</p>
-    <p class="banner-attr">— ${fp.name}</p>`;
+    <p class="banner-attr">G�� ${fp.name}</p>`;
 }
 
-/* ═══════════════════════════════
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
    OPEN EXHIBIT
-═══════════════════════════════ */
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 function openExhibit(id) {
   const p = personas.find(x => x.id === id);
   if (!p) return;
@@ -645,9 +645,9 @@ function closeExhibit() {
   if (!$('councilModal').classList.contains('open')) document.body.style.overflow = '';
 }
 
-/* ═══════════════════════════════
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
    SUGGESTIONS
-═══════════════════════════════ */
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 function renderSuggestions(p) {
   const bar = $('suggestions');
   bar.innerHTML = (p.suggestions || p.sampleQuestions || []).map(q =>
@@ -658,9 +658,9 @@ function renderSuggestions(p) {
   );
 }
 
-/* ═══════════════════════════════
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
    CHAT
-═══════════════════════════════ */
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 function resetChat(p) {
   const msgs = $('chatMsgs');
   msgs.innerHTML = '';
@@ -695,7 +695,7 @@ function sendMessage(text) {
   setTimeout(() => {
     hideTyping();
     const replies = activePersona.mockReplies || activePersona.responses || [];
-    const reply   = replies.length ? replies[replyIdx % replies.length] : "I have much to share on that subject — let us explore it together.";
+    const reply   = replies.length ? replies[replyIdx % replies.length] : "I have much to share on that subject G�� let us explore it together.";
     replyIdx++;
     appendMsg('ai', reply, `Grounded in ${activePersona.name}'s historical philosophy`);
   }, delay);
@@ -714,9 +714,9 @@ $('chatInput').addEventListener('keydown', e => {
   }
 });
 
-/* ═══════════════════════════════
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
    AUDIO
-═══════════════════════════════ */
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 function stopAudio() {
   if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
   isPlaying = false;
@@ -729,20 +729,20 @@ $('playBtn').addEventListener('click', () => {
     currentAudio = new Audio(activePersona.introAudio);
     currentAudio.addEventListener('ended', stopAudio);
     currentAudio.play()
-      .then(() => { isPlaying = true; $('playLabel').textContent = '❚❚ Pause Intro'; })
+      .then(() => { isPlaying = true; $('playLabel').textContent = 'G��G�� Pause Intro'; })
       .catch(err => { console.warn('Audio unavailable:', err); stopAudio(); });
     return;
   }
   if (isPlaying) {
-    currentAudio.pause(); isPlaying = false; $('playLabel').textContent = '▶ Play Intro';
+    currentAudio.pause(); isPlaying = false; $('playLabel').textContent = 'G�� Play Intro';
   } else {
-    currentAudio.play().then(() => { isPlaying = true; $('playLabel').textContent = '❚❚ Pause Intro'; });
+    currentAudio.play().then(() => { isPlaying = true; $('playLabel').textContent = 'G��G�� Pause Intro'; });
   }
 });
 
-/* ═══════════════════════════════
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
    CLOSE / ESC
-═══════════════════════════════ */
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 $('closeModalBtn').addEventListener('click', closeExhibit);
 $('closeModalBtn2').addEventListener('click', closeExhibit);
 $('closeModalBtn3').addEventListener('click', closeExhibit);
@@ -751,9 +751,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeExhibit(); closeCouncil(); }
 });
 
-/* ═══════════════════════════════
+/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
    COUNCIL MODAL
-═══════════════════════════════ */
+G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
 function openCouncil() {
   $('councilModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -794,15 +794,15 @@ function renderCouncilResults(q) {
   const box = $('consensusBox');
   box.classList.add('visible');
   $('consensusText').textContent =
-    "Across all perspectives, one truth emerges: begin with discipline, build through consistency, and let time do the heavy lifting. Whether through frugality, bold enterprise, or patient investing — the foundation is always the same.";
+    "Across all perspectives, one truth emerges: begin with discipline, build through consistency, and let time do the heavy lifting. Whether through frugality, bold enterprise, or patient investing G�� the foundation is always the same.";
 }
 
-/* ── LOGIN PLACEHOLDER ── */
+/* G��G�� LOGIN PLACEHOLDER G��G�� */
 $('navLoginBtn').addEventListener('click', () =>
-  alert('Login via Firebase Auth — integrate your auth.js credentials here.')
+  alert('Login via Firebase Auth G�� integrate your auth.js credentials here.')
 );
 
-/* ── INIT ── */
+/* G��G�� INIT G��G�� */
 loadPersonas();
 </script>
 

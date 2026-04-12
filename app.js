@@ -2,22 +2,31 @@ const gallery = document.getElementById("gallery");
 const chatModal = document.getElementById("chatModal");
 const councilModal = document.getElementById("councilModal");
 
-const modalName = document.getElementById("modalName");
-const modalYears = document.getElementById("modalYears");
-const modalImage = document.getElementById("modalImage");
-const modalTagline = document.getElementById("modalTagline");
-const modalIntro = document.getElementById("modalIntro");
-const suggestionsContainer = document.getElementById("suggestions");
-const chatMessages = document.getElementById("chatMessages");
+const mName = document.getElementById("mName");
+const mYears = document.getElementById("mYears");
+const mField = document.getElementById("mField");
+const mImg = document.getElementById("mImg");
+const mTagline = document.getElementById("mTagline");
+const mIntro = document.getElementById("mIntro");
+const breadcrumbName = document.getElementById("breadcrumbName");
+
+const suggestions = document.getElementById("suggestions");
+const chatMsgs = document.getElementById("chatMsgs");
 const chatForm = document.getElementById("chatForm");
 const chatInput = document.getElementById("chatInput");
 
 const closeModalBtn = document.getElementById("closeModalBtn");
-const playIntroBtn = document.getElementById("playIntroBtn");
+const closeModalBtn2 = document.getElementById("closeModalBtn2");
+const closeModalBtn3 = document.getElementById("closeModalBtn3");
 
-const askAllBtn = document.getElementById("askAllBtn");
-const exploreBtn = document.getElementById("exploreBtn");
-const askCouncilFromModalBtn = document.getElementById("askCouncilFromModalBtn");
+const playBtn = document.getElementById("playBtn");
+const playLabel = document.getElementById("playLabel");
+
+const navLogo = document.querySelector(".nav-logo");
+const heroCouncilBtn = document.getElementById("heroCouncilBtn");
+const councilFromModal = document.getElementById("councilFromModal");
+
+const navLoginBtn = document.getElementById("navLoginBtn");
 
 const closeCouncilBtn = document.getElementById("closeCouncilBtn");
 const councilForm = document.getElementById("councilForm");
@@ -26,19 +35,17 @@ const councilResults = document.getElementById("councilResults");
 const consensusBox = document.getElementById("consensusBox");
 const consensusText = document.getElementById("consensusText");
 
-const toggleChamberBtn = document.getElementById("toggleChamberBtn");
-const toggleChamberLabel = document.getElementById("toggleChamberLabel");
-const toggleChamberIcon = document.getElementById("toggleChamberIcon");
-const chamberContent = document.getElementById("chamberContent");
-
 let personas = [];
 let activePersona = null;
-let currentIntroAudio = null;
-let isIntroPlaying = false;
-let isChamberCollapsed = false;
+let currentAudio = null;
+let isPlaying = false;
+
+function scrollToGallery() {
+  document.getElementById("gallery-section")?.scrollIntoView({ behavior: "smooth" });
+}
 
 function getPersonaImage(persona) {
-  return persona.image || persona.portrait || "";
+  return persona.portrait || persona.image || "";
 }
 
 function getPersonaIntro(persona) {
@@ -60,204 +67,132 @@ async function loadPersonas() {
       throw new Error(`Could not load personas.json (${response.status})`);
     }
 
-    personas = await response.json();
+    const data = await response.json();
+    personas = Array.isArray(data) ? data : (data.personas || []);
     renderGallery();
+    renderBanner();
   } catch (error) {
     console.error("Failed to load personas:", error);
     gallery.innerHTML = `
-      <div class="museum-card rounded-3xl p-6 text-center col-span-full">
-        <p class="text-lg text-[#f5eee6]">Could not load personas.json</p>
-        <p class="text-sm text-[#e7d9c8]/70 mt-2">
-          Make sure personas.json is in the same frontend folder as index.html and app.js.
-        </p>
-      </div>
+      <p class="error-msg">
+        Could not load personas.json. Make sure it is in the project root next to index.html and app.js.
+      </p>
     `;
   }
 }
 
 function renderGallery() {
-  gallery.innerHTML = personas.map((persona, index) => `
-    <article class="museum-card gallery-card rounded-3xl p-5 md:p-6">
-      <p class="uppercase tracking-[0.28em] text-[11px] text-[#d8c79b]/70 mb-3">
-        Exhibit ${String(index + 1).padStart(2, "0")}
-      </p>
+  gallery.innerHTML = personas.map((persona, index) => {
+    const num = String(index + 1).padStart(2, "0");
+    const tags = (persona.philosophy || []).slice(0, 3).map(tag => `
+      <span class="tag">${tag}</span>
+    `).join("");
 
-      <div class="portrait-frame mb-5">
-        <div class="portrait-inner">
-          <img src="${getPersonaImage(persona)}" alt="${persona.name}" class="w-full h-full object-cover" />
+    return `
+      <article class="exhibit-card fade-in" data-id="${persona.id}" role="button" tabindex="0" aria-label="Enter ${persona.name} exhibit">
+        <div class="frame-wrap">
+          <div class="frame-shadow">
+            <img
+              src="${getPersonaImage(persona)}"
+              alt="Portrait of ${persona.name}"
+              loading="lazy"
+              width="300"
+              height="400"
+            />
+          </div>
         </div>
-      </div>
+        <div class="card-num">Exhibit ${num}</div>
+        <h3 class="card-name">${persona.name}</h3>
+        <p class="card-years">${persona.years || ""}</p>
+        <p class="card-tagline">${persona.tagline || ""}</p>
+        <p class="card-desc">${getPersonaDescription(persona)}</p>
+        ${tags ? `<div class="card-tags">${tags}</div>` : ""}
+        <span class="card-link">— Enter Exhibit</span>
+      </article>
+    `;
+  }).join("");
 
-      <h4 class="serif text-3xl gold-text">${persona.name}</h4>
-      <p class="text-stone-300/75 text-sm mt-1">${persona.years || ""}</p>
-      <p class="mt-3 text-stone-100 text-lg">${persona.tagline || ""}</p>
-      <p class="mt-3 text-stone-300 leading-7">${getPersonaDescription(persona)}</p>
-
-      <button
-        class="open-exhibit-btn mt-6 w-full px-5 py-3 rounded-full bg-[#c6a268] text-black font-semibold hover:opacity-90 transition"
-        data-id="${persona.id}"
-      >
-        Enter Exhibit
-      </button>
-    </article>
-  `).join("");
-
-  document.querySelectorAll(".open-exhibit-btn").forEach((button) => {
-    button.addEventListener("click", () => {
-      openExhibit(button.dataset.id);
+  document.querySelectorAll(".exhibit-card").forEach((card) => {
+    card.addEventListener("click", () => openExhibit(card.dataset.id));
+    card.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openExhibit(card.dataset.id);
+      }
     });
   });
 }
 
-function updateIntroButton() {
-  if (!playIntroBtn) return;
+function renderBanner() {
+  const franklin = personas.find((p) => p.id === "benjamin-franklin");
+  const source = franklin || personas[0];
+  if (!source) return;
 
-  if (isIntroPlaying) {
-    playIntroBtn.textContent = "❚❚ Pause Intro";
-  } else {
-    playIntroBtn.textContent = "▶ Play Intro";
-  }
+  const quote = source.tagline || "An investment in knowledge pays the best interest.";
+  const bannerQuote = document.getElementById("bannerQuote");
+  bannerQuote.innerHTML = `
+    <p class="banner-text">"${quote}"</p>
+    <p class="banner-attr">— ${source.name}</p>
+  `;
 }
 
-function resetIntroButton() {
-  isIntroPlaying = false;
-  updateIntroButton();
+function updatePlayButton() {
+  playLabel.textContent = isPlaying ? "❚❚ Pause Intro" : "Play Intro";
 }
 
-function stopIntroAudio() {
-  if (currentIntroAudio) {
-    currentIntroAudio.pause();
-    currentIntroAudio.currentTime = 0;
-    currentIntroAudio = null;
+function stopAudio() {
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
   }
-
-  resetIntroButton();
-}
-
-function playIntroAudio() {
-  if (!activePersona) return;
-
-  const introAudioPath = getPersonaIntroAudio(activePersona);
-  if (!introAudioPath) {
-    console.log(`No intro audio found for ${activePersona.name}`);
-    return;
-  }
-
-  if (currentIntroAudio) {
-    currentIntroAudio.pause();
-    currentIntroAudio = null;
-  }
-
-  const resolvedIntroPath = (() => {
-    try {
-      return new URL(introAudioPath, window.location.href).href;
-    } catch (e) {
-      return introAudioPath;
-    }
-  })();
-
-  console.log("playIntroAudio: resolved intro path:", resolvedIntroPath);
-
-  // Check resource availability before creating Audio element (HEAD preferred)
-  (async () => {
-    try {
-      let ok = false;
-      try {
-        const headResp = await fetch(resolvedIntroPath, { method: "HEAD" });
-        ok = headResp && headResp.ok;
-        console.log("playIntroAudio: HEAD check status", headResp.status);
-      } catch (headErr) {
-        // Some servers or file:// may not support HEAD; try GET with range request
-        try {
-          const getResp = await fetch(resolvedIntroPath, { method: "GET", headers: { Range: "bytes=0-0" } });
-          ok = getResp && (getResp.status === 206 || getResp.ok);
-          console.log("playIntroAudio: GET range check status", getResp.status);
-        } catch (getErr) {
-          console.warn("playIntroAudio: resource check failed", getErr);
-        }
-      }
-
-      if (!ok) {
-        console.error(`Intro audio not available (HTTP check failed): ${resolvedIntroPath}`);
-        return;
-      }
-
-      currentIntroAudio = new Audio(resolvedIntroPath);
-      currentIntroAudio.preload = "auto";
-      currentIntroAudio.volume = 1.0;
-
-      currentIntroAudio.addEventListener("error", () => {
-        console.error("Audio element error:", currentIntroAudio.error, "src:", currentIntroAudio.src);
-        resetIntroButton();
-      });
-
-      currentIntroAudio.addEventListener("ended", () => {
-        resetIntroButton();
-        currentIntroAudio = null;
-      });
-
-      currentIntroAudio.play()
-        .then(() => {
-          isIntroPlaying = true;
-          updateIntroButton();
-        })
-        .catch((error) => {
-          console.error("Intro audio failed to play:", error);
-          resetIntroButton();
-        });
-    } catch (err) {
-      console.error("Unexpected error while checking intro audio:", err);
-    }
-  })();
+  isPlaying = false;
+  updatePlayButton();
 }
 
 function toggleIntroAudio() {
   if (!activePersona) return;
 
-  if (!currentIntroAudio) {
-    playIntroAudio();
+  const introAudioPath = getPersonaIntroAudio(activePersona);
+  if (!introAudioPath) {
+    console.warn(`No intro audio for ${activePersona.name}`);
     return;
   }
 
-  if (isIntroPlaying) {
-    currentIntroAudio.pause();
-    isIntroPlaying = false;
-    updateIntroButton();
-  } else {
-    currentIntroAudio.play()
+  if (!currentAudio) {
+    currentAudio = new Audio(introAudioPath);
+    currentAudio.preload = "auto";
+    currentAudio.addEventListener("ended", stopAudio);
+    currentAudio.addEventListener("error", () => {
+      console.error("Intro audio failed:", currentAudio?.error);
+      stopAudio();
+    });
+
+    currentAudio.play()
       .then(() => {
-        isIntroPlaying = true;
-        updateIntroButton();
+        isPlaying = true;
+        updatePlayButton();
+      })
+      .catch((error) => {
+        console.error("Could not play intro audio:", error);
+        stopAudio();
+      });
+    return;
+  }
+
+  if (isPlaying) {
+    currentAudio.pause();
+    isPlaying = false;
+    updatePlayButton();
+  } else {
+    currentAudio.play()
+      .then(() => {
+        isPlaying = true;
+        updatePlayButton();
       })
       .catch((error) => {
         console.error("Could not resume intro audio:", error);
       });
-  }
-}
-
-function expandChamber() {
-  isChamberCollapsed = false;
-  chamberContent.classList.remove("max-h-0", "opacity-0");
-  chamberContent.classList.add("max-h-[260px]", "opacity-100");
-  toggleChamberLabel.textContent = "Minimize";
-  toggleChamberIcon.textContent = "▲";
-  toggleChamberBtn.setAttribute("aria-expanded", "true");
-}
-
-function collapseChamber() {
-  isChamberCollapsed = true;
-  chamberContent.classList.remove("max-h-[260px]", "opacity-100");
-  chamberContent.classList.add("max-h-0", "opacity-0");
-  toggleChamberLabel.textContent = "Expand";
-  toggleChamberIcon.textContent = "▼";
-  toggleChamberBtn.setAttribute("aria-expanded", "false");
-}
-
-function toggleChamber() {
-  if (isChamberCollapsed) {
-    expandChamber();
-  } else {
-    collapseChamber();
   }
 }
 
@@ -266,102 +201,92 @@ function openExhibit(personaId) {
   if (!persona) return;
 
   activePersona = persona;
+  stopAudio();
 
-  modalName.textContent = persona.name || "";
-  modalYears.textContent = persona.years || "";
-  modalImage.src = getPersonaImage(persona);
-  modalImage.alt = persona.name || "Persona portrait";
-  modalTagline.textContent = persona.tagline || "";
-  modalIntro.textContent = getPersonaIntro(persona);
+  mName.textContent = persona.name || "";
+  mYears.textContent = persona.years || "";
+  mField.textContent = persona.field || "";
+  mImg.src = getPersonaImage(persona);
+  mImg.alt = `Portrait of ${persona.name || "persona"}`;
+  mTagline.textContent = persona.tagline || "";
+  mIntro.textContent = getPersonaIntro(persona);
+  breadcrumbName.textContent = persona.name || "";
 
   renderSuggestions(persona);
   resetChat(persona);
-  expandChamber();
-  stopIntroAudio();
-  resetIntroButton();
 
-  chatModal.classList.remove("hidden");
-  chatModal.classList.add("flex");
-  document.body.classList.add("overflow-hidden");
+  chatModal.classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    chatInput?.focus();
+  }, 100);
 }
 
 function closeExhibit() {
-  stopIntroAudio();
-  chatModal.classList.add("hidden");
-  chatModal.classList.remove("flex");
-  document.body.classList.remove("overflow-hidden");
+  stopAudio();
+  chatModal.classList.remove("open");
+
+  if (!councilModal.classList.contains("open")) {
+    document.body.style.overflow = "";
+  }
 }
 
 function renderSuggestions(persona) {
-  const suggestions = Array.isArray(persona.suggestions) ? persona.suggestions : [];
+  const list = Array.isArray(persona.suggestions) ? persona.suggestions : [];
 
-  suggestionsContainer.innerHTML = suggestions.map((question) => `
-    <button class="suggestion-chip px-4 py-2 rounded-full border border-[#c6a268]/25 text-sm text-[#f5eee6] hover:bg-[#c6a268]/10 transition">
-      ${question}
-    </button>
+  suggestions.innerHTML = list.map((question) => `
+    <button class="chip" type="button">${question}</button>
   `).join("");
 
-  document.querySelectorAll(".suggestion-chip").forEach((chip, index) => {
+  suggestions.querySelectorAll(".chip").forEach((chip, index) => {
     chip.addEventListener("click", () => {
-      sendMessage(suggestions[index]);
+      sendMessage(list[index]);
     });
   });
 }
 
 function resetChat(persona) {
-  chatMessages.innerHTML = `
-    <div class="max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5">
-      <p class="text-[#f5eee6] text-lg leading-8">
-        Welcome. I am ${persona.name}. Ask your question, and I will guide you through it.
-      </p>
-    </div>
-  `;
-
-  chatMessages.scrollTop = 0;
+  chatMsgs.innerHTML = "";
+  appendMessage(
+    "ai",
+    `Welcome. I am ${persona.name}. Ask your question, and I will guide you through it.`
+  );
 }
 
 function appendMessage(role, text, footer = "") {
-  const wrapper = document.createElement("div");
-  wrapper.className = role === "user" ? "flex justify-end" : "flex justify-start";
+  const row = document.createElement("div");
+  row.className = `msg-row ${role}`;
 
   const bubble = document.createElement("div");
-  bubble.className =
-    role === "user"
-      ? "max-w-2xl rounded-[1.6rem] bg-[#c6a268] text-black p-5"
-      : "max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5";
-
+  bubble.className = `bubble ${role}`;
   bubble.innerHTML = `
-    <p class="${role === "user" ? "text-black" : "text-[#f5eee6]"} leading-7">${text}</p>
-    ${
-      footer
-        ? `<p class="mt-3 text-xs uppercase tracking-[0.15em] text-[#e7d9c8]/45">${footer}</p>`
-        : ""
-    }
+    <div>${text}</div>
+    ${footer ? `<div class="footnote">${footer}</div>` : ""}
   `;
 
-  wrapper.appendChild(bubble);
-  chatMessages.appendChild(wrapper);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  row.appendChild(bubble);
+  chatMsgs.appendChild(row);
+  chatMsgs.scrollTop = chatMsgs.scrollHeight;
 }
 
 function showTyping() {
-  const typing = document.createElement("div");
-  typing.id = "typingIndicator";
-  typing.className = "flex justify-start";
-
-  typing.innerHTML = `
-    <div class="max-w-2xl rounded-[1.6rem] bg-[#211712] border border-[#c6a268]/15 p-5 text-[#e7d9c8]/80">
-      Thinking...
+  const row = document.createElement("div");
+  row.id = "typingRow";
+  row.className = "msg-row ai";
+  row.innerHTML = `
+    <div class="bubble ai">
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
     </div>
   `;
-
-  chatMessages.appendChild(typing);
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  chatMsgs.appendChild(row);
+  chatMsgs.scrollTop = chatMsgs.scrollHeight;
 }
 
 function hideTyping() {
-  const typing = document.getElementById("typingIndicator");
-  if (typing) typing.remove();
+  document.getElementById("typingRow")?.remove();
 }
 
 async function sendMessage(text) {
@@ -387,33 +312,67 @@ async function sendMessage(text) {
 
     if (!response.ok) {
       appendMessage(
-        "assistant",
-        activePersona.fallback || "Something went wrong. Please try again."
+        "ai",
+        data.message || activePersona.fallback || "Something went wrong. Please try again."
       );
       console.error("Chat API error:", data);
       return;
     }
 
     appendMessage(
-      "assistant",
+      "ai",
       data.reply,
       `Grounded in ${activePersona.name}'s financial philosophy`
     );
   } catch (error) {
     hideTyping();
     appendMessage(
-  "assistant",
-  data.message || activePersona.fallback || "Something went wrong. Please try again."
-);
+      "ai",
+      activePersona?.fallback || "Something went wrong. Please try again."
+    );
     console.error("sendMessage error:", error);
   }
 }
 
-function getMockReply(name, question) {
-  return `${name} would likely say: start with discipline, protect your downside, and make decisions that compound over time. Your question was "${question}".`;
+function openCouncil() {
+  councilModal.classList.add("open");
+  document.body.style.overflow = "hidden";
+
+  setTimeout(() => {
+    councilInput?.focus();
+  }, 100);
 }
 
-chatForm.addEventListener("submit", (event) => {
+function closeCouncil() {
+  councilModal.classList.remove("open");
+
+  if (!chatModal.classList.contains("open")) {
+    document.body.style.overflow = "";
+  }
+}
+
+function renderCouncilResults(question) {
+  councilResults.innerHTML = personas.map((persona) => `
+    <div class="council-card">
+      <div class="council-card-hdr">
+        <span class="council-card-name">${persona.name}</span>
+        <div class="council-tags">
+          ${persona.riskProfile ? `<span class="tag">${persona.riskProfile}</span>` : ""}
+          ${persona.timeHorizon ? `<span class="tag">${persona.timeHorizon}</span>` : ""}
+        </div>
+      </div>
+      <p class="council-card-text">
+        ${persona.tagline || `${persona.name} would advise patience, discipline, and thoughtful decision-making.`}
+      </p>
+    </div>
+  `).join("");
+
+  consensusBox.classList.add("visible");
+  consensusText.textContent =
+    "Across all perspectives, one truth emerges: begin with discipline, build through consistency, and let time do the heavy lifting.";
+}
+
+chatForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   const text = chatInput.value.trim();
   if (!text) return;
@@ -422,9 +381,22 @@ chatForm.addEventListener("submit", (event) => {
   chatInput.value = "";
 });
 
-closeModalBtn.addEventListener("click", closeExhibit);
+chatInput?.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !event.shiftKey) {
+    event.preventDefault();
+    const text = chatInput.value.trim();
+    if (!text) return;
 
-chatModal.addEventListener("click", (event) => {
+    sendMessage(text);
+    chatInput.value = "";
+  }
+});
+
+closeModalBtn?.addEventListener("click", closeExhibit);
+closeModalBtn2?.addEventListener("click", closeExhibit);
+closeModalBtn3?.addEventListener("click", closeExhibit);
+
+chatModal?.addEventListener("click", (event) => {
   if (event.target === chatModal) closeExhibit();
 });
 
@@ -435,64 +407,27 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-playIntroBtn.addEventListener("click", () => {
-  toggleIntroAudio();
-});
+playBtn?.addEventListener("click", toggleIntroAudio);
 
-toggleChamberBtn.addEventListener("click", toggleChamber);
+heroCouncilBtn?.addEventListener("click", openCouncil);
+councilFromModal?.addEventListener("click", openCouncil);
+closeCouncilBtn?.addEventListener("click", closeCouncil);
 
-function openCouncil() {
-  councilModal.classList.remove("hidden");
-  councilModal.classList.add("flex");
-  document.body.classList.add("overflow-hidden");
-}
-
-function closeCouncil() {
-  councilModal.classList.add("hidden");
-  councilModal.classList.remove("flex");
-
-  if (!chatModal.classList.contains("flex")) {
-    document.body.classList.remove("overflow-hidden");
-  }
-}
-
-askAllBtn.addEventListener("click", openCouncil);
-askCouncilFromModalBtn.addEventListener("click", openCouncil);
-closeCouncilBtn.addEventListener("click", closeCouncil);
-
-councilModal.addEventListener("click", (event) => {
+councilModal?.addEventListener("click", (event) => {
   if (event.target === councilModal) closeCouncil();
 });
 
-exploreBtn.addEventListener("click", () => {
-  document.getElementById("gallery").scrollIntoView({ behavior: "smooth" });
-});
-
-councilForm.addEventListener("submit", (event) => {
+councilForm?.addEventListener("submit", (event) => {
   event.preventDefault();
   const question = councilInput.value.trim();
   if (!question) return;
-
   renderCouncilResults(question);
 });
 
-function renderCouncilResults(question) {
-  councilResults.innerHTML = personas.map((persona) => `
-    <div class="rounded-[1.6rem] border border-[#c6a268]/20 bg-[#16110d] p-5">
-      <p class="uppercase tracking-[0.25em] text-[11px] text-[#d8c79b]/70 mb-2">${persona.name}</p>
-      <div class="flex gap-2 mb-4 flex-wrap">
-        <span class="px-3 py-1 rounded-full text-xs border border-[#c6a268]/25 text-stone-200">Moderate</span>
-        <span class="px-3 py-1 rounded-full text-xs border border-[#c6a268]/25 text-stone-200">Long-term</span>
-      </div>
-      <p class="text-stone-100 leading-7">
-        ${persona.name} would advise caution, patience, and intentional decision-making in response to: "${question}"
-      </p>
-    </div>
-  `).join("");
+navLogo?.addEventListener("click", scrollToGallery);
 
-  consensusBox.classList.remove("hidden");
-  consensusText.textContent =
-    "Consensus: Begin with disciplined saving, avoid impulsive risk, and build a foundation before expanding into long-term investing.";
-}
+navLoginBtn?.addEventListener("click", () => {
+  window.location.href = "./login.html";
+});
 
 loadPersonas();
