@@ -327,20 +327,41 @@ async function sendMessage(text) {
   showTyping();
 
   try {
-    const fakeReply = getMockReply(activePersona.name, text);
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text,
+        personaId: activePersona.id
+      })
+    });
 
-    setTimeout(() => {
-      hideTyping();
+    const data = await response.json();
+    hideTyping();
+
+    if (!response.ok) {
       appendMessage(
         "assistant",
-        fakeReply,
-        `Grounded in ${activePersona.name}'s financial philosophy`
+        activePersona.fallback || "Something went wrong. Please try again."
       );
-    }, 900);
+      console.error("Chat API error:", data);
+      return;
+    }
+
+    appendMessage(
+      "assistant",
+      data.reply,
+      `Grounded in ${activePersona.name}'s financial philosophy`
+    );
   } catch (error) {
     hideTyping();
-    appendMessage("assistant", "Something went wrong. Please try again.");
-    console.error(error);
+    appendMessage(
+  "assistant",
+  data.message || activePersona.fallback || "Something went wrong. Please try again."
+);
+    console.error("sendMessage error:", error);
   }
 }
 
