@@ -299,9 +299,9 @@
       <div class="nav-logo-text">The Wealth Gallery</div>
     </div>
     <div class="nav-actions">
-      <button class="btn-ghost" id="navLoginBtn">Login</button>
-      <button class="btn-maroon" onclick="scrollToGallery()">Enter Gallery</button>
-    </div>
+  <button class="btn-ghost" id="navLoginBtn">Login</button>
+  <button class="btn-maroon" id="navSignupBtn">Sign Out</button>
+</div>
   </div>
 </nav>
 
@@ -797,5 +797,51 @@ $('navLoginBtn').addEventListener('click', () =>
 /* ── INIT ── */
 loadPersonas();
 </script>
+
+<!-- Firebase Auth Guard -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBZZB1XTUU_PAPBrSNae5EScX7BVeX_vI8",
+    authDomain: "wehack2026-24e14.firebaseapp.com",
+    projectId: "wehack2026-24e14",
+    storageBucket: "wehack2026-24e14.firebasestorage.app",
+    messagingSenderId: "719605704671",
+    appId: "1:719605704671:web:53ffff1887d7021888866a",
+    measurementId: "G-1R7KWB6LRN"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  document.body.style.visibility = "hidden";
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = "./login.html";
+    } else {
+      document.body.style.visibility = "visible";
+
+      const loginBtn = document.getElementById("navLoginBtn");
+      if (loginBtn) {
+        loginBtn.textContent = user.displayName || user.email;
+        loginBtn.style.cursor = "default";
+        loginBtn.style.pointerEvents = "none";
+      }
+
+      const signupBtn = document.getElementById("navSignupBtn");
+      if (signupBtn) {
+        signupBtn.textContent = "Sign Out";
+        signupBtn.addEventListener("click", async () => {
+          await signOut(auth);
+          window.location.href = "./login.html";
+        });
+      }
+    }
+  });
+</script>
+
 </body>
 </html>
