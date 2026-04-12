@@ -123,27 +123,27 @@
     .card-tags{display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4)}
     .tag{font-size:var(--text-xs);padding:2px var(--space-3);border-radius:var(--radius-full);border:1px solid var(--border);color:var(--text-muted);letter-spacing:.06em;white-space:nowrap}
     .card-link{font-size:var(--text-sm);color:var(--primary);font-weight:500;letter-spacing:.05em;display:inline-flex;align-items:center;gap:var(--space-2);transition:gap var(--t) var(--ease)}
-    .card-link::after{content:'G��'}
+    .card-link::after{content:'\2192'}
     .exhibit-card:hover .card-link{gap:var(--space-3)}
 
-    /* G��G�� BANNER G��G�� */
+    /* BANNER */
     .banner{background:var(--primary);padding:var(--space-16) var(--space-8);text-align:center;position:relative;overflow:hidden}
     .banner::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,oklch(.9 0 0/.04) 0px,oklch(.9 0 0/.04) 1px,transparent 1px,transparent 40px)}
     .banner-text{position:relative;font-family:var(--fd);font-size:clamp(1.5rem,1rem + 2.5vw,3.5rem);font-weight:300;font-style:italic;color:#f5e8d8;line-height:1.2}
     .banner-attr{position:relative;margin-top:var(--space-4);font-size:var(--text-xs);letter-spacing:.15em;text-transform:uppercase;color:oklch(.85 .03 30/.65)}
 
-    /* G��G�� FOOTER G��G�� */
+    /* FOOTER */
     .footer{background:var(--surface);border-top:1px solid var(--divider);padding:var(--space-12) var(--space-8);text-align:center}
     .footer-logo{font-family:var(--fd);font-size:var(--text-xl);font-weight:400;letter-spacing:.06em;text-transform:uppercase;margin-bottom:var(--space-2)}
     .footer-sub{font-size:var(--text-xs);color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
 
-    /* G��G�� MODAL G��G�� */
+    /* MODAL */
     .modal-overlay{display:none;position:fixed;inset:0;z-index:300;background:var(--bg);overflow:hidden;flex-direction:column}
     .modal-overlay.open{display:flex;animation:page-slide-in .35s cubic-bezier(0.16,1,0.3,1) both}
     @keyframes page-slide-in{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
     .modal-shell{width:100%;height:100%;background:var(--bg);display:flex;overflow:hidden;border-radius:0;box-shadow:none;border:none}
 
-    /* G��G�� EXHIBIT SIDEBAR G��G�� */
+    /* EXHIBIT SIDEBAR */
 
     .exhibit-page-nav{background:color-mix(in oklch,var(--bg) 95%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--divider);padding:var(--space-3) 0;flex-shrink:0}
     .exhibit-page-nav-inner{max-width:100%;padding-inline:var(--space-8);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
@@ -160,7 +160,7 @@
     .exhibit-sidebar{width:400px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--divider);padding:var(--space-10) var(--space-8);display:flex;flex-direction:column;align-items:center;overflow-y:auto;height:100vh}
     .back-btn{width:100%;display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);font-weight:500;margin-bottom:var(--space-8);padding:var(--space-2) 0;transition:color var(--t) var(--ease)}
     .back-btn:hover{color:var(--primary)}
-    .back-btn::before{content:'G��'}
+    .back-btn::before{content:'\2190'}
     .sidebar-name{font-family:var(--fd);font-size:var(--text-2xl);font-weight:400;text-align:center;margin-bottom:var(--space-1)}
     .sidebar-years{font-size:var(--text-sm);color:var(--text-muted);margin-bottom:var(--space-2);text-align:center}
     .sidebar-field{font-size:var(--text-xs);color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:var(--space-6);text-align:center}
@@ -177,7 +177,7 @@
     .btn-council-sm{display:flex;align-items:center;justify-content:center;gap:var(--space-2);padding:var(--space-3) var(--space-5);border-radius:var(--radius-full);border:1px solid var(--border);background:var(--surface-off);font-size:var(--text-sm);font-weight:500;letter-spacing:.05em;transition:all var(--t) var(--ease)}
     .btn-council-sm:hover{border-color:var(--gold);color:var(--gold)}
 
-    /* G��G�� CHAT G��G�� */
+    /* CHAT */
     .chat-chamber{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);height:100vh}
     .chamber-header{padding:var(--space-3) var(--space-6);border-bottom:1px solid var(--divider);display:flex;align-items:center;background:var(--surface-2);flex-shrink:0}
     .chamber-title{font-size:var(--text-xs);letter-spacing:.2em;text-transform:uppercase;font-weight:600;color:var(--text-muted)}
@@ -311,7 +311,7 @@
   <div class="hero-glow"></div>
   <div class="hero-arch"></div>
   <div class="hero-content">
-    <p class="hero-eyebrow">Curated Wisdom <span>-+</span> Living History <span>-+</span> Financial Education</p>
+    <p class="hero-eyebrow">Curated Wisdom <span>&middot;</span> Living History <span>&middot;</span> Financial Education</p>
     <h1 class="hero-title">The Wealth Gallery</h1>
     <p class="hero-subtitle-main">History Comes Alive</p>
     <p class="hero-sub">Step into a museum of timeless financial wisdom. Speak directly with the legends who shaped wealth, discipline, and opportunity.</p>
@@ -340,13 +340,13 @@
 <!-- BANNER -->
 <div class="banner" id="bannerQuote">
   <p class="banner-text">"An investment in knowledge pays the best interest."</p>
-  <p class="banner-attr">G�� Benjamin Franklin</p>
+  <p class="banner-attr">&mdash; Benjamin Franklin</p>
 </div>
 
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-logo">The Wealth Gallery</div>
-  <p class="footer-sub">Curated Wisdom -+ Living History -+ Financial Education</p>
+  <p class="footer-sub">Curated Wisdom &middot; Living History &middot; Financial Education</p>
 </footer>
 
 <!-- EXHIBIT MODAL -->
@@ -384,8 +384,8 @@
             <span id="breadcrumbName" class="bc-current"></span>
           </div>
           <div class="exhibit-page-nav-actions">
-            <button class="btn-council-nav" id="councilFromModal">G�� Ask the Council</button>
-            <button class="btn-close-nav" id="closeModalBtn3">G�� Back to Gallery</button>
+            <button class="btn-council-nav" id="councilFromModal">&#9878; Ask the Council</button>
+            <button class="btn-close-nav" id="closeModalBtn3">&larr; Back to Gallery</button>
           </div>
         </div>
       </div>
@@ -395,7 +395,7 @@
       <div class="suggestions-bar" id="suggestions"></div>
       <div class="chat-msgs" id="chatMsgs"></div>
       <form class="chat-input-row" id="chatForm">
-        <textarea class="chat-input" id="chatInput" placeholder="Ask a financial questionGǪ" rows="1"></textarea>
+        <textarea class="chat-input" id="chatInput" placeholder="Ask a financial question&hellip;" rows="1"></textarea>
         <button type="submit" class="btn-send">Send</button>
       </form>
     </div>
@@ -406,8 +406,8 @@
 <div class="council-overlay" id="councilModal" role="dialog" aria-modal="true">
   <div class="council-shell">
     <div class="council-header">
-      <h2 class="council-title">G�� Ask the Council</h2>
-      <button class="council-close" id="closeCouncilBtn">G��</button>
+      <h2 class="council-title">&#9878; Ask the Council</h2>
+      <button class="council-close" id="closeCouncilBtn">&times;</button>
     </div>
     <div class="council-body">
       <form class="council-form" id="councilForm">
@@ -464,14 +464,14 @@ const FALLBACK_PERSONAS = [
   {
     id: "madam-cj-walker",
     name: "Madam C.J. Walker",
-    years: "1867 G�� 1919",
+    years: "1867\u20131919",
     field: "Entrepreneurship & Wealth Building",
     tagline: "I had to make my own living and my own opportunity",
     portrait: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Madam_C._J._Walker_by_Addison_N._Scurlock.jpg/960px-Madam_C._J._Walker_by_Addison_N._Scurlock.jpg",
     description: "Trailblazing entrepreneur who built a beauty empire from almost nothing and championed economic independence for women.",
     introAudio: "../assets/audio/walker-greeting.mp3",
     suggestions: [
-      "You started with $1.50 G�� what is the very first thing someone with almost nothing should do?",
+      "You started with $1.50 \u2014 what is the very first thing someone with almost nothing should do?",
       "How do you build wealth when every door seems closed to you?",
       "What does financial independence really mean?",
       "How did you keep going when people didn't believe in you?"
@@ -589,7 +589,7 @@ function renderGallery() {
         <p class="card-tagline">${p.tagline || ''}</p>
         <p class="card-desc">${p.description || ''}</p>
         ${tags ? `<div class="card-tags">${tags}</div>` : ''}
-        <span class="card-link">G�� Enter Exhibit</span>
+        <span class="card-link">Enter Exhibit</span>
       </article>`;
   }).join('');
 
@@ -607,12 +607,10 @@ function renderBanner() {
   const quote = fp.mockReplies?.[0] || fp.tagline || '';
   $('bannerQuote').innerHTML = `
     <p class="banner-text">"${quote}"</p>
-    <p class="banner-attr">G�� ${fp.name}</p>`;
+    <p class="banner-attr">&mdash; ${fp.name}</p>`;
 }
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   OPEN EXHIBIT
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* OPEN EXHIBIT */
 function openExhibit(id) {
   const p = personas.find(x => x.id === id);
   if (!p) return;
@@ -755,9 +753,7 @@ $('chatInput').addEventListener('keydown', e => {
   }
 });
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   AUDIO
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* AUDIO*/
 function stopAudio() {
   if (currentAudio) { currentAudio.pause(); currentAudio.currentTime = 0; currentAudio = null; }
   isPlaying = false;
@@ -770,20 +766,18 @@ $('playBtn').addEventListener('click', () => {
     currentAudio = new Audio(activePersona.introAudio);
     currentAudio.addEventListener('ended', stopAudio);
     currentAudio.play()
-      .then(() => { isPlaying = true; $('playLabel').textContent = 'G��G�� Pause Intro'; })
+      .then(() => { isPlaying = true; $('playLabel').textContent = 'Pause Intro'; })
       .catch(err => { console.warn('Audio unavailable:', err); stopAudio(); });
     return;
   }
   if (isPlaying) {
-    currentAudio.pause(); isPlaying = false; $('playLabel').textContent = 'G�� Play Intro';
+    currentAudio.pause(); isPlaying = false; $('playLabel').textContent = 'Play Intro';
   } else {
-    currentAudio.play().then(() => { isPlaying = true; $('playLabel').textContent = 'G��G�� Pause Intro'; });
+    currentAudio.play().then(() => { isPlaying = true; $('playLabel').textContent = 'Pause Intro'; });
   }
 });
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   CLOSE / ESC
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* CLOSE / ESC */
 $('closeModalBtn').addEventListener('click', closeExhibit);
 $('closeModalBtn2').addEventListener('click', closeExhibit);
 $('closeModalBtn3').addEventListener('click', closeExhibit);
@@ -792,9 +786,7 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeExhibit(); closeCouncil(); }
 });
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   COUNCIL MODAL
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* COUNCIL MODAL*/
 function openCouncil() {
   $('councilModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -835,15 +827,15 @@ function renderCouncilResults(q) {
   const box = $('consensusBox');
   box.classList.add('visible');
   $('consensusText').textContent =
-    "Across all perspectives, one truth emerges: begin with discipline, build through consistency, and let time do the heavy lifting. Whether through frugality, bold enterprise, or patient investing G�� the foundation is always the same.";
+    "Across all perspectives, one truth emerges: begin with discipline, build through consistency, and let time do the heavy lifting. Whether through frugality, bold enterprise, or patient investing \u2014 the foundation is always the same.";
 }
 
-/* G��G�� LOGIN PLACEHOLDER G��G�� */
+/* LOGIN PLACEHOLDER */
 $('navLoginBtn').addEventListener('click', () =>
-  alert('Login via Firebase Auth G�� integrate your auth.js credentials here.')
+  alert('Login via Firebase Auth GGGGGG integrate your auth.js credentials here.')
 );
 
-/* G��G�� INIT G��G�� */
+/* GGGGGG INIT GGGGGG */
 loadPersonas();
 </script>
 

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600">
+  <rect fill="#ede8df" width="400" height="600"/>
+  <circle cx="200" cy="150" r="80" fill="#b8963e"/>
+  <rect x="100" y="280" width="200" height="200" rx="10" fill="#b8963e" opacity="0.3"/>
+  <text x="200" y="550" font-family="serif" font-size="24" fill="#7c2d3e" text-anchor="middle" font-weight="bold">Warren Buffett</text>
+</svg>
