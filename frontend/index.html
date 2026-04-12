@@ -424,14 +424,12 @@
 </div>
 
 <script>
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   THE WEALTH GALLERY
+/* THE WEALTH GALLERY
    Reads from personas.json (same folder) via fetch().
    Falls back to inline data if fetch fails
-   (e.g. opened as file://).
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+   (e.g. opened as file://). */
 
-/* G��G�� FALLBACK DATA (mirrors personas.json from WEHack2026) G��G�� */
+/*  FALLBACK DATA (mirrors personas.json from WEHack2026)*/
 const FALLBACK_PERSONAS = [
   {
     id: "warren-buffett",
@@ -519,21 +517,19 @@ const FALLBACK_PERSONAS = [
   }
 ];
 
-/* G��G�� STATE G��G�� */
+/*  STATE */
 let personas = [];
 let activePersona = null;
 let replyIdx = 0;
 let currentAudio = null;
 let isPlaying = false;
 
-/* G��G�� UTILS G��G�� */
+/* UTILS */
 const $  = id => document.getElementById(id);
 const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; };
 function scrollToGallery() { $('gallery-section').scrollIntoView({ behavior: 'smooth' }); }
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   LOAD PERSONAS (fetch G�� fallback)
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* LOAD PERSONAS (fetch fallback) */
 async function loadPersonas() {
   try {
     // Try repository personas.json (frontend is in a subfolder)
@@ -559,9 +555,7 @@ async function loadPersonas() {
   renderBanner();
 }
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   RENDER GALLERY
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* RENDER GALLERY */
 function renderGallery() {
   const grid = $('gallery');
   if (!personas.length) {
@@ -598,9 +592,7 @@ function renderGallery() {
   );
 }
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   BANNER G�� use first persona quote
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* BANNER G use first persona quote */
 function renderBanner() {
   const fp = personas.find(p => p.id === 'benjamin-franklin') || personas[0];
   if (!fp) return;
@@ -643,9 +635,7 @@ function closeExhibit() {
   if (!$('councilModal').classList.contains('open')) document.body.style.overflow = '';
 }
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   SUGGESTIONS
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* SUGGESTIONS */
 function renderSuggestions(p) {
   const bar = $('suggestions');
   bar.innerHTML = (p.suggestions || p.sampleQuestions || []).map(q =>
@@ -656,9 +646,7 @@ function renderSuggestions(p) {
   );
 }
 
-/* G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��
-   CHAT
-G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G��G�� */
+/* CHAT */
 function resetChat(p) {
   const msgs = $('chatMsgs');
   msgs.innerHTML = '';
@@ -835,7 +823,7 @@ $('navLoginBtn').addEventListener('click', () =>
   alert('Login via Firebase Auth GGGGGG integrate your auth.js credentials here.')
 );
 
-/* GGGGGG INIT GGGGGG */
+/* INIT*/
 loadPersonas();
 </script>
 

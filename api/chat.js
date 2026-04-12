@@ -41,7 +41,7 @@ ${persona.key_philosophy || ""}
 Historical facts:
 ${(persona.real_decisions || []).map(item => `- ${item}`).join("\n")}
 
-Answer in 2 to 4 short paragraphs.
+Answer in 2 to 3 sentences.
 Include one brief historical tie-in.
 End with one line starting with:
 Why this advice:
