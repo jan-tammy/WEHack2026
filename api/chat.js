@@ -41,7 +41,7 @@ ${persona.key_philosophy || ""}
 Historical facts:
 ${(persona.real_decisions || []).map(item => `- ${item}`).join("\n")}
 
-Answer in 2 to 3 sentences.
+Answer in 2 to 4 short paragraphs.
 Include one brief historical tie-in.
 End with one line starting with:
 Why this advice:
@@ -50,7 +50,7 @@ Why this advice:
     const userPrompt = `User question: "${message}"`;
 
     const response = await fetch(
-  `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+  `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: {
@@ -67,8 +67,8 @@ Why this advice:
             }
           ],
           generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 500
+            temperature: 0.8,
+            maxOutputTokens: 800
           }
         })
       }
